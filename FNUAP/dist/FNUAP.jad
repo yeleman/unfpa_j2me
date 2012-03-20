@@ -1,7 +1,7 @@
 MIDlet-1: UNFPAMIDlet,,unfpa.UNFPAMIDlet
 MIDlet-Description: Collecte FNUAP
 MIDlet-Icon: nut-32-32.png
-MIDlet-Jar-Size: 11029
+MIDlet-Jar-Size: 16092
 MIDlet-Jar-URL: FNUAP.jar
 MIDlet-Name: FNUAP
 MIDlet-Vendor: YELEMAN S.A.R.L

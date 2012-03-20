@@ -3,6 +3,8 @@ package unfpa;
 import javax.microedition.midlet.*;
 import javax.microedition.lcdui.*;
 import unfpa.OptionForm.*;
+import unfpa.Under5Form.*;
+import unfpa.IndicatorForm.*;
 
 /*
  * J2ME Midlet allowing user to fill and submit Nutrition SMS
@@ -27,7 +29,7 @@ public class UNFPAMIDlet extends MIDlet implements CommandListener {
 
         config = new Configuration();
 
-        String[] mainMenu_items = {"Enregistrer enfant", "Suivi enfant", "Recherche ID", "Sortie", "Conso. Intrants"};
+        String[] mainMenu_items = {"Mortalité chez lzs moins de 5ans", "Indicateurs relatifs", "Recherche ID", "Sortie", "Conso. Intrants"};
         mainMenu = new List("Gestion Nutrition", Choice.IMPLICIT, mainMenu_items, null);
 
         // setup menu
@@ -59,10 +61,14 @@ public class UNFPAMIDlet extends MIDlet implements CommandListener {
 
                     // registration
                     case 0:
-                        // RegisterForm reg_form = new RegisterForm(this);
-                        // display.setCurrent (reg_form);
+                        Under5Form u5_form = new Under5Form(this);
+                        display.setCurrent (u5_form);
                         break;
-                    // research
+
+                    case 1:
+                        IndicatorForm indicator_form = new IndicatorForm(this);
+                        display.setCurrent (indicator_form);
+                        break;
                     }
             }
         }
