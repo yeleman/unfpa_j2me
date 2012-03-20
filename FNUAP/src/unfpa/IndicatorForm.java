@@ -168,13 +168,13 @@ public class IndicatorForm extends Form implements CommandListener {
 
             Alert alert;
 
-        if (!this.isComplete()) {
-                alert = new Alert("Données manquantes", "Tous les champs " +
-                             "requis doivent être remplis!", null, AlertType.ERROR);
-                alert.setTimeout(Alert.FOREVER);
-                this.midlet.display.setCurrent (alert, this);
-                return;
-            }
+            if (!this.isComplete()) {
+                    alert = new Alert("Données manquantes", "Tous les champs " +
+                                 "requis doivent être remplis!", null, AlertType.ERROR);
+                    alert.setTimeout(Alert.FOREVER);
+                    this.midlet.display.setCurrent (alert, this);
+                    return;
+                }
 
             alert = new Alert ("Message", "Alou est un boss", null, AlertType.WARNING);
             this.midlet.display.setCurrent (alert, this);

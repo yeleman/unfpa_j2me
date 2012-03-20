@@ -1,5 +1,5 @@
 
-package nut;
+package unfpa;
 
 import javax.microedition.io.Connector;
 import javax.wireless.messaging.MessageConnection;
