@@ -30,12 +30,12 @@ public class Under5Form extends Form implements CommandListener {
 
      //register
     private DateField reporting_date;
-    private ChoiceGroup code;
-    private ChoiceGroup code1;
+    private ChoiceGroup reporting_location;
+    private ChoiceGroup death_location;
     private TextField name;
     private DateField dob;
     private DateField dod;
-    private static final String[] codeList= {"kati", "kkro"};
+    private static final String[] location= {"kati", "kkro"};
 
     public Under5Form(UNFPAMIDlet midlet) {
         super("Mortalité moin de 5ans");
@@ -44,17 +44,17 @@ public class Under5Form extends Form implements CommandListener {
         config = new Configuration();
 
         reporting_date =  new DateField("Date de rapportage:", DateField.DATE, TimeZone.getTimeZone("GMT"));
-        code = new ChoiceGroup("Code village:", ChoiceGroup.POPUP, codeList, null);
+        reporting_location = new ChoiceGroup("Code village:", ChoiceGroup.POPUP, location, null);
         name = new TextField("Nom et prenom", null, 20, TextField.ANY);
         dob =  new DateField("Date de naussnce:", DateField.DATE, TimeZone.getTimeZone("GMT"));
         dod =  new DateField("Date de la mort:", DateField.DATE, TimeZone.getTimeZone("GMT"));
-        code1 = new ChoiceGroup("Code village:", ChoiceGroup.POPUP, codeList, null);
+        death_location = new ChoiceGroup("Code village:", ChoiceGroup.POPUP, location, null);
         append(reporting_date);
-        append(code);
+        append(reporting_location);
         append(name);
         append(dob);
         append(dod);
-        append(code1);
+        append(death_location);
         addCommand(CMD_EXIT);
         addCommand(CMD_SAVE);
         addCommand(CMD_HELP);
