@@ -26,30 +26,28 @@ public class MaternalMortalityrForm extends Form implements CommandListener {
                                                             Command.OK, 2);
     private static final Command CMD_HELP = new Command ("Aide",
                                                             Command.HELP, 3);
-    private static final int MAX_SIZE = 5; // max no. of chars per field.
-
     public UNFPAMIDlet midlet;
 
     private Configuration config;
 
     private String ErrorMessage = "";
-    private static final String[] pergnancy_status_of_woman = {"OUI", "NON"};
-    private static final String[] pregnancy_related_deaths = {"OUI", "NON", "Non applicable"};
+    private static final String[] pregnant = {"OUI", "NON"};
+    private static final String[] pregnancy_related_death = {"OUI", "NON", "Non applicable"};
 
     //General Informatien
     private DateField reporting_date;
     private TextField reporting_location;
 
     // Maternal Mortality Form
-    private TextField name_of_deceased;
-    private DateField age_of_deceased;
-    private DateField date_of_death;
+    private TextField name;
+    private DateField dob;
+    private DateField dod;
     private TextField place_of_death;
-    private TextField living_children_of_deceased;
-    private TextField dead_children_of_deceased;
-    private ChoiceGroup pergnancy_status_of_womanField;
-    private TextField duration_of_pregnancy;
-    private ChoiceGroup pregnancy_related_deathsField;
+    private TextField living_children;
+    private TextField dead_children;
+    private ChoiceGroup pregnantField;
+    private TextField pregnancy_weeks;
+    private ChoiceGroup pregnancy_related_deathField;
 
 
 public MaternalMortalityrForm(UNFPAMIDlet midlet) {
@@ -63,32 +61,32 @@ public MaternalMortalityrForm(UNFPAMIDlet midlet) {
     reporting_date =  new DateField("Date de rapport:", DateField.DATE, TimeZone.getTimeZone("GMT"));
     reporting_location =  new TextField("Lieu de rapport:", null, 20, TextField.ANY);
     
-    name_of_deceased =  new TextField("le nom du défunt:", null, 20, TextField.ANY);
-    age_of_deceased =  new DateField("l'âge de la personne décédée:", DateField.DATE, TimeZone.getTimeZone("GMT"));
-    date_of_death =  new DateField("Date de la mort:", DateField.DATE, TimeZone.getTimeZone("GMT"));
+    name =  new TextField("le nom du défunt:", null, 20, TextField.ANY);
+    dob =  new DateField("l'âge de la personne décédée:", DateField.DATE, TimeZone.getTimeZone("GMT"));
+    dod =  new DateField("Date de la mort:", DateField.DATE, TimeZone.getTimeZone("GMT"));
     place_of_death =  new TextField("le lieu du décès:", null, 20, TextField.ANY);
-    living_children_of_deceased =  new TextField("enfants vivant du défunt:", null, 20, TextField.ANY);
-    dead_children_of_deceased =  new TextField("enfants morts de la personne décédée:", null, 20, TextField.ANY);
-    pergnancy_status_of_womanField = new ChoiceGroup("pergnancy_status_of_womanField:", ChoiceGroup.POPUP, pergnancy_status_of_woman, null);
-    duration_of_pregnancy =  new TextField("durée de la grossesse:", null, 20, TextField.ANY);
-    pregnancy_related_deathsField = new ChoiceGroup("décès liés à la grossesse:", ChoiceGroup.POPUP, pregnancy_related_deaths, null);
+    living_children =  new TextField("enfants vivant du défunt:", null, 20, TextField.ANY);
+    dead_children =  new TextField("enfants morts de la personne décédée:", null, 20, TextField.ANY);
+    pregnantField = new ChoiceGroup("pregnantField:", ChoiceGroup.POPUP, pregnant, null);
+    pregnancy_weeks =  new TextField("durée de la grossesse:", null, 20, TextField.ANY);
+    pregnancy_related_deathField = new ChoiceGroup("décès liés à la grossesse:", ChoiceGroup.POPUP, pregnancy_related_death, null);
 
     reporting_date.setDate(new Date());
-    age_of_deceased.setDate(new Date());
-    date_of_death.setDate(new Date());
+    dob.setDate(new Date());
+    dod.setDate(new Date());
 
     // add fields to forms
     append(reporting_date);
     append(reporting_location);
-    append(name_of_deceased);
-    append(age_of_deceased);
-    append(date_of_death);
+    append(name);
+    append(dob);
+    append(dod);
     append(place_of_death);
-    append(living_children_of_deceased);
-    append(dead_children_of_deceased);
-    append(pergnancy_status_of_womanField);
-    append(duration_of_pregnancy);
-    append(pregnancy_related_deathsField);
+    append(living_children);
+    append(dead_children);
+    append(pregnantField);
+    append(pregnancy_weeks);
+    append(pregnancy_related_deathField);
 
     addCommand(CMD_EXIT);
     addCommand(CMD_SEND);
@@ -105,13 +103,11 @@ public MaternalMortalityrForm(UNFPAMIDlet midlet) {
     public boolean isComplete() {
         // all fields are required to be filled.
        if (reporting_location.getString().length() == 0 ||
-            name_of_deceased.getString().length() == 0 ||
+            name.getString().length() == 0 ||
             place_of_death.getString().length() == 0 ||
-            living_children_of_deceased.getString().length() == 0 ||
-            dead_children_of_deceased.getString().length() == 0 ||
-            duration_of_pregnancy.getString().length() == 0 ||
-            dead_children_of_deceased.getString().length() == 0 ||
-            dead_children_of_deceased.getString().length() == 0 ) {
+            living_children.getString().length() == 0 ||
+            dead_children.getString().length() == 0 ||
+            pregnancy_weeks.getString().length() == 0) {
             return false;
         }
         return true;

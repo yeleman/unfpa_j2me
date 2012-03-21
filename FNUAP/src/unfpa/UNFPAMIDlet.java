@@ -6,7 +6,7 @@ import unfpa.OptionForm.*;
 import unfpa.Under5Form.*;
 import unfpa.IndicatorForm.*;
 import unfpa.MaternalMortalityrForm.*;
-import unfpa.StockProduitForm.*;
+import unfpa.CommoditiesForm.*;
 
 /*
  * J2ME Midlet allowing user to fill and submit Nutrition SMS
@@ -77,7 +77,7 @@ public class UNFPAMIDlet extends MIDlet implements CommandListener {
                     break;
                 // research
                 case 3:
-                    StockProduitForm stock_form = new StockProduitForm(this);
+                    CommoditiesForm stock_form = new CommoditiesForm(this);
                     display.setCurrent (stock_form);
                     break;
                 }
