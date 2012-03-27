@@ -34,6 +34,7 @@ public class Under5Form extends Form implements CommandListener {
     private ChoiceGroup death_location;
     private TextField name;
     private DateField dob;
+    private TextField dob1;
     private DateField dod;
     private static final String[] location= {"kati", "kkro"};
 
@@ -47,12 +48,14 @@ public class Under5Form extends Form implements CommandListener {
         reporting_location = new ChoiceGroup("Code village:", ChoiceGroup.POPUP, location, null);
         name = new TextField("Nom et prenom", null, 20, TextField.ANY);
         dob =  new DateField("Date de naussnce:", DateField.DATE, TimeZone.getTimeZone("GMT"));
+        dob1 =  new TextField("Ou son âge:", null, 20, TextField.ANY);
         dod =  new DateField("Date de la mort:", DateField.DATE, TimeZone.getTimeZone("GMT"));
         death_location = new ChoiceGroup("Code village:", ChoiceGroup.POPUP, location, null);
         append(reporting_date);
         append(reporting_location);
         append(name);
         append(dob);
+        append(dob1);
         append(dod);
         append(death_location);
         addCommand(CMD_EXIT);

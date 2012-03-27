@@ -1,0 +1,16 @@
+Formulaire UNFPA-ANTIM
+======================
+
+Checks:
+1. Maternal Mortality Form:
+	Reporting date <= today
+	Age of the deceased > 8 and Age of the deceased <60
+	Date of death <= today
+	if Pregnancy status of the woman == Yes: Duration of the pregnancy (display)
+
+2. Child Under 5 Mortality Form:
+	Age of the deceased < 5ans
+	Date of death < 5ans
+
+3. RH Commodities Form
+

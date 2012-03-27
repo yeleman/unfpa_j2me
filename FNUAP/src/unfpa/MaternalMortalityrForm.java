@@ -41,6 +41,7 @@ public class MaternalMortalityrForm extends Form implements CommandListener {
     // Maternal Mortality Form
     private TextField name;
     private DateField dob;
+    private TextField dob1;
     private DateField dod;
     private TextField place_of_death;
     private TextField living_children;
@@ -62,7 +63,8 @@ public MaternalMortalityrForm(UNFPAMIDlet midlet) {
     reporting_location =  new TextField("Lieu de rapport:", null, 20, TextField.ANY);
     
     name =  new TextField("le nom du défunt:", null, 20, TextField.ANY);
-    dob =  new DateField("l'âge de la personne décédée:", DateField.DATE, TimeZone.getTimeZone("GMT"));
+    dob =  new DateField("Date de naissance de la personne décédée:", DateField.DATE, TimeZone.getTimeZone("GMT"));
+    dob1 =  new TextField("Ou son âge:", null, 20, TextField.ANY);
     dod =  new DateField("Date de la mort:", DateField.DATE, TimeZone.getTimeZone("GMT"));
     place_of_death =  new TextField("le lieu du décès:", null, 20, TextField.ANY);
     living_children =  new TextField("enfants vivant du défunt:", null, 20, TextField.ANY);
@@ -80,6 +82,7 @@ public MaternalMortalityrForm(UNFPAMIDlet midlet) {
     append(reporting_location);
     append(name);
     append(dob);
+    append(dob1);
     append(dod);
     append(place_of_death);
     append(living_children);
