@@ -33,6 +33,7 @@ public class MaternalMortalityrForm extends Form implements CommandListener {
     private String ErrorMessage = "";
     private static final String[] pregnant = {"OUI", "NON"};
     private static final String[] pregnancy_related_death = {"OUI", "NON", "Non applicable"};
+    private static final String month_list[] = {"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};
 
     //General Informatien
     private DateField reporting_date;
@@ -62,16 +63,16 @@ public MaternalMortalityrForm(UNFPAMIDlet midlet) {
     reporting_date =  new DateField("Date de rapport:", DateField.DATE, TimeZone.getTimeZone("GMT"));
     reporting_location =  new TextField("Lieu de rapport:", null, 20, TextField.ANY);
     
-    name =  new TextField("le nom du défunt:", null, 20, TextField.ANY);
+    name =  new TextField("Le nom du défunt:", null, 20, TextField.ANY);
     dob =  new DateField("Date de naissance de la personne décédée:", DateField.DATE, TimeZone.getTimeZone("GMT"));
     dob1 =  new TextField("Ou son âge:", null, 20, TextField.ANY);
     dod =  new DateField("Date de la mort:", DateField.DATE, TimeZone.getTimeZone("GMT"));
-    place_of_death =  new TextField("le lieu du décès:", null, 20, TextField.ANY);
-    living_children =  new TextField("enfants vivant du défunt:", null, 20, TextField.ANY);
-    dead_children =  new TextField("enfants morts de la personne décédée:", null, 20, TextField.ANY);
-    pregnantField = new ChoiceGroup("pregnantField:", ChoiceGroup.POPUP, pregnant, null);
-    pregnancy_weeks =  new TextField("durée de la grossesse:", null, 20, TextField.ANY);
-    pregnancy_related_deathField = new ChoiceGroup("décès liés à la grossesse:", ChoiceGroup.POPUP, pregnancy_related_death, null);
+    place_of_death =  new TextField("Le lieu du décès:", null, 20, TextField.ANY);
+    living_children =  new TextField("Enfants vivant du défunt:", null, 20, TextField.ANY);
+    dead_children =  new TextField("Enfants morts de la personne décédée:", null, 20, TextField.ANY);
+    pregnantField = new ChoiceGroup("Enceinte:", ChoiceGroup.POPUP, pregnant, null);
+    pregnancy_weeks =  new TextField("Durée de la grossesse:", null, 20, TextField.ANY);
+    pregnancy_related_deathField = new ChoiceGroup("Décès liés à la grossesse:", ChoiceGroup.POPUP, pregnancy_related_death, null);
 
     reporting_date.setDate(new Date());
     dob.setDate(new Date());
@@ -103,6 +104,26 @@ public MaternalMortalityrForm(UNFPAMIDlet midlet) {
      * @return <code>true</code> is all fields are filled
      * <code>false</code> otherwise.
      */
+
+    private int[] formatDateString(Date date_obj) {
+        String date = date_obj.toString();
+        int day = Integer.valueOf(date.substring(8, 10)).intValue();
+        int month = monthFromString(date.substring(4,7));
+        int year = Integer.valueOf(date.substring(30, 34)).intValue();
+        int list_date[] = {day, month, year};
+        return list_date;
+    }
+
+    private int monthFromString(String month_str) {
+        int i;
+        for(i=0; i<=month_list.length; i++){
+            if(month_list[i].equals(month_str)){
+                return i + 1;
+            }
+        }
+        return 1;
+    }
+
     public boolean isComplete() {
         // all fields are required to be filled.
        if (reporting_location.getString().length() == 0 ||
@@ -116,14 +137,61 @@ public MaternalMortalityrForm(UNFPAMIDlet midlet) {
         return true;
     }
 
-
     /*
      * Whether all filled data is correct
      * @return <code>true</code> if all fields are OK
      * <code>false</code> otherwise.
      */
 
+    public boolean isDateValide(Date date_obj) {
+        // all fields are required to be filled.
+
+        int array[] = formatDateString(date_obj);
+        int day = array[0];
+        int month = array[1];
+        int year = array[2];
+
+        Date now = new Date();
+        int now_array[] = formatDateString(now);
+        int now_day = now_array[0];
+        int now_month = now_array[1];
+        int now_year = now_array[2];
+
+        if (now_year < year){
+
+            ErrorMessage = "L'année que vous avez choisi est dans le future";
+            return false;
+        }
+        else {
+            if (now_month < month){
+
+                ErrorMessage = "Le mois que vous avez choisi est dans le future";
+                return false;
+            }
+            else {
+                if (now_day < day){
+                    ErrorMessage = "Le jour que vous avez choisi est dans le future";
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
     public boolean isValid() {
+
+        if (isDateValide(reporting_date.getDate()) != true) {
+            ErrorMessage = "(date repportage) " + ErrorMessage;
+            return false;
+        }
+        if (isDateValide(dob.getDate()) != true) {
+            ErrorMessage = "(Date de naissance) " + ErrorMessage;
+            return false;
+        }
+        if (isDateValide(dod.getDate())!= true){
+            ErrorMessage = "(Date de la mort) " + ErrorMessage;
+            return false;
+        }
         return true;
     }
 
@@ -133,14 +201,21 @@ public MaternalMortalityrForm(UNFPAMIDlet midlet) {
 
     public String toSMSFormat() {
         String sep = " ";
-        return "unfpa malmor" + sep + place_of_death.getString();
+        
+        int dob_array[] = formatDateString(dob.getDate());
+        int day = dob_array[0];
+        int month = dob_array[1];
+        int year = dob_array[2];
+
+        return "unfpa malmor" + sep + place_of_death.getString() 
+                              + sep + year + "-" + month + "-" + day;
     }
 
     public void commandAction(Command c, Displayable d) {
         // help command displays Help Form.
         if (c == CMD_HELP) {
             HelpForm h = new HelpForm(this.midlet, this, "registration");
-            this.midlet.display.setCurrent(h);
+                                      this.midlet.display.setCurrent(h);
         }
 
         // exit commands comes back to main menu.
@@ -183,7 +258,8 @@ public MaternalMortalityrForm(UNFPAMIDlet midlet) {
                 this.midlet.display.setCurrent (alert, this.midlet.mainMenu);
             } else {
                 alert = new Alert ("Échec d'envoi SMS", "Impossible d'envoyer" +
-                            " la demande par SMS.", null, AlertType.WARNING);
+                                   " la demande par SMS.", null,
+                                   AlertType.WARNING);
                 this.midlet.display.setCurrent (alert, this);
             }
         }

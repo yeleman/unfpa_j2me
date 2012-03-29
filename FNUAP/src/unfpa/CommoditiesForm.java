@@ -140,7 +140,6 @@ public CommoditiesForm(UNFPAMIDlet midlet) {
     this.setCommandListener (this);
 
 }
-
     /*
      * Whether all required fields are filled
      * @return <code>true</code> is all fields are filled
@@ -160,12 +159,12 @@ public CommoditiesForm(UNFPAMIDlet midlet) {
         return true;
     }
 
-
     /*
      * Whether all filled data is correct
      * @return <code>true</code> if all fields are OK
      * <code>false</code> otherwise.
      */
+
     public boolean isValid() {
         return true;
     }
@@ -173,7 +172,6 @@ public CommoditiesForm(UNFPAMIDlet midlet) {
    /* Converts Form request to SMS message
      * @return <code>String</code> to be sent by SMS
      */
-
 
     public String toSMSFormat() {
         String sep = " ";
