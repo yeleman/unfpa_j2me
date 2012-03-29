@@ -7,6 +7,7 @@ import java.util.Date;
 import unfpa.Configuration.*;
 import unfpa.Constants.*;
 import unfpa.HelpForm.*;
+import unfpa.SharedChecks.*;
 
 /**
  * J2ME Patient Registration Form
@@ -105,25 +106,6 @@ public MaternalMortalityrForm(UNFPAMIDlet midlet) {
      * <code>false</code> otherwise.
      */
 
-    private int[] formatDateString(Date date_obj) {
-        String date = date_obj.toString();
-        int day = Integer.valueOf(date.substring(8, 10)).intValue();
-        int month = monthFromString(date.substring(4,7));
-        int year = Integer.valueOf(date.substring(30, 34)).intValue();
-        int list_date[] = {day, month, year};
-        return list_date;
-    }
-
-    private int monthFromString(String month_str) {
-        int i;
-        for(i=0; i<=month_list.length; i++){
-            if(month_list[i].equals(month_str)){
-                return i + 1;
-            }
-        }
-        return 1;
-    }
-
     public boolean isComplete() {
         // all fields are required to be filled.
        if (reporting_location.getString().length() == 0 ||
@@ -143,49 +125,18 @@ public MaternalMortalityrForm(UNFPAMIDlet midlet) {
      * <code>false</code> otherwise.
      */
 
-    public boolean isDateValide(Date date_obj) {
-        // all fields are required to be filled.
-        int array[] = formatDateString(date_obj);
-        int day = array[0];
-        int month = array[1];
-        int year = array[2];
-
-        Date now = new Date();
-        int now_array[] = formatDateString(now);
-        int now_day = now_array[0];
-        int now_month = now_array[1];
-        int now_year = now_array[2];
-
-        if (now_year < year){
-            ErrorMessage = "L'année que vous avez choisi est dans le futur";
-            return false;
-        }
-        else {
-            if (now_month < month){
-                ErrorMessage = "Le mois que vous avez choisi est dans le futur";
-                return false;
-            }
-            else {
-                if (now_day < day){
-                    ErrorMessage = "Le jour que vous avez choisi est dans le futur";
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-
     public boolean isValid() {
+        ErrorMessage = "La date indiquée est dans le futur.";
 
-        if (isDateValide(reporting_date.getDate()) != true) {
+        if (SharedChecks.isDateValide(reporting_date.getDate()) != true) {
             ErrorMessage = "(Date repportage) " + ErrorMessage;
             return false;
         }
-        if (isDateValide(dob.getDate()) != true) {
+        if (SharedChecks.isDateValide(dob.getDate()) != true) {
             ErrorMessage = "(Date de naissance) " + ErrorMessage;
             return false;
         }
-        if (isDateValide(dod.getDate())!= true){
+        if (SharedChecks.isDateValide(dod.getDate())!= true){
             ErrorMessage = "(Date de la mort) " + ErrorMessage;
             return false;
         }
@@ -199,7 +150,7 @@ public MaternalMortalityrForm(UNFPAMIDlet midlet) {
     public String toSMSFormat() {
         String sep = " ";
         
-        int dob_array[] = formatDateString(dob.getDate());
+        int dob_array[] = SharedChecks.formatDateString(dob.getDate());
         int day = dob_array[0];
         int month = dob_array[1];
         int year = dob_array[2];

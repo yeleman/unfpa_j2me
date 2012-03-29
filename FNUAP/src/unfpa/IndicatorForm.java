@@ -9,7 +9,7 @@ import unfpa.Constants.*;
  * J2ME Form displaying a long help text
  * Instanciated with a section paramater
  * which triggers appropriate text.
- * @author alou/fadiga
+ * @author alou
  */
 
 public class IndicatorForm extends Form implements CommandListener {
