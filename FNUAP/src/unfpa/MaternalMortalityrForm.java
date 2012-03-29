@@ -65,11 +65,11 @@ public MaternalMortalityrForm(UNFPAMIDlet midlet) {
     
     name =  new TextField("Le nom du défunt:", null, 20, TextField.ANY);
     dob =  new DateField("Date de naissance de la personne décédée:", DateField.DATE, TimeZone.getTimeZone("GMT"));
-    dob1 =  new TextField("Ou son âge:", null, 20, TextField.ANY);
+    dob1 =  new TextField("Ou son âge(Année):", null, 20, TextField.DECIMAL);
     dod =  new DateField("Date de la mort:", DateField.DATE, TimeZone.getTimeZone("GMT"));
     place_of_death =  new TextField("Le lieu du décès:", null, 20, TextField.ANY);
-    living_children =  new TextField("Enfants vivant du défunt:", null, 20, TextField.ANY);
-    dead_children =  new TextField("Enfants morts de la personne décédée:", null, 20, TextField.ANY);
+    living_children =  new TextField("Enfants vivant du défunt:", null, 20, TextField.DECIMAL);
+    dead_children =  new TextField("Enfants morts de la personne décédée:", null, 20, TextField.DECIMAL);
     pregnantField = new ChoiceGroup("Enceinte:", ChoiceGroup.POPUP, pregnant, null);
     pregnancy_weeks =  new TextField("Durée de la grossesse:", null, 20, TextField.ANY);
     pregnancy_related_deathField = new ChoiceGroup("Décès liés à la grossesse:", ChoiceGroup.POPUP, pregnancy_related_death, null);
@@ -145,7 +145,6 @@ public MaternalMortalityrForm(UNFPAMIDlet midlet) {
 
     public boolean isDateValide(Date date_obj) {
         // all fields are required to be filled.
-
         int array[] = formatDateString(date_obj);
         int day = array[0];
         int month = array[1];
@@ -158,19 +157,17 @@ public MaternalMortalityrForm(UNFPAMIDlet midlet) {
         int now_year = now_array[2];
 
         if (now_year < year){
-
-            ErrorMessage = "L'année que vous avez choisi est dans le future";
+            ErrorMessage = "L'année que vous avez choisi est dans le futur";
             return false;
         }
         else {
             if (now_month < month){
-
-                ErrorMessage = "Le mois que vous avez choisi est dans le future";
+                ErrorMessage = "Le mois que vous avez choisi est dans le futur";
                 return false;
             }
             else {
                 if (now_day < day){
-                    ErrorMessage = "Le jour que vous avez choisi est dans le future";
+                    ErrorMessage = "Le jour que vous avez choisi est dans le futur";
                     return false;
                 }
             }
@@ -181,7 +178,7 @@ public MaternalMortalityrForm(UNFPAMIDlet midlet) {
     public boolean isValid() {
 
         if (isDateValide(reporting_date.getDate()) != true) {
-            ErrorMessage = "(date repportage) " + ErrorMessage;
+            ErrorMessage = "(Date repportage) " + ErrorMessage;
             return false;
         }
         if (isDateValide(dob.getDate()) != true) {
