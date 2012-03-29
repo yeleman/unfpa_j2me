@@ -34,7 +34,7 @@ public class MaternalMortalityrForm extends Form implements CommandListener {
     private String ErrorMessage = "";
     private static final String[] pregnant = {"OUI", "NON"};
     private static final String[] pregnancy_related_death = {"OUI", "NON", "Non applicable"};
-    private static final String month_list[] = {"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};
+    //private static final String month_list[] = {"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};
 
     //General Informatien
     private DateField reporting_date;
@@ -112,8 +112,7 @@ public MaternalMortalityrForm(UNFPAMIDlet midlet) {
             name.getString().length() == 0 ||
             place_of_death.getString().length() == 0 ||
             living_children.getString().length() == 0 ||
-            dead_children.getString().length() == 0 ||
-            pregnancy_weeks.getString().length() == 0) {
+            dead_children.getString().length() == 0) {
             return false;
         }
         return true;
@@ -128,6 +127,12 @@ public MaternalMortalityrForm(UNFPAMIDlet midlet) {
     public boolean isValid() {
         ErrorMessage = "La date indiquée est dans le futur.";
 
+        if (pregnantField.getString(pregnantField.getSelectedIndex()).equals("OUI") &&
+            pregnancy_weeks.getString().length() == 0) {
+            ErrorMessage = "Durée de la grossesse est obligatoire si la femme est en enceinte.";
+            return false;
+        }
+        
         if (SharedChecks.isDateValide(reporting_date.getDate()) != true) {
             ErrorMessage = "(Date repportage) " + ErrorMessage;
             return false;
