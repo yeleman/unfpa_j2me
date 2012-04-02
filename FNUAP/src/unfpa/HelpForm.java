@@ -45,7 +45,7 @@ public class HelpForm extends Form implements CommandListener {
                    "En cas de problème, contactez l'ANTIM.";
         } else if (section.equalsIgnoreCase("version")) {
             text = "FNUAP - Version " + Constants.version + "\n\n" +
-                   "En cas de problème, contactez la ANTIM.";
+                   "En cas de problème, contactez l'ANTIM.";
         } else {
             text = "Aucune aide disponible pour cet élément.";
         }

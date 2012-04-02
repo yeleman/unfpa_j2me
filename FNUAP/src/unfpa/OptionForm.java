@@ -20,10 +20,7 @@ public class OptionForm extends Form implements CommandListener {
     private static final Command CMD_HELP = new Command ("Aide", Command.HELP, 2);
     
     private Configuration config;
-    private static final String[] type_center = {"URENI", "URENAM", "URENAS", "URENAM+URENAS"};
     private TextField numberField;
-    private TextField health_centerField;
-    private ChoiceGroup hc_codeField;
     UNFPAMIDlet midlet;
 
 public OptionForm(UNFPAMIDlet midlet) {
@@ -41,19 +38,9 @@ public OptionForm(UNFPAMIDlet midlet) {
     }
 
     numberField = new TextField ("Numéro du serveur:", phone_number, 8, TextField.PHONENUMBER);
-    health_centerField = new TextField ("Code du centre:", config.get("health_center"), 10, TextField.ANY);
-    hc_codeField =  new ChoiceGroup("Type CSCOM:", ChoiceGroup.POPUP, type_center, null);
-    int sel = 0;
-    for (int i = 0; i<type_center.length ; i++) {
-        if (type_center[i].equals(config.get("hc_code"))) {
-            sel = i;
-            break;
-        }
-    }
-    hc_codeField.setSelectedIndex(sel, true);
+
     append(numberField);
-    append(health_centerField);
-    append(hc_codeField);
+
     addCommand(CMD_EXIT);
     addCommand(CMD_SAVE);
     addCommand(CMD_HELP);
@@ -67,8 +54,7 @@ public OptionForm(UNFPAMIDlet midlet) {
      */
     public boolean isComplete() {
         // all fields are required to be filled.
-        if (numberField.getString().length() == 0 ||
-            health_centerField.getString().length() == 0) {
+        if (numberField.getString().length() == 0) {
             return false;
         }
         return true;
@@ -98,9 +84,7 @@ public OptionForm(UNFPAMIDlet midlet) {
                 this.midlet.display.setCurrent (alert, this);
                 return;
             }
-            if (config.set("server_number", numberField.getString()) &&
-            config.set("health_center", health_centerField.getString()) &&
-            config.set("hc_code", hc_codeField.getString(hc_codeField.getSelectedIndex()))) {
+            if (config.set("server_number", numberField.getString())) {
                 alert = new Alert ("Confirmation!", "Votre modification a été bien enregistré.", null, AlertType.CONFIRMATION);
                 this.midlet.display.setCurrent (alert, this.midlet.mainMenu);
             } else {

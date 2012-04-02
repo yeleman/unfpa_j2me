@@ -4,13 +4,11 @@ import javax.microedition.midlet.*;
 import javax.microedition.lcdui.*;
 import unfpa.OptionForm.*;
 import unfpa.Under5Form.*;
-import unfpa.IndicatorForm.*;
 import unfpa.MaternalMortalityrForm.*;
 import unfpa.CommoditiesForm.*;
 
 /*
- * J2ME Midlet allowing user to fill and submit Nutrition SMS
- * @author rgaudin
+ * J2ME Midlet allowing user to fill and submit UNFPA Forms
  */
 public class UNFPAMIDlet extends MIDlet implements CommandListener {
 
@@ -31,8 +29,8 @@ public class UNFPAMIDlet extends MIDlet implements CommandListener {
 
         config = new Configuration();
 
-        String[] mainMenu_items = {"Mortalité chez lzs moins de 5ans", "Indicateurs relatifs", "Mortalité maternelle", "Stock produit"};
-        mainMenu = new List("Gestion", Choice.IMPLICIT, mainMenu_items, null);
+        String[] mainMenu_items = {"Mortalité moins de 5ans", "Mortalité maternelle", "Produits"};
+        mainMenu = new List("Formulaires FNUAP", Choice.IMPLICIT, mainMenu_items, null);
 
         // setup menu
         mainMenu.setCommandListener (this);
@@ -60,22 +58,19 @@ public class UNFPAMIDlet extends MIDlet implements CommandListener {
 
                 switch (((List) s).getSelectedIndex ()) {
 
-                // registration
+                // Form under5
                 case 0:
                     Under5Form u5_form = new Under5Form(this);
                     display.setCurrent (u5_form);
                     break;
 
-                case 1:
-                    IndicatorForm indicator_form = new IndicatorForm(this);
-                    display.setCurrent (indicator_form);
-                    break;
-		// registration
+		        // Form mother
                 case 2:
                      MaternalMortalityrForm matmor_form = new MaternalMortalityrForm(this);
                      display.setCurrent (matmor_form);
                     break;
-                // research
+
+                // products
                 case 3:
                     CommoditiesForm stock_form = new CommoditiesForm(this);
                     display.setCurrent (stock_form);

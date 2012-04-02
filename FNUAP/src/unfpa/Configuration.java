@@ -13,8 +13,6 @@ public class Configuration {
 
     // index 0 is invalid
     private int server_number_index = 1;
-    private int health_center_index = 2;
-    private int hc_code_index = 3;
 
     private static final String database = "configuration";
     private RecordStore recordstore = null;
@@ -30,9 +28,7 @@ public class Configuration {
         }
         if (recordEnumeration.numRecords() < 4) {
             // the following has to be in order of indexes.
-            this.set("server_number", "65731076", true);
-            this.set("health_center", "pmib", true);
-            this.set("hc_code", "URENAM", true);
+            this.set("server_number", "00000000", true);
             this.set("server_number", Constants.server_number, false);
         }
     }
@@ -90,12 +86,8 @@ public class Configuration {
      */
     private int index_for(String variable) {
         int index;
-        if (variable.equals("health_center")) {
-            index = health_center_index;
-        } else if (variable.equals("server_number")) {
+        if (variable.equals("server_number")) {
             index = server_number_index;
-        } else if (variable.equals("hc_code")) {
-            index = hc_code_index;
         } else {
             index = -1;
         }
