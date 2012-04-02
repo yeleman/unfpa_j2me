@@ -172,12 +172,17 @@ public MaternalMortalityrForm(UNFPAMIDlet midlet) {
         // TODO: corriger
 
         int dob_array[] = SharedChecks.formatDateString(dob.getDate());
+        String sday = "";
         int day = dob_array[0];
+        if (day < 10)
+            sday = "0" + day;
+        else
+            sday = day;
         int month = dob_array[1];
         int year = dob_array[2];
 
         return "unfpa malmor" + sep + place_of_death.getString() 
-                              + sep + year + "-" + month + "-" + day;
+                              + sep + year + "-" + month + "-" + sday;
     }
 
     public String toText() {
