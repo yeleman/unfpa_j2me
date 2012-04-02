@@ -35,25 +35,6 @@ public class UNFPAMIDlet extends MIDlet implements CommandListener {
         String[] mainMenu_items = {"Mortalité infantile", "Mortalité maternelle", "Dispo. Produits", "Envoi form. ("+ store.count() +")"};
         mainMenu = new List("Formulaires FNUAP", Choice.IMPLICIT, mainMenu_items, null);
 
-        // test store
-        //SMSStore store = new SMSStore();
-        System.out.println(store.add("reg", "TRES BIEN"));
-        System.out.println(store.add("fad", "dklsakda;dsa"));
-        System.out.println(store.add("alou", "00dsa jksaj"));
-        System.out.println("T: " + store.get(1).name);
-        System.out.println(store.delete(2));
-        StoredSMS[] all_sms = store.getAll();
-        System.out.println(all_sms);
-        System.out.println(all_sms.length);
-        for (int i=0;i<all_sms.length;i++) {
-            if (all_sms[i] == null) {
-                System.out.println(i + ": NULL");    
-            } else {
-                StoredSMS sms = all_sms[i];
-                System.out.println(i + ": " + sms.name + " -- " + sms.sms);
-            }
-        }
-
         // setup menu
         mainMenu.setCommandListener (this);
         mainMenu.addCommand (CMD_EXIT);
