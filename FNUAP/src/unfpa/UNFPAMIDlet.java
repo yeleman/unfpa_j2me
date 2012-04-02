@@ -29,7 +29,7 @@ public class UNFPAMIDlet extends MIDlet implements CommandListener {
 
         config = new Configuration();
 
-        String[] mainMenu_items = {"Mortalité moins de 5ans", "Mortalité maternelle", "Produits"};
+        String[] mainMenu_items = {"Mortalité infantile", "Mortalité maternelle", "Dispo. Produits", "Envoi form. enregistrés"};
         mainMenu = new List("Formulaires FNUAP", Choice.IMPLICIT, mainMenu_items, null);
 
         // setup menu
@@ -65,16 +65,21 @@ public class UNFPAMIDlet extends MIDlet implements CommandListener {
                     break;
 
 		        // Form mother
-                case 2:
+                case 1:
                      MaternalMortalityrForm matmor_form = new MaternalMortalityrForm(this);
                      display.setCurrent (matmor_form);
                     break;
 
                 // products
-                case 3:
+                case 2:
                     CommoditiesForm stock_form = new CommoditiesForm(this);
                     display.setCurrent (stock_form);
                     break;
+
+                // submit stored messages
+                case 3:
+                    break;
+
                 }
             }
         }

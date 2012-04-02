@@ -33,8 +33,7 @@ public class MaternalMortalityrForm extends Form implements CommandListener {
 
     private String ErrorMessage = "";
     private static final String[] pregnant = {"OUI", "NON"};
-    private static final String[] pregnancy_related_death = {"OUI", "NON", "Non applicable"};
-    //private static final String month_list[] = {"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};
+    private static final String[] pregnancy_related_death = {"OUI", "NON", "N/A"};
 
     //General Informatien
     private DateField reporting_date;
@@ -43,7 +42,7 @@ public class MaternalMortalityrForm extends Form implements CommandListener {
     // Maternal Mortality Form
     private TextField name;
     private DateField dob;
-    private TextField dob1;
+    private TextField age;
     private DateField dod;
     private TextField place_of_death;
     private TextField living_children;
@@ -59,32 +58,39 @@ public MaternalMortalityrForm(UNFPAMIDlet midlet) {
 
     config = new Configuration();
 
-    // creating all fields (blank);
-
-    reporting_date =  new DateField("Date de rapport:", DateField.DATE, TimeZone.getTimeZone("GMT"));
-    reporting_location =  new TextField("Lieu de rapport:", null, 20, TextField.ANY);
-    
-    name =  new TextField("Le nom du défunt:", null, 20, TextField.ANY);
-    dob =  new DateField("Date de naissance de la personne décédée:", DateField.DATE, TimeZone.getTimeZone("GMT"));
-    dob1 =  new TextField("Ou son âge(Année):", null, 20, TextField.DECIMAL);
-    dod =  new DateField("Date de la mort:", DateField.DATE, TimeZone.getTimeZone("GMT"));
-    place_of_death =  new TextField("Le lieu du décès:", null, 20, TextField.ANY);
-    living_children =  new TextField("Enfants vivant du défunt:", null, 20, TextField.DECIMAL);
-    dead_children =  new TextField("Enfants morts de la personne décédée:", null, 20, TextField.DECIMAL);
-    pregnantField = new ChoiceGroup("Enceinte:", ChoiceGroup.POPUP, pregnant, null);
-    pregnancy_weeks =  new TextField("Durée de la grossesse:", null, 20, TextField.ANY);
-    pregnancy_related_deathField = new ChoiceGroup("Décès liés à la grossesse:", ChoiceGroup.POPUP, pregnancy_related_death, null);
-
+    reporting_date =  new DateField("Date de visite:", DateField.DATE, TimeZone.getTimeZone("GMT"));
     reporting_date.setDate(new Date());
+
+    reporting_location =  new TextField("Code village (visite):", null, Constants.LOC_CODE_MAX, TextField.ANY);
+    
+    name =  new TextField("Nom de la défunte:", null, 20, TextField.ANY);
+
+    dob =  new DateField("Date de naissance:", DateField.DATE, TimeZone.getTimeZone("GMT"));
     dob.setDate(new Date());
+
+    age =  new TextField("Ou âge (DDN inconnue):", null, Constants.AGE_STR_MAX, TextField.ANY);
+
+    dod =  new DateField("Date du décès:", DateField.DATE, TimeZone.getTimeZone("GMT"));
     dod.setDate(new Date());
+
+    place_of_death =  new TextField("Code village (décès):", null, Constants.LOC_CODE_MAX, TextField.ANY);
+
+    living_children =  new TextField("Nbre enfants (en vie):", null, 2, TextField.NUMERIC);
+
+    dead_children =  new TextField("Nbre enfants (décédés):", null, 2, TextField.NUMERIC);
+
+    pregnantField = new ChoiceGroup("Grossesse en cours:", ChoiceGroup.POPUP, pregnant, null);
+
+    pregnancy_weeks =  new TextField("Nb de semaine de grossesse:", null, 3, TextField.NUMERIC);
+
+    pregnancy_related_deathField = new ChoiceGroup("Décès lié à la grossesse:", ChoiceGroup.POPUP, pregnancy_related_death, null);
 
     // add fields to forms
     append(reporting_date);
     append(reporting_location);
     append(name);
     append(dob);
-    append(dob1);
+    append(age);
     append(dod);
     append(place_of_death);
     append(living_children);
@@ -108,6 +114,7 @@ public MaternalMortalityrForm(UNFPAMIDlet midlet) {
 
     public boolean isComplete() {
         // all fields are required to be filled.
+        // TODO: verifier AGE/DDN
        if (reporting_location.getString().length() == 0 ||
             name.getString().length() == 0 ||
             place_of_death.getString().length() == 0 ||
@@ -126,6 +133,10 @@ public MaternalMortalityrForm(UNFPAMIDlet midlet) {
 
     public boolean isValid() {
         ErrorMessage = "La date indiquée est dans le futur.";
+
+        // TODO: verifier le format des codes de lieu
+        //       et le format de l'age
+        //       et que la mort a eu lieu apres la naissance.
 
         if (pregnantField.getString(pregnantField.getSelectedIndex()).equals("OUI") &&
             pregnancy_weeks.getString().length() == 0) {
@@ -155,6 +166,9 @@ public MaternalMortalityrForm(UNFPAMIDlet midlet) {
     public String toSMSFormat() {
         String sep = " ";
         
+
+        // TODO: corriger
+
         int dob_array[] = SharedChecks.formatDateString(dob.getDate());
         int day = dob_array[0];
         int month = dob_array[1];
@@ -210,6 +224,8 @@ public MaternalMortalityrForm(UNFPAMIDlet midlet) {
                                    null, AlertType.CONFIRMATION);
                 this.midlet.display.setCurrent (alert, this.midlet.mainMenu);
             } else {
+                // TODO: ajouter sauvegarde dans BDD.
+
                 alert = new Alert ("Échec d'envoi SMS", "Impossible d'envoyer" +
                                    " la demande par SMS.", null,
                                    AlertType.WARNING);

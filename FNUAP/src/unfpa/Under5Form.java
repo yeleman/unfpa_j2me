@@ -33,44 +33,57 @@ public class Under5Form extends Form implements CommandListener {
 
     //register
     private DateField reporting_date;
-    private ChoiceGroup reporting_location;
-    private ChoiceGroup death_location;
+    private TextField reporting_location;
+    private TextField death_location;
     private TextField name;
     private DateField dob;
-    private TextField dob1;
+    private TextField age;
     private DateField dod;
     java.util.Date now = new java.util.Date();
     private static final String[] location= {"kati", "kkro"};
 
     public Under5Form(UNFPAMIDlet midlet) {
-        super("Mortalité moin de 5ans");
+        super("Mortalité infantile");
         this.midlet = midlet;
     
         config = new Configuration();
 
-        reporting_date =  new DateField("Date de rapportage:", DateField.DATE, TimeZone.getTimeZone("GMT"));
+        reporting_date =  new DateField("Date de visite:", DateField.DATE, TimeZone.getTimeZone("GMT"));
         reporting_date.setDate(now);
-        reporting_location = new ChoiceGroup("Code village:", ChoiceGroup.POPUP, location, null);
-        name = new TextField("Nom et prenom", null, 20, TextField.ANY);
-        dob =  new DateField("Date de naussnce:", DateField.DATE, TimeZone.getTimeZone("GMT"));
+
+        reporting_location = new TextField("Code village (visite):", null, Constants.LOC_CODE_MAX, TextField.ANY);
+
+        name = new TextField("Nom de l'enfant", null, 20, TextField.ANY);
+
+        dob =  new DateField("Date de naissance:", DateField.DATE, TimeZone.getTimeZone("GMT"));
         dob.setDate(now);
-        dob1 =  new TextField("Ou son âge:", null, 20, TextField.ANY);
-        dod =  new DateField("Date de la mort:", DateField.DATE, TimeZone.getTimeZone("GMT"));
+
+        age =  new TextField("Ou âge (DDN inconnue):", null, Constants.AGE_STR_MAX, TextField.ANY);
+
+        dod =  new DateField("Date du décès:", DateField.DATE, TimeZone.getTimeZone("GMT"));
         dod.setDate(now);
-        death_location = new ChoiceGroup("Code village:", ChoiceGroup.POPUP, location, null);
+
+        death_location = new TextField("Code village (décès):", null, Constants.LOC_CODE_MAX, TextField.ANY);
+
         append(reporting_date);
         append(reporting_location);
         append(name);
         append(dob);
-        append(dob1);
+        append(age);
         append(dod);
         append(death_location);
+
         addCommand(CMD_EXIT);
         addCommand(CMD_SAVE);
         addCommand(CMD_HELP);
+
         this.setCommandListener (this);
-      }
+    }
+
     public boolean isComplete() {
+
+        // TODO: ajouter tous les champs.
+
         // all fields are required to be filled.
         if (name.getString().length() == 0) {
             return false;
@@ -80,6 +93,10 @@ public class Under5Form extends Form implements CommandListener {
 
     public boolean isValid() {
         ErrorMessage = "La date indiquée est dans le futur.";
+
+        // TODO: verifier le format des codes de lieu
+        //       et le format de l'age
+        //       et que la mort a eu lieu apres la naissance.
 
         if (SharedChecks.isDateValide(reporting_date.getDate()) != true) {
             ErrorMessage = "(Date repportage) " + ErrorMessage;
@@ -97,13 +114,16 @@ public class Under5Form extends Form implements CommandListener {
     }
     
     public String toSMSFormat() {
+
+        // TODO: a faire.
+
         return "moins de 5ans" + dob.getDate();
     }
 
     public void commandAction(Command c, Displayable d) {
         // help command displays Help Form.
         if (c == CMD_HELP) {
-            HelpForm h = new HelpForm(this.midlet, this, "registration");
+            HelpForm h = new HelpForm(this.midlet, this, "under5");
             this.midlet.display.setCurrent(h);
         }
 
@@ -142,6 +162,8 @@ public class Under5Form extends Form implements CommandListener {
                                    null, AlertType.CONFIRMATION);
                 this.midlet.display.setCurrent (alert, this.midlet.mainMenu);
             } else {
+                // TODO: ajouter sauvegarde dans BDD.
+
                 alert = new Alert ("Échec d'envoi SMS", "Impossible d'envoyer" +
                             " la demande par SMS.", null, AlertType.WARNING);
                 this.midlet.display.setCurrent (alert, this);
