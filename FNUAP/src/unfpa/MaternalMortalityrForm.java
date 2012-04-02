@@ -30,6 +30,7 @@ public class MaternalMortalityrForm extends Form implements CommandListener {
     public UNFPAMIDlet midlet;
 
     private Configuration config;
+    private SMSStore store;
 
     private String ErrorMessage = "";
     private static final String[] pregnant = {"OUI", "NON"};
@@ -57,6 +58,7 @@ public MaternalMortalityrForm(UNFPAMIDlet midlet) {
     this.midlet = midlet;
 
     config = new Configuration();
+    store = new SMSStore();
 
     reporting_date =  new DateField("Date de visite:", DateField.DATE, TimeZone.getTimeZone("GMT"));
     reporting_date.setDate(new Date());
@@ -178,6 +180,11 @@ public MaternalMortalityrForm(UNFPAMIDlet midlet) {
                               + sep + year + "-" + month + "-" + day;
     }
 
+    public String toText() {
+        
+        return "Alou Dolo";
+    }
+
     public void commandAction(Command c, Displayable d) {
         // help command displays Help Form.
         if (c == CMD_HELP) {
@@ -224,11 +231,15 @@ public MaternalMortalityrForm(UNFPAMIDlet midlet) {
                                    null, AlertType.CONFIRMATION);
                 this.midlet.display.setCurrent (alert, this.midlet.mainMenu);
             } else {
-                // TODO: ajouter sauvegarde dans BDD.
-
-                alert = new Alert ("Échec d'envoi SMS", "Impossible d'envoyer" +
-                                   " la demande par SMS.", null,
-                                   AlertType.WARNING);
+                
+                if (store.add(this.toText(), this.toSMSFormat())) {
+                    alert = new Alert ("Échec d'envoi SMS", "Impossible d'envoyer" +
+                                       " la demande par SMS. Le rapport a été enregistré dans le téléphone.", null,
+                                       AlertType.WARNING);
+                } else {
+                    alert = new Alert ("Échec d'enregistrement", "Impossible d'envoyer ni d'enregistrer dans le téléphone.", null,
+                                       AlertType.WARNING);
+                }
                 this.midlet.display.setCurrent (alert, this);
             }
         }
