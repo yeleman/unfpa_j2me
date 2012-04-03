@@ -32,6 +32,8 @@ public class MaternalMortalityrForm extends Form implements CommandListener {
     private Configuration config;
     private SMSStore store;
 
+    String sep = " ";
+
     private String ErrorMessage = "";
     private static final String[] pregnant = {"OUI", "NON"};
     private static final String[] pregnancy_related_death = {"OUI", "NON", "N/A"};
@@ -70,7 +72,7 @@ public MaternalMortalityrForm(UNFPAMIDlet midlet) {
     dob =  new DateField("Date de naissance:", DateField.DATE, TimeZone.getTimeZone("GMT"));
     dob.setDate(new Date());
 
-    age =  new TextField("Ou âge (DDN inconnue):", null, Constants.AGE_STR_MAX, TextField.ANY);
+    age =  new TextField("Age (DDN inconnue):", null, Constants.AGE_STR_MAX, TextField.ANY);
 
     dod =  new DateField("Date du décès:", DateField.DATE, TimeZone.getTimeZone("GMT"));
     dod.setDate(new Date());
@@ -91,8 +93,8 @@ public MaternalMortalityrForm(UNFPAMIDlet midlet) {
     append(reporting_date);
     append(reporting_location);
     append(name);
-    append(dob);
     append(age);
+    append(dob);
     append(dod);
     append(place_of_death);
     append(living_children);
@@ -165,29 +167,41 @@ public MaternalMortalityrForm(UNFPAMIDlet midlet) {
      * @return <code>String</code> to be sent by SMS
      */
 
-    public String toSMSFormat() {
-        String sep = " ";
-        
+    public String AddZero(int num){
+        String snum = "";
+        if (num < 10)
+            snum = "0" + num;
+        else
+            snum = snum + num;
+        return snum;
+    }
 
-        // TODO: corriger
+    public String toSMSFormat() {
+        
+        String fdob;
 
         int dob_array[] = SharedChecks.formatDateString(dob.getDate());
-        String sday = "";
         int day = dob_array[0];
-        if (day < 10)
-            sday = "0" + day;
-        else
-            sday = day;
         int month = dob_array[1];
         int year = dob_array[2];
 
+        if (age.getString().length() != 0)
+            fdob = age.getString();
+        else
+            fdob = year + AddZero(month) + AddZero(day);
+
         return "unfpa malmor" + sep + place_of_death.getString() 
-                              + sep + year + "-" + month + "-" + sday;
+                              + sep + fdob;
     }
 
     public String toText() {
-        
-        return "Alou Dolo";
+        int dob_array[] = SharedChecks.formatDateString(dob.getDate());
+        int day = dob_array[0];
+        int month = dob_array[1];
+        int year = dob_array[2];
+
+        return "F]: " + name.getString() + " " + year + "/"
+                    + month + "/" + day;
     }
 
     public void commandAction(Command c, Displayable d) {
