@@ -129,7 +129,6 @@ public class Under5Form extends Form implements CommandListener {
     public String toSMSFormat() {
 
         String fdob;
-        // TODO: a faire.
 
         int dob_array[] = SharedChecks.formatDateString(dob.getDate());
         int dob_day = dob_array[0];
@@ -146,9 +145,7 @@ public class Under5Form extends Form implements CommandListener {
         else
             fdob = dob_year + AddZero(dob_month) + AddZero(dob_day);
 
-        // fnuap du5 reporting_location name dob dod death_location
-
-        return "fnuap du5" + reporting_location.getString() + sep
+        return "fnuap du5 " + reporting_location.getString() + sep
                            + name.getString() + sep
                            + fdob + sep
                            + dod_year + AddZero(dod_month) + AddZero(dod_day)

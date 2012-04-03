@@ -76,30 +76,32 @@ public CommoditiesForm(UNFPAMIDlet midlet) {
     family_planning = new TextField("planification familiale", null, 20, TextField.ANY);
     delivery_services = new TextField("services de livraison", null, 20, TextField.ANY);
 
-    male_condom = new ChoiceGroup("installation fournir préservatif masculin", ChoiceGroup.POPUP, choice, null);
-    female_condom = new ChoiceGroup("installation fournir préservatif féminin", ChoiceGroup.POPUP, choice, null);
-    oral_pills = new ChoiceGroup("installation de fournir la pilule", ChoiceGroup.POPUP, choice, null);
-    injectable = new ChoiceGroup("installation fournir injectable", ChoiceGroup.POPUP, choice, null);
-    iud = new ChoiceGroup("installation fournir DIU", ChoiceGroup.POPUP, choice, null);
-    implants = new ChoiceGroup("installation fournir des implants", ChoiceGroup.POPUP, choice, null);
-    female_sterilization = new ChoiceGroup("installation de fournir la stérilisation féminine", ChoiceGroup.POPUP, choice, null);
-    male_sterilization = new ChoiceGroup("installation de fournir la stérilisation masculine", ChoiceGroup.POPUP, choice, null);
-    amoxicillin_ij = new ChoiceGroup("amoxicilline injectable disponible", ChoiceGroup.POPUP, choice, null);
-    amoxicillin_cap_gel = new ChoiceGroup("amoxicilline capsule disponibles", ChoiceGroup.POPUP, choice, null);
-    amoxicillin_suspension = new ChoiceGroup("amoxicilline suspension disponibles", ChoiceGroup.POPUP, choice, null);
+    StringItem intro = new StringItem(null, "La structure a t'elle fournit?");
+
+    male_condom = new ChoiceGroup("Préservatif masculin", ChoiceGroup.POPUP, choice, null);
+    female_condom = new ChoiceGroup("Préservatif féminin", ChoiceGroup.POPUP, choice, null);
+    oral_pills = new ChoiceGroup("la pilule", ChoiceGroup.POPUP, choice, null);
+    injectable = new ChoiceGroup("Injectable", ChoiceGroup.POPUP, choice, null);
+    iud = new ChoiceGroup("DIU", ChoiceGroup.POPUP, choice, null);
+    implants = new ChoiceGroup("Implants", ChoiceGroup.POPUP, choice, null);
+    female_sterilization = new ChoiceGroup("La stérilisation féminine", ChoiceGroup.POPUP, choice, null);
+    male_sterilization = new ChoiceGroup("La stérilisation masculine", ChoiceGroup.POPUP, choice, null);
+    amoxicillin_ij = new ChoiceGroup("Amoxicilline injectable disponible", ChoiceGroup.POPUP, choice, null);
+    amoxicillin_cap_gel = new ChoiceGroup("Amoxicilline capsule disponibles", ChoiceGroup.POPUP, choice, null);
+    amoxicillin_suspension = new ChoiceGroup("Amoxicilline suspension disponibles", ChoiceGroup.POPUP, choice, null);
     azithromycine_tab = new ChoiceGroup("L'azithromycine (comprimé / gel).", ChoiceGroup.POPUP, choice, null);
-    azithromycine_suspension = new ChoiceGroup("suspension d'azithromycine", ChoiceGroup.POPUP, choice, null);
-    benzathine_penicillin = new ChoiceGroup("benzathine pénicilline", ChoiceGroup.POPUP, choice, null);
-    cefexime = new ChoiceGroup("céfixime disponible", ChoiceGroup.POPUP, choice, null);
-    clotrimazole = new ChoiceGroup("clotrimazole disponible", ChoiceGroup.POPUP, choice, null);
-    ergometrine_tab = new ChoiceGroup("ergométrine (comprimé) disponible", ChoiceGroup.POPUP, choice, null);
-    ergometrine_vials = new ChoiceGroup("ergométrine (flacons) disponible", ChoiceGroup.POPUP, choice, null);
-    iron = new ChoiceGroup("fer disponible", ChoiceGroup.POPUP, choice, null);
-    folate = new ChoiceGroup("acide folique disponibles", ChoiceGroup.POPUP, choice, null);
-    iron_folate = new ChoiceGroup("fer / acide folique disponibles", ChoiceGroup.POPUP, choice, null);
-    magnesium_sulfate = new ChoiceGroup("sulfate de magnésium disponible", ChoiceGroup.POPUP, choice, null);
-    metronidazole = new ChoiceGroup("métronidazole disponibles", ChoiceGroup.POPUP, choice, null);
-    oxytocine = new ChoiceGroup("l'ocytocine disponible", ChoiceGroup.POPUP, choice, null);
+    azithromycine_suspension = new ChoiceGroup("Suspension d'azithromycine", ChoiceGroup.POPUP, choice, null);
+    benzathine_penicillin = new ChoiceGroup("Benzathine pénicilline", ChoiceGroup.POPUP, choice, null);
+    cefexime = new ChoiceGroup("Céfixime disponible", ChoiceGroup.POPUP, choice, null);
+    clotrimazole = new ChoiceGroup("Clotrimazole disponible", ChoiceGroup.POPUP, choice, null);
+    ergometrine_tab = new ChoiceGroup("Ergométrine (comprimé) disponible", ChoiceGroup.POPUP, choice, null);
+    ergometrine_vials = new ChoiceGroup("Ergométrine (flacons) disponible", ChoiceGroup.POPUP, choice, null);
+    iron = new ChoiceGroup("Fer disponible", ChoiceGroup.POPUP, choice, null);
+    folate = new ChoiceGroup("Acide folique disponibles", ChoiceGroup.POPUP, choice, null);
+    iron_folate = new ChoiceGroup("Fer / acide folique disponibles", ChoiceGroup.POPUP, choice, null);
+    magnesium_sulfate = new ChoiceGroup("Sulfate de magnésium disponible", ChoiceGroup.POPUP, choice, null);
+    metronidazole = new ChoiceGroup("Métronidazole disponibles", ChoiceGroup.POPUP, choice, null);
+    oxytocine = new ChoiceGroup("L'ocytocine disponible", ChoiceGroup.POPUP, choice, null);
 
     append(reporting_year);
     append(reporting_month);
@@ -107,6 +109,7 @@ public CommoditiesForm(UNFPAMIDlet midlet) {
     append(family_planning);
     append(delivery_services);
 
+    append(intro);
     append(male_condom);
     append(female_condom);
     append(oral_pills);
