@@ -98,22 +98,42 @@ public class Under5Form extends Form implements CommandListener {
     public boolean isValid() {
         ErrorMessage = "La date indiquée est dans le futur.";
 
-        // TODO: verifier le format des codes de lieu
-        //       et le format de l'age
-        //       et que la mort a eu lieu apres la naissance.
-
         if (SharedChecks.isDateValide(reporting_date.getDate()) != true) {
             ErrorMessage = "(Date repportage) " + ErrorMessage;
             return false;
         }
+
         if (SharedChecks.isDateValide(dob.getDate()) != true) {
             ErrorMessage = "(Date de naissance) " + ErrorMessage;
             return false;
         }
+
         if (SharedChecks.isDateValide(dod.getDate())!= true){
+            
             ErrorMessage = "(Date de la mort) " + ErrorMessage;
             return false;
         }
+
+        if (SharedChecks.Under5(dob.getDate()) == true) {
+            ErrorMessage = "L'enfant doit être moins de 5ans.";
+            return false;
+        }
+
+        if (SharedChecks.ValidateCode(reporting_location.getString()) == true) {
+            ErrorMessage = "[Code village (visite)] ce code n'est pas valide";
+            return false;
+        }
+
+        if (SharedChecks.ValidateCode(death_location.getString()) == true) {
+            ErrorMessage = "[Code village (décès)] ce code n'est pas valide";
+            return false;
+        }
+
+        if (SharedChecks.compareDobDod(dob.getDate(), dod.getDate()) == true) {
+            ErrorMessage = "[Erreur] la date de la mort est superieur à la date de la naissance";
+            return false;
+        }
+
         return true;
     }
 
