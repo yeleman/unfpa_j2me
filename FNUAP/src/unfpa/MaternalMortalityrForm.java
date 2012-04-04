@@ -138,10 +138,6 @@ public MaternalMortalityrForm(UNFPAMIDlet midlet) {
     public boolean isValid() {
         ErrorMessage = "La date indiquée est dans le futur.";
 
-        // TODO: verifier le format des codes de lieu
-        //       et le format de l'age
-        //       et que la mort a eu lieu apres la naissance.
-
         if (pregnantField.getString(pregnantField.getSelectedIndex()).equals("OUI") &&
             pregnancy_weeks.getString().length() == 0) {
             ErrorMessage = "Durée de la grossesse est obligatoire si la femme est en enceinte.";
@@ -158,6 +154,16 @@ public MaternalMortalityrForm(UNFPAMIDlet midlet) {
         }
         if (SharedChecks.isDateValide(dod.getDate())!= true){
             ErrorMessage = "(Date de la mort) " + ErrorMessage;
+            return false;
+        }
+
+        if (SharedChecks.compareDobDod(dob.getDate(), dod.getDate()) == true) {
+            ErrorMessage = "[Erreur] la date de la mort est superieur à la date de la naissance";
+            return false;
+        }
+
+        if (SharedChecks.ValidateCode(reporting_location.getString()) == true) {
+            ErrorMessage = "[Code village (visite)] ce code n'est pas valide";
             return false;
         }
         return true;
