@@ -21,6 +21,8 @@ public class OptionForm extends Form implements CommandListener {
     
     private Configuration config;
     private TextField numberField;
+    private TextField cscom_code;
+    private TextField profile;
     UNFPAMIDlet midlet;
 
 public OptionForm(UNFPAMIDlet midlet) {
@@ -38,8 +40,12 @@ public OptionForm(UNFPAMIDlet midlet) {
     }
 
     numberField = new TextField ("Numéro du serveur:", phone_number, 8, TextField.PHONENUMBER);
+    cscom_code = new TextField("Code CSCOM", config.get("cscom_code"), 20, TextField.ANY);
+    profile = new TextField("Code CSCOM", config.get("profile"), 20, TextField.ANY);
 
     append(numberField);
+    append(cscom_code);
+    append(profile);
 
     addCommand(CMD_EXIT);
     addCommand(CMD_SAVE);
@@ -55,6 +61,9 @@ public OptionForm(UNFPAMIDlet midlet) {
     public boolean isComplete() {
         // all fields are required to be filled.
         if (numberField.getString().length() == 0) {
+            return false;
+        }
+        if (cscom_code.getString().length() == 0) {
             return false;
         }
         return true;
@@ -84,7 +93,7 @@ public OptionForm(UNFPAMIDlet midlet) {
                 this.midlet.display.setCurrent (alert, this);
                 return;
             }
-            if (config.set("server_number", numberField.getString())) {
+            if (config.set("server_number", numberField.getString()) && config.set("cscom_code", cscom_code.getString()) && config.set("profile", profile.getString())) {
                 alert = new Alert ("Confirmation!", "Votre modification a été bien enregistré.", null, AlertType.CONFIRMATION);
                 this.midlet.display.setCurrent (alert, this.midlet.mainMenu);
             } else {

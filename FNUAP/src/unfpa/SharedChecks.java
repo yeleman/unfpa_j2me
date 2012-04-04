@@ -4,8 +4,6 @@
  */
 
 package unfpa;
-
-import javax.microedition.lcdui.*;
 import java.util.Date;
 
 /**

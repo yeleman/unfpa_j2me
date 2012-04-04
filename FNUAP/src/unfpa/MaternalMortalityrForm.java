@@ -32,6 +32,8 @@ public class MaternalMortalityrForm extends Form implements CommandListener {
     private Configuration config;
     private SMSStore store;
 
+    String sep = " ";
+
     private String ErrorMessage = "";
     private static final String[] pregnant = {"OUI", "NON"};
     private static final String[] pregnancy_related_death = {"OUI", "NON", "N/A"};
@@ -45,7 +47,7 @@ public class MaternalMortalityrForm extends Form implements CommandListener {
     private DateField dob;
     private TextField age;
     private DateField dod;
-    private TextField place_of_death;
+    private TextField death_location;
     private TextField living_children;
     private TextField dead_children;
     private ChoiceGroup pregnantField;
@@ -70,12 +72,12 @@ public MaternalMortalityrForm(UNFPAMIDlet midlet) {
     dob =  new DateField("Date de naissance:", DateField.DATE, TimeZone.getTimeZone("GMT"));
     dob.setDate(new Date());
 
-    age =  new TextField("Ou âge (DDN inconnue):", null, Constants.AGE_STR_MAX, TextField.ANY);
+    age =  new TextField("Age (DDN inconnue):", null, Constants.AGE_STR_MAX, TextField.ANY);
 
     dod =  new DateField("Date du décès:", DateField.DATE, TimeZone.getTimeZone("GMT"));
     dod.setDate(new Date());
 
-    place_of_death =  new TextField("Code village (décès):", null, Constants.LOC_CODE_MAX, TextField.ANY);
+    death_location =  new TextField("Code village (décès):", null, Constants.LOC_CODE_MAX, TextField.ANY);
 
     living_children =  new TextField("Nbre enfants (en vie):", null, 2, TextField.NUMERIC);
 
@@ -91,10 +93,10 @@ public MaternalMortalityrForm(UNFPAMIDlet midlet) {
     append(reporting_date);
     append(reporting_location);
     append(name);
-    append(dob);
     append(age);
+    append(dob);
     append(dod);
-    append(place_of_death);
+    append(death_location);
     append(living_children);
     append(dead_children);
     append(pregnantField);
@@ -119,7 +121,7 @@ public MaternalMortalityrForm(UNFPAMIDlet midlet) {
         // TODO: verifier AGE/DDN
        if (reporting_location.getString().length() == 0 ||
             name.getString().length() == 0 ||
-            place_of_death.getString().length() == 0 ||
+            death_location.getString().length() == 0 ||
             living_children.getString().length() == 0 ||
             dead_children.getString().length() == 0) {
             return false;
@@ -165,35 +167,75 @@ public MaternalMortalityrForm(UNFPAMIDlet midlet) {
      * @return <code>String</code> to be sent by SMS
      */
 
-    public String toSMSFormat() {
-        String sep = " ";
-        
+    public String AddZero(int num){
+        String snum = "";
+        if (num < 10)
+            snum = "0" + num;
+        else
+            snum = snum + num;
+        return snum;
+    }
 
-        // TODO: corriger
+    public String toSMSFormat() {
+        
+        String fdob;
 
         int dob_array[] = SharedChecks.formatDateString(dob.getDate());
-        String sday = "";
-        int day = dob_array[0];
-        if (day < 10)
-            sday = "0" + day;
-        else
-            sday = day;
-        int month = dob_array[1];
-        int year = dob_array[2];
+        int dob_day = dob_array[0];
+        int dob_month = dob_array[1];
+        int dob_year = dob_array[2];
 
-        return "unfpa malmor" + sep + place_of_death.getString() 
-                              + sep + year + "-" + month + "-" + sday;
+        int dod_array[] = SharedChecks.formatDateString(dod.getDate());
+        int dod_day = dod_array[0];
+        int dod_month = dod_array[1];
+        int dod_year = dod_array[2];
+
+        if (age.getString().length() != 0)
+            fdob = age.getString();
+        else
+            fdob = dob_year + AddZero(dob_month) + AddZero(dob_day);
+
+        String preg;
+        if ((pregnantField.getString(pregnantField.getSelectedIndex()).equals("OUI"))){
+            preg = "1";
+        } else {
+            preg = "0";
+        }
+
+       String pregnancy_related;
+        if ((pregnancy_related_deathField.getString(pregnancy_related_deathField.getSelectedIndex()).equals("OUI"))){
+            pregnancy_related = "1";
+        } else if ((pregnancy_related_deathField.getString(pregnancy_related_deathField.getSelectedIndex()).equals("NON"))){
+            pregnancy_related = "0";
+        } else {
+            pregnancy_related = "-1";
+        }
+
+        // fnuap dpw reporting_location name dob dod death_location
+        // living_children dead_children pregnant pregnancy_weeks
+        // pregnancy_related_death
+        return "fnuap dpw" + sep + reporting_location.getString() + sep
+                + name.getString() + sep + fdob + sep + dod_year + AddZero(dod_month)
+                + AddZero(dod_day) + sep + death_location.getString() + sep
+                + living_children.getString() + sep + dead_children.getString()
+                + sep + preg + sep + pregnancy_weeks.getString() + sep
+                + pregnancy_related;
     }
 
     public String toText() {
-        
-        return "Alou Dolo";
+        int dob_array[] = SharedChecks.formatDateString(dob.getDate());
+        int day = dob_array[0];
+        int month = dob_array[1];
+        int year = dob_array[2];
+
+        return "F]: " + name.getString() + " " + year + "/"
+                    + month + "/" + day;
     }
 
     public void commandAction(Command c, Displayable d) {
         // help command displays Help Form.
         if (c == CMD_HELP) {
-            HelpForm h = new HelpForm(this.midlet, this, "registration");
+            HelpForm h = new HelpForm(this.midlet, this, "maternal");
                                       this.midlet.display.setCurrent(h);
         }
 

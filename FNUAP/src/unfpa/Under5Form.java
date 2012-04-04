@@ -6,6 +6,7 @@ import java.util.TimeZone;
 import unfpa.Configuration.*;
 import unfpa.Constants.*;
 import unfpa.SharedChecks.*;
+import java.util.Date;
 
 
 /**
@@ -24,12 +25,12 @@ public class Under5Form extends Form implements CommandListener {
     private static final Command CMD_HELP = new Command ("Aide",
                                                             Command.HELP, 2);
 
-    private StringItem helpText;
     UNFPAMIDlet midlet;
     Displayable returnTo;
     private String ErrorMessage = "";
 
     private Configuration config;
+    private SMSStore store;
 
     //register
     private DateField reporting_date;
@@ -39,14 +40,15 @@ public class Under5Form extends Form implements CommandListener {
     private DateField dob;
     private TextField age;
     private DateField dod;
-    java.util.Date now = new java.util.Date();
-    private static final String[] location= {"kati", "kkro"};
+    Date now = new Date();
+    String sep = " ";
 
     public Under5Form(UNFPAMIDlet midlet) {
         super("Mortalité infantile");
         this.midlet = midlet;
     
         config = new Configuration();
+        store = new SMSStore();
 
         reporting_date =  new DateField("Date de visite:", DateField.DATE, TimeZone.getTimeZone("GMT"));
         reporting_date.setDate(now);
@@ -58,7 +60,7 @@ public class Under5Form extends Form implements CommandListener {
         dob =  new DateField("Date de naissance:", DateField.DATE, TimeZone.getTimeZone("GMT"));
         dob.setDate(now);
 
-        age =  new TextField("Ou âge (DDN inconnue):", null, Constants.AGE_STR_MAX, TextField.ANY);
+        age =  new TextField("Age (DDN inconnue):", null, Constants.AGE_STR_MAX, TextField.ANY);
 
         dod =  new DateField("Date du décès:", DateField.DATE, TimeZone.getTimeZone("GMT"));
         dod.setDate(now);
@@ -68,8 +70,8 @@ public class Under5Form extends Form implements CommandListener {
         append(reporting_date);
         append(reporting_location);
         append(name);
-        append(dob);
         append(age);
+        append(dob);
         append(dod);
         append(death_location);
 
@@ -85,7 +87,9 @@ public class Under5Form extends Form implements CommandListener {
         // TODO: ajouter tous les champs.
 
         // all fields are required to be filled.
-        if (name.getString().length() == 0) {
+        if (name.getString().length() == 0||
+            reporting_location.getString().length() == 0||
+            death_location.getString().length() == 0) {
             return false;
         }
         return true;
@@ -112,12 +116,51 @@ public class Under5Form extends Form implements CommandListener {
         }
         return true;
     }
-    
+
+    public String AddZero(int num){
+        String snum = "";
+        if (num < 10)
+            snum = "0" + num;
+        else
+            snum = snum + num;
+        return snum;
+    }
+
     public String toSMSFormat() {
 
-        // TODO: a faire.
+        String fdob;
 
-        return "moins de 5ans" + dob.getDate();
+        int dob_array[] = SharedChecks.formatDateString(dob.getDate());
+        int dob_day = dob_array[0];
+        int dob_month = dob_array[1];
+        int dob_year = dob_array[2];
+
+        int dod_array[] = SharedChecks.formatDateString(dod.getDate());
+        int dod_day = dod_array[0];
+        int dod_month = dod_array[1];
+        int dod_year = dod_array[2];
+
+        if (age.getString().length() != 0)
+            fdob = age.getString();
+        else
+            fdob = dob_year + AddZero(dob_month) + AddZero(dob_day);
+
+        return "fnuap du5 " + reporting_location.getString() + sep
+                           + name.getString() + sep
+                           + fdob + sep
+                           + dod_year + AddZero(dod_month) + AddZero(dod_day)
+                           + sep + death_location.getString();
+    }
+
+    public String toText() {
+
+        int dod_array[] = SharedChecks.formatDateString(dod.getDate());
+        int dod_day = dod_array[0];
+        int dod_month = dod_array[1];
+        int dod_year = dod_array[2];
+
+        return "E] " + name.getString() + sep + dod_year + "/"
+                            + dod_month + "/" + dod_day;
     }
 
     public void commandAction(Command c, Displayable d) {
@@ -164,8 +207,14 @@ public class Under5Form extends Form implements CommandListener {
             } else {
                 // TODO: ajouter sauvegarde dans BDD.
 
-                alert = new Alert ("Échec d'envoi SMS", "Impossible d'envoyer" +
-                            " la demande par SMS.", null, AlertType.WARNING);
+               if (store.add(this.toText(), this.toSMSFormat())) {
+                    alert = new Alert ("Échec d'envoi SMS", "Impossible d'envoyer" +
+                                       " la demande par SMS. Le rapport a été enregistré dans le téléphone.", null,
+                                       AlertType.WARNING);
+                } else {
+                    alert = new Alert ("Échec d'enregistrement", "Impossible d'envoyer ni d'enregistrer dans le téléphone.", null,
+                                       AlertType.WARNING);
+                }
                 this.midlet.display.setCurrent (alert, this);
             }
 

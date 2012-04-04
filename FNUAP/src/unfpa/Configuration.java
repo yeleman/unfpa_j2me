@@ -13,6 +13,9 @@ public class Configuration {
 
     // index 0 is invalid
     private int server_number_index = 1;
+    private int cscom_code_index = 2;
+    private int profile_index = 3;
+
 
     private static final String database = "configuration";
     private RecordStore recordstore = null;
@@ -30,6 +33,8 @@ public class Configuration {
             // the following has to be in order of indexes.
             this.set("server_number", "00000000", true);
             this.set("server_number", Constants.server_number, false);
+            this.set("cscom_code", "", true);
+            this.set("profile", "chw", true);
         }
     }
 
@@ -88,6 +93,10 @@ public class Configuration {
         int index;
         if (variable.equals("server_number")) {
             index = server_number_index;
+        } else if (variable.equals("cscom_code")) {
+            index = cscom_code_index;
+        } else if (variable.equals("profile")) {
+            index = profile_index;
         } else {
             index = -1;
         }

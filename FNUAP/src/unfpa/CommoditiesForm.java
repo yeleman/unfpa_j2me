@@ -5,6 +5,7 @@ import javax.microedition.lcdui.*;
 import unfpa.Configuration.*;
 import unfpa.Constants.*;
 import unfpa.HelpForm.*;
+import unfpa.SMSStore.*;
 
 /**
  * J2ME Patient Registration Form
@@ -26,17 +27,17 @@ public class CommoditiesForm extends Form implements CommandListener {
     public UNFPAMIDlet midlet;
 
     private Configuration config;
+    private SMSStore store;
 
     private String ErrorMessage = "";
     private static final String[] choice = {"NON", "OUI"};
     private static final String[] year_list = {"2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020"};
     private static final String[] yesnoavail = {"Non", "Oui. Fournitures disponibles", "Oui. Mais non disponibles"};
-    private static final String month_list[] = {"----", "(01)Jan","(2)Feb","(3)Mar","(4)Apr","(5)May","(6)Jun","(7)Jul","(8)Aug","(9)Sep","(10)Oct","(11)Nov","(12)Dec"};
+    private static final String month_list[] = {"----", "(01)Jan","(02)Feb","(03)Mar","(04)Apr","(05)May","(06)Jun","(07)Jul","(08)Aug","(09)Sep","(10)Oct","(11)Nov","(12)Dec"};
 
     //General Informatien
     private ChoiceGroup reporting_year;
     private ChoiceGroup reporting_month;
-    private TextField location_of_sdp;
     private ChoiceGroup family_planning;
     private ChoiceGroup delivery_services;
     private ChoiceGroup male_condom;
@@ -94,11 +95,11 @@ public CommoditiesForm(UNFPAMIDlet midlet) {
     this.midlet = midlet;
 
     config = new Configuration();
+    store = new SMSStore();
 
     // creating all fields (blank);
     reporting_year = new ChoiceGroup("L'année de déclaration", ChoiceGroup.POPUP, year_list, null);
     reporting_month = new ChoiceGroup("Mois considéré", ChoiceGroup.POPUP, month_list, null);
-    location_of_sdp = new TextField("Emplacement de sdp", null, 20, TextField.ANY);
 
     family_planning = new ChoiceGroup("Planification familiale", ChoiceGroup.EXCLUSIVE, choice, null);
     delivery_services = new ChoiceGroup("Services de livraison", ChoiceGroup.EXCLUSIVE, choice, null);
@@ -154,10 +155,9 @@ public CommoditiesForm(UNFPAMIDlet midlet) {
 
     append(reporting_year);
     append(reporting_month);
-    append(location_of_sdp);
     append(family_planning);
     append(delivery_services);
-    append("Les produits fournis par le structure");
+    append("La structure a t'elle fournit?");
     append(male_condom);
     append(nb_male_condom);
     append(female_condom);
@@ -222,10 +222,6 @@ public CommoditiesForm(UNFPAMIDlet midlet) {
 
     public boolean isComplete() {
         // all fields are required to be filled.
-        if (location_of_sdp.getString().length() == 0)
-            {
-            return false;
-        }
         return true;
     }
 
@@ -242,16 +238,26 @@ public CommoditiesForm(UNFPAMIDlet midlet) {
         }
         return true;
     }
-
+    
+    public String AddZero(int num){
+        String snum = "";
+        if (num < 10)
+            snum = "0" + num;
+        else
+            snum = snum + num;
+        return snum;
+    }
    /* Converts Form request to SMS message
      * @return <code>String</code> to be sent by SMS
      */
 
     public String toSMSFormat() {
         String sep = " ";
+        String cscom_code = config.get("cscom_code");
+        
         return "unfpa stock" + sep + reporting_year.getString(reporting_year.getSelectedIndex())
-                             + sep + reporting_month.getSelectedIndex()
-                             + sep + location_of_sdp.getString()
+                             + sep + AddZero(reporting_month.getSelectedIndex())
+                             + sep + cscom_code
                              + sep + family_planning.getSelectedIndex()
                              + sep + delivery_services.getSelectedIndex()
                              + sep + test_value(male_condom.getSelectedIndex(), nb_male_condom.getString())
@@ -282,7 +288,6 @@ public CommoditiesForm(UNFPAMIDlet midlet) {
 
     public String test_value(int c, String s) {
         if (c == 1 && s.length() != 0){
-                System.out.println(c);
                 return s;
         }
         else{
@@ -290,6 +295,12 @@ public CommoditiesForm(UNFPAMIDlet midlet) {
         }
     }
 
+    public String toText() {
+
+        return  "Raport du produit dispo " + reporting_month.getString(reporting_month.getSelectedIndex())
+                + "/" + reporting_year.getString(reporting_year.getSelectedIndex());
+    }
+    
     public void commandAction(Command c, Displayable d) {
         // help command displays Help Form.
         if (c == CMD_HELP) {
@@ -330,14 +341,20 @@ public CommoditiesForm(UNFPAMIDlet midlet) {
             SMSSender sms = new SMSSender();
             String number = config.get("server_number");
             
-            if (sms.send(number, this.toSMSFormat())) {
+           if (sms.send(number, this.toSMSFormat())) {
                 alert = new Alert ("Demande envoyée !", "Vous allez recevoir" +
                                    " une confirmation du serveur.",
                                    null, AlertType.CONFIRMATION);
                 this.midlet.display.setCurrent (alert, this.midlet.mainMenu);
             } else {
-                alert = new Alert ("Échec d'envoi SMS", "Impossible d'envoyer" +
-                            " la demande par SMS.", null, AlertType.WARNING);
+                if (store.add(this.toText(), this.toSMSFormat())) {
+                    alert = new Alert ("Échec d'envoi SMS", "Impossible d'envoyer" +
+                                       " la demande par SMS. Le rapport a été enregistré dans le téléphone.", null,
+                                       AlertType.WARNING);
+                } else {
+                    alert = new Alert ("Échec d'enregistrement", "Impossible d'envoyer ni d'enregistrer dans le téléphone.", null,
+                                       AlertType.WARNING);
+                }
                 this.midlet.display.setCurrent (alert, this);
             }
         }
