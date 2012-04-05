@@ -53,9 +53,7 @@ public class CommoditiesForm extends Form implements CommandListener {
     private ChoiceGroup implants;
     private TextField nb_implants;
     private ChoiceGroup female_sterilization;
-    private TextField nb_female_sterilization;
     private ChoiceGroup male_sterilization;
-    private TextField nb_male_sterilization;
     private ChoiceGroup amoxicillin_ij;
     private TextField nb_amoxicillin_ij;
     private ChoiceGroup amoxicillin_cap_gel;
@@ -117,9 +115,7 @@ public CommoditiesForm(UNFPAMIDlet midlet) {
     implants = new ChoiceGroup("des implants", ChoiceGroup.POPUP, choice, null);
     nb_implants = new TextField("La quantité", null, 20, TextField.NUMERIC);
     female_sterilization = new ChoiceGroup("La stérilisation féminine", ChoiceGroup.POPUP, yesnoavail, null);
-    nb_female_sterilization = new TextField("La quantité", null, 20, TextField.NUMERIC);
     male_sterilization = new ChoiceGroup("La stérilisation masculine", ChoiceGroup.POPUP, yesnoavail, null);
-    nb_male_sterilization = new TextField("La quantité", null, 20, TextField.NUMERIC);
     amoxicillin_ij = new ChoiceGroup("amoxicilline injectable disponible", ChoiceGroup.POPUP, choice, null);
     nb_amoxicillin_ij = new TextField("La quantité", null, 20, TextField.NUMERIC);
     amoxicillin_cap_gel = new ChoiceGroup("amoxicilline capsule disponibles", ChoiceGroup.POPUP, choice, null);
@@ -171,9 +167,7 @@ public CommoditiesForm(UNFPAMIDlet midlet) {
     append(implants);
     append(nb_implants);
     append(female_sterilization);
-    append(nb_female_sterilization);
     append(male_sterilization);
-    append(nb_male_sterilization);
     append(amoxicillin_ij);
     append(nb_amoxicillin_ij);
     append(amoxicillin_cap_gel);
@@ -255,7 +249,7 @@ public CommoditiesForm(UNFPAMIDlet midlet) {
         String sep = " ";
         String cscom_code = config.get("cscom_code");
         
-        return "unfpa stock" + sep + reporting_year.getString(reporting_year.getSelectedIndex())
+        return "fnuap mps" + sep + reporting_year.getString(reporting_year.getSelectedIndex())
                              + sep + AddZero(reporting_month.getSelectedIndex())
                              + sep + cscom_code
                              + sep + family_planning.getSelectedIndex()
@@ -266,8 +260,8 @@ public CommoditiesForm(UNFPAMIDlet midlet) {
                              + sep + test_value(injectable.getSelectedIndex(), nb_injectable.getString())
                              + sep + test_value(iud.getSelectedIndex(), nb_iud.getString())
                              + sep + test_value(implants.getSelectedIndex(), nb_implants.getString())
-                             + sep + test_value(female_sterilization.getSelectedIndex(), nb_female_sterilization.getString())
-                             + sep + test_value(male_sterilization.getSelectedIndex(), nb_male_sterilization.getString())
+                             + sep + female_sterilization.getSelectedIndex()
+                             + sep + male_sterilization.getSelectedIndex()
                              + sep + test_value(amoxicillin_ij.getSelectedIndex(), nb_amoxicillin_ij.getString())
                              + sep + test_value(amoxicillin_cap_gel.getSelectedIndex(), nb_amoxicillin_cap_gel.getString())
                              + sep + test_value(amoxicillin_suspension.getSelectedIndex(), nb_amoxicillin_suspension.getString())
