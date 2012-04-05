@@ -89,7 +89,7 @@ public class CommoditiesForm extends Form implements CommandListener {
 
 
 public CommoditiesForm(UNFPAMIDlet midlet) {
-    super("RH Commodities From");
+    super("Commodities");
     this.midlet = midlet;
 
     config = new Configuration();
@@ -298,7 +298,7 @@ public CommoditiesForm(UNFPAMIDlet midlet) {
     public void commandAction(Command c, Displayable d) {
         // help command displays Help Form.
         if (c == CMD_HELP) {
-            HelpForm h = new HelpForm(this.midlet, this, "registration");
+            HelpForm h = new HelpForm(this.midlet, this, "commodities");
             this.midlet.display.setCurrent(h);
         }
 
@@ -335,7 +335,8 @@ public CommoditiesForm(UNFPAMIDlet midlet) {
             SMSSender sms = new SMSSender();
             String number = config.get("server_number");
             
-           if (sms.send(number, this.toSMSFormat())) {
+           //if (sms.send(number, this.toSMSFormat())) {
+            if (1==0) {
                 alert = new Alert ("Demande envoyée !", "Vous allez recevoir" +
                                    " une confirmation du serveur.",
                                    null, AlertType.CONFIRMATION);
