@@ -350,7 +350,7 @@ public CommoditiesForm(UNFPAMIDlet midlet) {
                     alert = new Alert ("Échec d'enregistrement", "Impossible d'envoyer ni d'enregistrer dans le téléphone.", null,
                                        AlertType.WARNING);
                 }
-                this.midlet.display.setCurrent (alert, this);
+                this.midlet.display.setCurrent (alert, this.midlet.mainMenu);
             }
         }
     }

@@ -23,8 +23,6 @@ public class MaternalMortalityrForm extends Form implements CommandListener {
                                                             Command.BACK, 1);
     private static final Command CMD_SEND = new Command ("Envoi.",
                                                             Command.OK, 1);
-    private static final Command CMD_SAVE = new Command ("Enregistrer.",
-                                                            Command.OK, 2);
     private static final Command CMD_HELP = new Command ("Aide",
                                                             Command.HELP, 3);
     public UNFPAMIDlet midlet;
@@ -105,7 +103,6 @@ public MaternalMortalityrForm(UNFPAMIDlet midlet) {
 
     addCommand(CMD_EXIT);
     addCommand(CMD_SEND);
-    addCommand(CMD_SAVE);
     addCommand(CMD_HELP);
 
     this.setCommandListener (this);
