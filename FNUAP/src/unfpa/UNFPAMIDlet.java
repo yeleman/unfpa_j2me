@@ -8,7 +8,8 @@ import unfpa.MaternalMortalityrForm.*;
 import unfpa.CommoditiesForm.*;
 import unfpa.SMSStore.*;
 import unfpa.StoredSMS.*;
-import unfpa.SendSaveForm.*;
+// import unfpa.SendSaveForm.*;
+import unfpa.SendSavedReports.*;
 
 /*
  * J2ME Midlet allowing user to fill and submit UNFPA Forms
@@ -82,8 +83,8 @@ public class UNFPAMIDlet extends MIDlet implements CommandListener {
 
                 // submit stored messages
                 case 3:
-                    SendSaveForm sendsave_form = new SendSaveForm(this);
-                    display.setCurrent (sendsave_form);
+                    SendSavedReports saved_reports = new SendSavedReports(this);
+                    display.setCurrent (saved_reports);
                     break;
 
                 }
