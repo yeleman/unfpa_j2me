@@ -46,6 +46,15 @@ public class HelpForm extends Form implements CommandListener {
         } else if (section.equalsIgnoreCase("version")) {
             text = "FNUAP - Version " + Constants.version + "\n\n" +
                    "En cas de problème, contactez l'ANTIM.";
+        } else if (section.equalsIgnoreCase("under5")) {
+            text = "Renseignez uniquement la Mortalité infantile.\n" +
+               "En cas de problème, contactez l'ANTIM.";
+        } else if (section.equalsIgnoreCase("maternal")) {
+            text = "Renseignez uniquement la Mortalité maternelle.\n" +
+               "En cas de problème, contactez l'ANTIM.";
+        } else if (section.equalsIgnoreCase("commodities")) {
+            text = "Renseignez uniquement Commodities.\n" +
+               "En cas de problème, contactez l'ANTIM.";
         } else {
             text = "Aucune aide disponible pour cet élément.";
         }
