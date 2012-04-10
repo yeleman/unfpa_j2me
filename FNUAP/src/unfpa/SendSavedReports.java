@@ -13,7 +13,7 @@ public class SendSavedReports extends List implements CommandListener {
     private static final Command CMD_EXIT = new Command ("Retour", Command.EXIT, 1);
     private static final Command CMD_HELP = new Command ("Aide", Command.HELP, 5);
     private static final Command CMD_SEND = new Command ("Envoi.", Command.OK, 1);
-    private static final Command CMD_SEND_ALL = new Command ("Envoi tout.", Command.OK, 1);
+    private static final Command CMD_SEND_ALL = new Command ("Tout envoyer.", Command.OK, 1);
 
     public UNFPAMIDlet midlet;
     private Configuration config;
@@ -69,8 +69,7 @@ public class SendSavedReports extends List implements CommandListener {
                                            AlertType.WARNING);
                     }
                 }
-                this.midlet.display.setCurrent (alert, this);
-                this.midlet.display.setCurrent(this.midlet.mainMenu);
+                this.midlet.display.setCurrent(alert, this.midlet.mainMenu);
             }
 
             // save or send command
@@ -88,14 +87,13 @@ public class SendSavedReports extends List implements CommandListener {
                                        " une confirmation du serveur.",
                                        null, AlertType.CONFIRMATION);
                     store.delete(index);
-                    this.midlet.display.setCurrent (alert, this);
+                    //this.midlet.display.setCurrent (alert, this);
                 }else{
                     alert = new Alert ("Échec d'envoi SMS", "Impossible d'envoyer" +
                                        " la demande par SMS. Le rapport a été enregistré dans le téléphone.", null,
                                        AlertType.WARNING);
-                    this.midlet.display.setCurrent (alert, this);
                 }
-                this.midlet.display.setCurrent(this.midlet.mainMenu);
+                this.midlet.display.setCurrent(alert, this.midlet.mainMenu);
             }
 
             // exit commands comes back to main menu.
