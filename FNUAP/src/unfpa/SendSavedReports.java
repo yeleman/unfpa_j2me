@@ -13,6 +13,7 @@ public class SendSavedReports extends List implements CommandListener {
     private static final Command CMD_EXIT = new Command ("Retour", Command.EXIT, 1);
     private static final Command CMD_HELP = new Command ("Aide", Command.HELP, 5);
     private static final Command CMD_SEND = new Command ("Envoi.", Command.OK, 1);
+    private static final Command CMD_SEND_ALL = new Command ("Envoi tout.", Command.OK, 1);
 
     public UNFPAMIDlet midlet;
     private Configuration config;
@@ -31,18 +32,14 @@ public class SendSavedReports extends List implements CommandListener {
             append(all_sms[i].name, null);
         }
 
-        append("reg", null);
-        append("fad", null);
-
         setCommandListener (this);
         addCommand (CMD_EXIT);
         addCommand(CMD_SEND);
+        addCommand(CMD_SEND_ALL);
         addCommand (CMD_HELP);
     }
 
     public void commandAction(Command c, Displayable s) {
-         System.out.println(s);
-          System.out.println(c);
         // if it originates from the MainMenu list
         if (s.equals (this)) {
 
@@ -51,9 +48,33 @@ public class SendSavedReports extends List implements CommandListener {
                 HelpForm h = new HelpForm(this.midlet, this, "saved_reports");
                 this.midlet.display.setCurrent(h);
             }
-            // save command
+            // save or send all command
+            if (c == CMD_SEND_ALL) {
+                Alert alert;
+                alert = new Alert ("");
+
+                SMSSender sms = new SMSSender();
+                String number = config.get("server_number");
+                
+                for (int i=0; i<all_sms.length; i++) {
+                    if (sms.send(number, this.all_sms[i].sms)) {
+                    //if (1==0){
+                        alert = new Alert ("Demande envoyée !", "Vous allez recevoir" +
+                                           " une confirmation du serveur.",
+                                           null, AlertType.CONFIRMATION);
+                        store.delete(i);
+                    }else{
+                        alert = new Alert ("Échec d'envoi SMS", "Impossible d'envoyer" +
+                                           " la demande par SMS. Le rapport a été enregistré dans le téléphone.", null,
+                                           AlertType.WARNING);
+                    }
+                }
+                this.midlet.display.setCurrent (alert, this);
+                this.midlet.display.setCurrent(this.midlet.mainMenu);
+            }
+
+            // save or send command
             if (c == CMD_SEND) {
-                System.out.println("send");
                 int index = ((List) s).getSelectedIndex ();
                 Alert alert;
                 
@@ -62,12 +83,19 @@ public class SendSavedReports extends List implements CommandListener {
                 String number = config.get("server_number");
 
                 if (sms.send(number, this.all_sms[index].sms)) {
+                //if (1==0){
                     alert = new Alert ("Demande envoyée !", "Vous allez recevoir" +
                                        " une confirmation du serveur.",
                                        null, AlertType.CONFIRMATION);
                     store.delete(index);
-                    this.midlet.display.setCurrent (alert, this.midlet.mainMenu);
+                    this.midlet.display.setCurrent (alert, this);
+                }else{
+                    alert = new Alert ("Échec d'envoi SMS", "Impossible d'envoyer" +
+                                       " la demande par SMS. Le rapport a été enregistré dans le téléphone.", null,
+                                       AlertType.WARNING);
+                    this.midlet.display.setCurrent (alert, this);
                 }
+                this.midlet.display.setCurrent(this.midlet.mainMenu);
             }
 
             // exit commands comes back to main menu.

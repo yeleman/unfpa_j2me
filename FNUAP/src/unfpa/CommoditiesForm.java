@@ -291,8 +291,8 @@ public CommoditiesForm(UNFPAMIDlet midlet) {
 
     public String toText() {
 
-        return  "Raport du produit dispo " + reporting_month.getString(reporting_month.getSelectedIndex())
-                + "/" + reporting_year.getString(reporting_year.getSelectedIndex());
+        return  "Rapport(" + reporting_month.getString(reporting_month.getSelectedIndex())
+                + "/" + reporting_year.getString(reporting_year.getSelectedIndex()) + ")";
     }
     
     public void commandAction(Command c, Displayable d) {
@@ -335,8 +335,7 @@ public CommoditiesForm(UNFPAMIDlet midlet) {
             SMSSender sms = new SMSSender();
             String number = config.get("server_number");
             
-           //if (sms.send(number, this.toSMSFormat())) {
-            if (1==0) {
+           if (sms.send(number, this.toSMSFormat())) {
                 alert = new Alert ("Demande envoyée !", "Vous allez recevoir" +
                                    " une confirmation du serveur.",
                                    null, AlertType.CONFIRMATION);
