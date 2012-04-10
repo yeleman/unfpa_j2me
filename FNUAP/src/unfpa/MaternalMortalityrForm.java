@@ -33,8 +33,8 @@ public class MaternalMortalityrForm extends Form implements CommandListener {
     String sep = " ";
 
     private String ErrorMessage = "";
-    private static final String[] pregnant = {"OUI", "NON"};
-    private static final String[] pregnancy_related_death = {"OUI", "NON", "N/A"};
+    private static final String[] pregnant = {"NON", "OUI"};
+    private static final String[] pregnancy_related_death = {"NON", "OUI", "N/A"};
 
     //General Informatien
     private DateField reporting_date;

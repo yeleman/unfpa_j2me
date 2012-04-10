@@ -291,8 +291,8 @@ public CommoditiesForm(UNFPAMIDlet midlet) {
 
     public String toText() {
 
-        return  "Rapport(" + reporting_month.getString(reporting_month.getSelectedIndex())
-                + "/" + reporting_year.getString(reporting_year.getSelectedIndex()) + ")";
+        return  "P]:" + reporting_month.getString(reporting_month.getSelectedIndex())
+                + "/" + reporting_year.getString(reporting_year.getSelectedIndex());
     }
     
     public void commandAction(Command c, Displayable d) {
@@ -316,7 +316,9 @@ public CommoditiesForm(UNFPAMIDlet midlet) {
                 // if not, we alert and don't do anything else.
             if (!this.isComplete()) {
                 alert = new Alert("Données manquantes", "Tous les champs " +
-                             "requis doivent être remplis!", null, AlertType.ERROR);
+                                  "requis doivent être remplis!", null,
+                                  AlertType.ERROR);
+
                 alert.setTimeout(Alert.FOREVER);
                 this.midlet.display.setCurrent (alert, this);
                 return;
