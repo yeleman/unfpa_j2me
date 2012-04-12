@@ -48,13 +48,22 @@ public class HelpForm extends Form implements CommandListener {
                    "En cas de problème, contactez l'ANTIM.";
         } else if (section.equalsIgnoreCase("under5")) {
             text = "Renseignez uniquement la Mortalité infantile.\n" +
-               "En cas de problème, contactez l'ANTIM.";
+                "Si vous connaissez la date de naissance, indiquez le,sinon  indiquez l'age.\n" +
+                "Code village (visite): indiquez le code du village où a eu lieu la visite.\n" +
+                "Code village (décès): indiquez le code du village où a eu lieu le décès.\n" +
+                "Les codes de villages sont fourni à l'annexe.\n" +
+                "En cas de problème, contactez l'ANTIM.";
         } else if (section.equalsIgnoreCase("maternal")) {
             text = "Renseignez uniquement la Mortalité maternelle.\n" +
-               "En cas de problème, contactez l'ANTIM.";
+                "Si vous connaissez la date de naissance, indiquez le, sinon  indiquez l'age .\n" +
+                "Code village (visite): indiquez le code du village où a eu lieu la visite.\n" +
+                "Code village (décès): indiquez le code du village où a eu lieu le décès.\n" +
+                "Les codes de villages sont fourni à l'annexe.\n" +
+                "En cas de problème, contactez l'ANTIM.";
         } else if (section.equalsIgnoreCase("commodities")) {
             text = "Renseignez uniquement Commodities.\n" +
-               "En cas de problème, contactez l'ANTIM.";
+                "Si la structure fournit des produits indiquez le, puis donnez la quantité en stock.\n" +
+                "En cas de problème, contactez l'ANTIM.";
         } else {
             text = "Aucune aide disponible pour cet élément.";
         }
