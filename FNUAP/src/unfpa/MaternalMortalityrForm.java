@@ -182,6 +182,10 @@ public MaternalMortalityrForm(UNFPAMIDlet midlet) {
     public String toSMSFormat() {
         
         String fdob;
+        int reporting_date_array[] = SharedChecks.formatDateString(reporting_date.getDate());
+        int reporting_date_day = reporting_date_array[0];
+        int reporting_date_month = reporting_date_array[1];
+        int reporting_date_year = reporting_date_array[2];
 
         int dob_array[] = SharedChecks.formatDateString(dob.getDate());
         int dob_day = dob_array[0];
@@ -217,12 +221,14 @@ public MaternalMortalityrForm(UNFPAMIDlet midlet) {
         // fnuap dpw reporting_location name dob dod death_location
         // living_children dead_children pregnant pregnancy_weeks
         // pregnancy_related_death
-        return "fnuap dpw" + sep + reporting_location.getString() + sep
-                + name.getString() + sep + fdob + sep + dod_year + AddZero(dod_month)
-                + AddZero(dod_day) + sep + death_location.getString() + sep
-                + living_children.getString() + sep + dead_children.getString()
-                + sep + preg + sep + pregnancy_weeks.getString() + sep
-                + pregnancy_related;
+        return "fnuap dpw" + sep + reporting_date_year +  AddZero(reporting_date_month)
+                           + AddZero(reporting_date_day)
+                           + sep + reporting_location.getString() + sep
+                           + name.getString() + sep + fdob + sep + dod_year + AddZero(dod_month)
+                           + AddZero(dod_day) + sep + death_location.getString() + sep
+                           + living_children.getString() + sep + dead_children.getString()
+                           + sep + preg + sep + pregnancy_weeks.getString() + sep
+                           + pregnancy_related;
     }
 
     public String toText() {
