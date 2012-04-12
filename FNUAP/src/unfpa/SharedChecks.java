@@ -98,15 +98,17 @@ public class SharedChecks {
     }
 
     private static boolean is_before(int day1, int month1, int year1, int day2, int month2, int year2) {
-        if (year1 > year2) {
+
+        if (year1 < year2) {
             return true;
         }
         else if (year1 == year2) {
-            if (month1 > month2){
+
+            if (month1 < month2){
                 return true;
             }
             else if (month1 == month2){
-                if (day1 > day2){
+                if (day1 < day2){
                     return true;
                 }
                 else {
@@ -151,9 +153,9 @@ public class SharedChecks {
         int dod_month = dateU5[1];
         int dod_year = dateU5[2];
         if (is_before(dod_day, dod_month, dod_year, dob_day, dob_month, dob_year) == true)
-            return false;
-        else
             return true;
+        else
+            return false;
     }
 
     public static boolean ValidateCode(String code) {

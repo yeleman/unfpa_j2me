@@ -103,18 +103,13 @@ public class Under5Form extends Form implements CommandListener {
             return false;
         }
 
-        if (SharedChecks.isDateValide(dob.getDate()) != true) {
-            ErrorMessage = "(Date de naissance) " + ErrorMessage;
-            return false;
-        }
-
         if (SharedChecks.isDateValide(dod.getDate())!= true){
             
             ErrorMessage = "(Date de la mort) " + ErrorMessage;
             return false;
         }
 
-        if (SharedChecks.Under5(dob.getDate()) == true) {
+        if (SharedChecks.Under5(dob.getDate()) == false) {
             ErrorMessage = "L'enfant doit être moins de 5ans.";
             return false;
         }
@@ -130,7 +125,7 @@ public class Under5Form extends Form implements CommandListener {
         }
 
         if (SharedChecks.compareDobDod(dob.getDate(), dod.getDate()) == true) {
-            ErrorMessage = "[Erreur] la date de la mort est superieur à la date de la naissance";
+            ErrorMessage = "[Erreur] la date de la mort ne peut pas être inferieure à la date de la naissance";
             return false;
         }
 
