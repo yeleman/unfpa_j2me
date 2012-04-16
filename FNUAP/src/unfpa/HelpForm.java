@@ -39,30 +39,31 @@ public class HelpForm extends Form implements CommandListener {
         String text;
 
         if (section.equalsIgnoreCase("mainmenu")) {
-            text = "Chaque élément de la liste correspond à un formulaire.\n" +
-                   "Entrez dans celui qui correspond à votre opération puis " +
+            text = "Ouvrer le formulaire qui correspond à votre opération puis " +
                    "renseignez les champs et envoyez.\n" +
+                   "Un SMS non envoyé est sauvegardé dans <<Envoi form>>" +
                    "En cas de problème, contactez l'ANTIM.";
         } else if (section.equalsIgnoreCase("version")) {
             text = "FNUAP - Version " + Constants.version + "\n\n" +
                    "En cas de problème, contactez l'ANTIM.";
         } else if (section.equalsIgnoreCase("under5")) {
-            text = "Renseignez uniquement la Mortalité infantile.\n" +
-                "Si vous connaissez la date de naissance, indiquez le,sinon  indiquez l'age.\n" +
-                "Code village (visite): indiquez le code du village où a eu lieu la visite.\n" +
-                "Code village (décès): indiquez le code du village où a eu lieu le décès.\n" +
+            text = "Si vous connaissez la date de naissance, indiquez la, sinon indiquez l'age dans les formats suivants 5a(5ans) ou 5m(5mois).\n" +
+                "Indiquez le code du village où a eu lieu la visite.\n" +
+                "Indiquez le code du village où a eu lieu le décès.\n" +
                 "Les codes de villages sont fourni à l'annexe.\n" +
                 "En cas de problème, contactez l'ANTIM.";
         } else if (section.equalsIgnoreCase("maternal")) {
-            text = "Renseignez uniquement la Mortalité maternelle.\n" +
-                "Si vous connaissez la date de naissance, indiquez le, sinon  indiquez l'age .\n" +
-                "Code village (visite): indiquez le code du village où a eu lieu la visite.\n" +
-                "Code village (décès): indiquez le code du village où a eu lieu le décès.\n" +
+            text = "Si vous connaissez la date de naissance, indiquez la, sinon indiquez l'age dans les formats suivants 18a(18ans) ou 216m(216mois).\n" +
+                "Indiquez le code du village où a eu lieu la visite.\n" +
+                "Indiquez le code du village où a eu lieu le décès.\n" +
                 "Les codes de villages sont fourni à l'annexe.\n" +
                 "En cas de problème, contactez l'ANTIM.";
+        } else if (section.equalsIgnoreCase("saved_reports")) {
+            text = "Vous pouvez envoyer tous les SMS à la fois ou le faire un à un.\n" +
+                "En cas de problème, contactez l'ANTIM.";
         } else if (section.equalsIgnoreCase("commodities")) {
-            text = "Renseignez uniquement Commodities.\n" +
-                "Si la structure fournit des produits indiquez le, puis donnez la quantité en stock.\n" +
+            text = "Si la structure fournit des produits selectionnez oui et dans le champ dans bas indiquez la quantité.\n" +
+                "La période concernée est le mois precedant" +
                 "En cas de problème, contactez l'ANTIM.";
         } else {
             text = "Aucune aide disponible pour cet élément.";
