@@ -6,6 +6,7 @@ import unfpa.Configuration.*;
 import unfpa.Constants.*;
 import unfpa.HelpForm.*;
 import unfpa.SMSStore.*;
+import unfpa.SharedChecks.*;
 
 /**
  * J2ME Patient Registration Form
@@ -232,15 +233,7 @@ public CommoditiesForm(UNFPAMIDlet midlet) {
         }
         return true;
     }
-    
-    public String AddZero(int num){
-        String snum = "";
-        if (num < 10)
-            snum = "0" + num;
-        else
-            snum = snum + num;
-        return snum;
-    }
+
    /* Converts Form request to SMS message
      * @return <code>String</code> to be sent by SMS
      */
@@ -250,7 +243,7 @@ public CommoditiesForm(UNFPAMIDlet midlet) {
         String cscom_code = config.get("cscom_code");
         
         return "fnuap mps" + sep + reporting_year.getString(reporting_year.getSelectedIndex())
-                             + sep + AddZero(reporting_month.getSelectedIndex())
+                             + sep + SharedChecks.addzero(reporting_month.getSelectedIndex())
                              + sep + cscom_code
                              + sep + family_planning.getSelectedIndex()
                              + sep + delivery_services.getSelectedIndex()

@@ -170,37 +170,23 @@ public MaternalMortalityrForm(UNFPAMIDlet midlet) {
      * @return <code>String</code> to be sent by SMS
      */
 
-    public String AddZero(int num){
-        String snum = "";
-        if (num < 10)
-            snum = "0" + num;
-        else
-            snum = snum + num;
-        return snum;
-    }
+    int reporting_date_array[] = SharedChecks.formatDateString(reporting_date.getDate());
+    String reporting_d = String.valueOf(reporting_date_array[2]) + SharedChecks.addzero(reporting_date_array[1]) + String.valueOf(reporting_date_array[0]);
+    
+    int dob_array[] = SharedChecks.formatDateString(reporting_date.getDate());
+    String dob_d = String.valueOf(dob_array[2]) + SharedChecks.addzero(dob_array[1]) + String.valueOf(dob_array[0]);
+
+    int dod_array[] = SharedChecks.formatDateString(reporting_date.getDate());
+    String dod_d = String.valueOf(dod_array[2]) + SharedChecks.addzero(dod_array[1]) + String.valueOf(dod_array[0]);
 
     public String toSMSFormat() {
         
         String fdob;
-        int reporting_date_array[] = SharedChecks.formatDateString(reporting_date.getDate());
-        int reporting_date_day = reporting_date_array[0];
-        int reporting_date_month = reporting_date_array[1];
-        int reporting_date_year = reporting_date_array[2];
-
-        int dob_array[] = SharedChecks.formatDateString(dob.getDate());
-        int dob_day = dob_array[0];
-        int dob_month = dob_array[1];
-        int dob_year = dob_array[2];
-
-        int dod_array[] = SharedChecks.formatDateString(dod.getDate());
-        int dod_day = dod_array[0];
-        int dod_month = dod_array[1];
-        int dod_year = dod_array[2];
 
         if (age.getString().length() != 0)
             fdob = age.getString();
         else
-            fdob = dob_year + AddZero(dob_month) + AddZero(dob_day);
+            fdob = dob_d;
 
        int pregnancy_related;
         if ((pregnancy_related_deathField.getString(pregnancy_related_deathField.getSelectedIndex()).equals("N/A"))){
@@ -212,24 +198,15 @@ public MaternalMortalityrForm(UNFPAMIDlet midlet) {
         // fnuap dpw reporting_location name dob dod death_location
         // living_children dead_children pregnant pregnancy_weeks
         // pregnancy_related_death
-        return "fnuap dpw" + sep + reporting_date_year +  AddZero(reporting_date_month)
-                           + AddZero(reporting_date_day)
-                           + sep + reporting_location.getString() + sep
-                           + name.getString() + sep + fdob + sep + dod_year + AddZero(dod_month)
-                           + AddZero(dod_day) + sep + death_location.getString() + sep
+        return "fnuap dpw" + sep + reporting_d + sep + reporting_location.getString() + sep
+                           + name.getString() + sep + fdob + sep + dod_d + sep + death_location.getString() + sep
                            + living_children.getString() + sep + dead_children.getString()
                            + sep + pregnantField.getSelectedIndex() + sep + pregnancy_weeks.getString() + sep
                            + pregnancy_related;
     }
 
     public String toText() {
-        int dob_array[] = SharedChecks.formatDateString(dob.getDate());
-        int day = dob_array[0];
-        int month = dob_array[1];
-        int year = dob_array[2];
-
-        return "F]: " + name.getString() + " " + year + "/"
-                    + month + "/" + day;
+        return "F]: " + name.getString() + " " + dob_d;
     }
 
     public void commandAction(Command c, Displayable d) {

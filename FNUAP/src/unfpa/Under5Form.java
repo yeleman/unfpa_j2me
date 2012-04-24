@@ -132,15 +132,6 @@ public class Under5Form extends Form implements CommandListener {
         return true;
     }
 
-    public String AddZero(int num){
-        String snum = "";
-        if (num < 10)
-            snum = "0" + num;
-        else
-            snum = snum + num;
-        return snum;
-    }
-
     public String toSMSFormat() {
 
         String fdob;

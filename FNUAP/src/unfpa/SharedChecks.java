@@ -166,5 +166,13 @@ public class SharedChecks {
             return true;
         }
     }
+    public static String addzero(int num){
+        String snum = "";
+        if (num < 10)
+            snum = "0" + num;
+        else
+            snum = snum + num;
+        return snum;
+    }
 
 }

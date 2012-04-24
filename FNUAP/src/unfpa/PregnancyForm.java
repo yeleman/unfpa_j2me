@@ -129,10 +129,10 @@ public PregnancyForm(UNFPAMIDlet midlet) {
      */
 
     int date_recording_array[] = SharedChecks.formatDateString(date_recording.getDate());
-    String d_recording = String.valueOf(date_recording_array[2]) + String.valueOf(date_recording_array[1]) + String.valueOf(date_recording_array[0]);
+    String d_recording = String.valueOf(date_recording_array[2]) + SharedChecks.addzero(date_recording_array[1]) + String.valueOf(date_recording_array[0]);
 
     int  expected_date_c_array[] = SharedChecks.formatDateString(expected_date_confinement.getDate());
-    String expect_date_c = String.valueOf(expected_date_c_array[2]) + String.valueOf(expected_date_c_array[1]) + String.valueOf(expected_date_c_array[0]);
+    String expect_date_c = String.valueOf(expected_date_c_array[2]) + SharedChecks.addzero(expected_date_c_array[1]) + String.valueOf(expected_date_c_array[0]);
     
     public String toSMSFormat() {
         
@@ -142,7 +142,7 @@ public PregnancyForm(UNFPAMIDlet midlet) {
         if (end_pregnancyfield.getString(end_pregnancyfield.getSelectedIndex()).equals("OUI")){
             resul_pregnancy = resulting_pregnancyfield.getSelectedIndex();
             int date_pregnancy_array[] = SharedChecks.formatDateString(date_pregnancy.getDate());
-            d_pregnancy = String.valueOf(date_pregnancy_array[2]) + String.valueOf(date_pregnancy_array[1]) + String.valueOf(date_pregnancy_array[0]);
+            d_pregnancy = String.valueOf(date_pregnancy_array[2]) + SharedChecks.addzero(date_pregnancy_array[1]) + String.valueOf(date_pregnancy_array[0]);
         }
 
         return "fnuap gpw" + sep + name_household_head.getString()
@@ -158,7 +158,7 @@ public PregnancyForm(UNFPAMIDlet midlet) {
 
     public String toText() {
 
-        return "P]: " + name_household_head.getString() + " " + d_recording;
+        return "F]: " + name_household_head.getString() + " " + d_recording;
     }
 
     public void commandAction(Command c, Displayable d) {
