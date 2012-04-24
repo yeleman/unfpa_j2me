@@ -84,8 +84,6 @@ public class Under5Form extends Form implements CommandListener {
 
     public boolean isComplete() {
 
-        // TODO: ajouter tous les champs.
-
         // all fields are required to be filled.
         if (name.getString().length() == 0||
             reporting_location.getString().length() == 0||

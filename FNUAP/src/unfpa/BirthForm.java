@@ -38,6 +38,7 @@ public class BirthForm extends Form implements CommandListener {
     private TextField name_mother;
     private TextField name_father;
     private TextField name_child;
+    private TextField reporting_location;
     private static final String[] sexList= {"F", "M"};
     private ChoiceGroup sex;
     private static final String[] YesNon = {"OUI", "NON"};
@@ -71,13 +72,14 @@ public class BirthForm extends Form implements CommandListener {
         name_child = new TextField("Nom de l'enfant", null, 20, TextField.ANY);
         other = new TextField("Précision", null, 20, TextField.ANY);
         age =  new TextField("Age (DDN inconnue):", null, Constants.AGE_STR_MAX, TextField.ANY);
+        reporting_location = new TextField("Code village (visite):", null, Constants.LOC_CODE_MAX, TextField.ANY);
 
         //choice
         location = new ChoiceGroup("Lieu de Naissance:", ChoiceGroup.POPUP, TypeLocation, null);
         sex = new ChoiceGroup("Sexe:", ChoiceGroup.POPUP, sexList, null);
         born_alive = new ChoiceGroup("Né vivant:", ChoiceGroup.POPUP, YesNon, null);
         
-
+        append(reporting_location);
         append(householder);
         append(reporting_date);
         append(name_father);
@@ -99,10 +101,9 @@ public class BirthForm extends Form implements CommandListener {
 
     public boolean isComplete() {
 
-        // TODO: ajouter tous les champs.
-
         // all fields are required to be filled.
-        if (householder.getString().length() == 0||
+        if (reporting_location.getString().length() == 0||
+            householder.getString().length() == 0||
             name_father.getString().length() == 0||
             name_mother.getString().length() == 0||
             name_child.getString().length() == 0) {
@@ -116,6 +117,16 @@ public class BirthForm extends Form implements CommandListener {
 
         if (SharedChecks.isDateValide(reporting_date.getDate()) != true) {
             ErrorMessage = "(Date repportage) " + ErrorMessage;
+            return false;
+        }
+
+        if (SharedChecks.isDateValide(dob.getDate()) != true) {
+            ErrorMessage = "(Date repportage) " + ErrorMessage;
+            return false;
+        }
+
+        if (SharedChecks.ValidateCode(reporting_location.getString()) == true) {
+            ErrorMessage = "[Code village (visite)] ce code n'est pas valide";
             return false;
         }
 
@@ -164,9 +175,9 @@ public class BirthForm extends Form implements CommandListener {
         else
             born = 0;
 
-        System.out.print("alou");
         return "fnuap born" + sep + reporting_date_year +  AddZero(reporting_date_month)
                            + AddZero(reporting_date_day) + sep
+                           + reporting_location.getString() + sep
                            + householder.getString() + sep
                            + name_father.getString() + sep
                            + name_mother.getString() + sep
