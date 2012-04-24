@@ -202,20 +202,11 @@ public MaternalMortalityrForm(UNFPAMIDlet midlet) {
         else
             fdob = dob_year + AddZero(dob_month) + AddZero(dob_day);
 
-        String preg;
-        if ((pregnantField.getString(pregnantField.getSelectedIndex()).equals("OUI"))){
-            preg = "1";
+       int pregnancy_related;
+        if ((pregnancy_related_deathField.getString(pregnancy_related_deathField.getSelectedIndex()).equals("N/A"))){
+            pregnancy_related = -1;
         } else {
-            preg = "0";
-        }
-
-       String pregnancy_related;
-        if ((pregnancy_related_deathField.getString(pregnancy_related_deathField.getSelectedIndex()).equals("OUI"))){
-            pregnancy_related = "1";
-        } else if ((pregnancy_related_deathField.getString(pregnancy_related_deathField.getSelectedIndex()).equals("NON"))){
-            pregnancy_related = "0";
-        } else {
-            pregnancy_related = "-1";
+            pregnancy_related = pregnancy_related_deathField.getSelectedIndex();
         }
 
         // fnuap dpw reporting_location name dob dod death_location
@@ -227,7 +218,7 @@ public MaternalMortalityrForm(UNFPAMIDlet midlet) {
                            + name.getString() + sep + fdob + sep + dod_year + AddZero(dod_month)
                            + AddZero(dod_day) + sep + death_location.getString() + sep
                            + living_children.getString() + sep + dead_children.getString()
-                           + sep + preg + sep + pregnancy_weeks.getString() + sep
+                           + sep + pregnantField.getSelectedIndex() + sep + pregnancy_weeks.getString() + sep
                            + pregnancy_related;
     }
 
