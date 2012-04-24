@@ -132,49 +132,38 @@ public class Under5Form extends Form implements CommandListener {
         return true;
     }
 
+    int reporting_date_array[] = SharedChecks.formatDateString(reporting_date.getDate());
+    String reporting_d = String.valueOf(reporting_date_array[2]) + SharedChecks.addzero(reporting_date_array[1]) + SharedChecks.addzero(reporting_date_array[0]);
+    
+    int dob_array[] = SharedChecks.formatDateString(dob.getDate());
+    String dob_d = String.valueOf(dob_array[2]) + SharedChecks.addzero(dob_array[1]) + SharedChecks.addzero(dob_array[0]);
+
+    int dod_array[] = SharedChecks.formatDateString(dod.getDate());
+    String dod_d = String.valueOf(dod_array[2]) + SharedChecks.addzero(dod_array[1]) + SharedChecks.addzero(dod_array[0]);
+
     public String toSMSFormat() {
 
         String fdob;
-        
-        int reporting_date_array[] = SharedChecks.formatDateString(reporting_date.getDate());
-        int reporting_date_day = reporting_date_array[0];
-        int reporting_date_month = reporting_date_array[1];
-        int reporting_date_year = reporting_date_array[2];
-
-        int dob_array[] = SharedChecks.formatDateString(dob.getDate());
-        int dob_day = dob_array[0];
-        int dob_month = dob_array[1];
-        int dob_year = dob_array[2];
-
-        int dod_array[] = SharedChecks.formatDateString(dod.getDate());
-        int dod_day = dod_array[0];
-        int dod_month = dod_array[1];
-        int dod_year = dod_array[2];
 
         if (age.getString().length() != 0)
             fdob = age.getString();
         else
-            fdob = dob_year + AddZero(dob_month) + AddZero(dob_day);
+            fdob = dob_d;
 
-        return "fnuap du5 " + sep + reporting_date_year +  AddZero(reporting_date_month)
-                           + AddZero(reporting_date_day) + sep
-                           + reporting_location.getString() + sep
-                           + name.getString() + sep
-                           + fdob + sep
-                           + dod_year + AddZero(dod_month) + AddZero(dod_day)
-                           + sep + death_location.getString();
+        return "fnuap du5 " + sep + reporting_d + sep
+                            + reporting_location.getString() 
+                            + sep + name.getString() + sep
+                            + fdob + sep + dod_d
+                            + sep + death_location.getString();
     }
 
+    
     public String toText() {
 
-        int dod_array[] = SharedChecks.formatDateString(dod.getDate());
-        int dod_day = dod_array[0];
-        int dod_month = dod_array[1];
-        int dod_year = dod_array[2];
-
-        return "E] " + name.getString() + sep + dod_year + "/"
-                            + dod_month + "/" + dod_day;
+        return "E] " + name.getString() + sep + reporting_date_array[0] +
+                "/" + reporting_date_array[1] + "/" + reporting_date_array[2] ;
     }
+
 
     public void commandAction(Command c, Displayable d) {
         // help command displays Help Form.

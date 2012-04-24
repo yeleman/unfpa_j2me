@@ -129,10 +129,10 @@ public PregnancyForm(UNFPAMIDlet midlet) {
      */
 
     int date_recording_array[] = SharedChecks.formatDateString(date_recording.getDate());
-    String d_recording = String.valueOf(date_recording_array[2]) + SharedChecks.addzero(date_recording_array[1]) + String.valueOf(date_recording_array[0]);
+    String d_recording = String.valueOf(date_recording_array[2]) + SharedChecks.addzero(date_recording_array[1]) + SharedChecks.addzero(date_recording_array[0]);
 
     int  expected_date_c_array[] = SharedChecks.formatDateString(expected_date_confinement.getDate());
-    String expect_date_c = String.valueOf(expected_date_c_array[2]) + SharedChecks.addzero(expected_date_c_array[1]) + String.valueOf(expected_date_c_array[0]);
+    String expect_date_c = String.valueOf(expected_date_c_array[2]) + SharedChecks.addzero(expected_date_c_array[1]) + SharedChecks.addzero(expected_date_c_array[0]);
     
     public String toSMSFormat() {
         
@@ -158,7 +158,8 @@ public PregnancyForm(UNFPAMIDlet midlet) {
 
     public String toText() {
 
-        return "F]: " + name_household_head.getString() + " " + d_recording;
+        return "F]: " + name_household_head.getString() + sep + date_recording_array[0] +
+                "/" + date_recording_array[1] + "/" + date_recording_array[2];
     }
 
     public void commandAction(Command c, Displayable d) {
