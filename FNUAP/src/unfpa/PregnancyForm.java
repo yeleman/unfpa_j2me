@@ -50,7 +50,7 @@ public class PregnancyForm extends Form implements CommandListener {
 
 
 public PregnancyForm(UNFPAMIDlet midlet) {
-    super("pregnancy");
+    super("Données de grossesses");
     this.midlet = midlet;
 
     config = new Configuration();
@@ -59,15 +59,15 @@ public PregnancyForm(UNFPAMIDlet midlet) {
     name_household_head =  new TextField("Nom du chef de menage:", null, 20, TextField.ANY);
     date_recording =  new DateField("Date enregistrement:", DateField.DATE, TimeZone.getTimeZone("GMT"));
     date_recording.setDate(new Date());
-    name_pregnant_woman =  new TextField("Nom femme enceinte:", null, 20, TextField.ANY);
+    name_pregnant_woman =  new TextField("Nom de la femme enceinte:", null, 20, TextField.ANY);
     age =  new TextField("Age:", null, 4, TextField.NUMERIC);
-    name_husband =  new TextField("Nom du mari:", null, 20, TextField.ANY);
-    age_pregnancy =  new TextField("Age grossesse en mois:",  null, 2, TextField.NUMERIC);
-    expected_date_confinement =  new DateField("date probable d'accouchement:", DateField.DATE, TimeZone.getTimeZone("GMT"));
+    name_husband =  new TextField("Nom de son mari:", null, 20, TextField.ANY);
+    age_pregnancy =  new TextField("Age de la grossesse (en mois):",  null, 2, TextField.NUMERIC);
+    expected_date_confinement =  new DateField("Date probable d'accouchement:", DateField.DATE, TimeZone.getTimeZone("GMT"));
     expected_date_confinement.setDate(new Date());
-    end_pregnancyfield = new ChoiceGroup("La grossesse est terminé? ", ChoiceGroup.POPUP, choix, null);
+    end_pregnancyfield = new ChoiceGroup("La grossesse est elle terminée? ", ChoiceGroup.POPUP, choix, null);
     resulting_pregnancyfield = new ChoiceGroup("Issu de la grossesse:", ChoiceGroup.POPUP, resulting_pregnancy, null);
-    date_pregnancy =  new DateField("date de issu de la grossesse:", DateField.DATE, TimeZone.getTimeZone("GMT"));
+    date_pregnancy =  new DateField("Date de l'issu de la grossesse:", DateField.DATE, TimeZone.getTimeZone("GMT"));
     date_pregnancy.setDate(new Date());
 
     // add fields to forms
@@ -113,11 +113,11 @@ public PregnancyForm(UNFPAMIDlet midlet) {
         int agepregnancy =  Integer.parseInt(age_pregnancy.getString());
 
         if (agepregnancy < 0){
-            ErrorMessage = "le mois doit être supérieur a zéro.";
+            ErrorMessage = "Le mois doit être supérieur à zéro.";
             return false;
         }
         if (agepregnancy > 12){
-                ErrorMessage = "le mois doit être inférieur a 12.";
+                ErrorMessage = "Le mois doit être inférieur à 12.";
                 return false;
             }
 
@@ -164,7 +164,7 @@ public PregnancyForm(UNFPAMIDlet midlet) {
     public void commandAction(Command c, Displayable d) {
         // help command displays Help Form.
         if (c == CMD_HELP) {
-            HelpForm h = new HelpForm(this.midlet, this, "maternal");
+            HelpForm h = new HelpForm(this.midlet, this, "pregnancy");
                                       this.midlet.display.setCurrent(h);
         }
 
