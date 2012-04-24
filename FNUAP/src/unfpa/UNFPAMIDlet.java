@@ -8,7 +8,7 @@ import unfpa.MaternalMortalityrForm.*;
 import unfpa.CommoditiesForm.*;
 import unfpa.SMSStore.*;
 import unfpa.StoredSMS.*;
-// import unfpa.SendSaveForm.*;
+import unfpa.PregnancyForm.*;
 import unfpa.SendSavedReports.*;
 import unfpa.BirthForm.*;
 
@@ -35,7 +35,7 @@ public class UNFPAMIDlet extends MIDlet implements CommandListener {
         config = new Configuration();
         SMSStore store = new SMSStore();
 
-        String[] mainMenu_items = {"Mortalité infantile", "Mortalité maternelle", "Naissance", "Dispo. Produits", "Envoi form. ("+ store.count() +")"};
+        String[] mainMenu_items = {"Mortalité infantile", "Mortalité maternelle", "Naissance", "Grossesse form", "Dispo. Produits", "Envoi form. ("+ store.count() +")"};
         mainMenu = new List("Formulaires FNUAP", Choice.IMPLICIT, mainMenu_items, null);
 
         // setup menu
@@ -82,14 +82,21 @@ public class UNFPAMIDlet extends MIDlet implements CommandListener {
                     display.setCurrent (birth_form);
                     break;
 
-                // products
+                // pregnancy form
                 case 3:
+                    PregnancyForm pregnancy_reports = new PregnancyForm(this);
+                    display.setCurrent (pregnancy_reports);
+                    break;
+
+                // products
+                case 4:
                     CommoditiesForm stock_form = new CommoditiesForm(this);
                     display.setCurrent (stock_form);
                     break;
 
+
                 // submit stored messages
-                case 4:
+                case 5:
                     SendSavedReports saved_reports = new SendSavedReports(this);
                     display.setCurrent (saved_reports);
                     break;
