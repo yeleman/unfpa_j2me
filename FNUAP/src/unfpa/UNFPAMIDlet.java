@@ -10,6 +10,7 @@ import unfpa.SMSStore.*;
 import unfpa.StoredSMS.*;
 import unfpa.PregnancyForm.*;
 import unfpa.SendSavedReports.*;
+import unfpa.BirthForm.*;
 
 /*
  * J2ME Midlet allowing user to fill and submit UNFPA Forms
@@ -34,7 +35,7 @@ public class UNFPAMIDlet extends MIDlet implements CommandListener {
         config = new Configuration();
         SMSStore store = new SMSStore();
 
-        String[] mainMenu_items = {"Mortalité infantile", "Mortalité maternelle", "Dispo. Produits", "Grossesse form", "Envoi form. ("+ store.count() +")"};
+        String[] mainMenu_items = {"Mortalité infantile", "Mortalité maternelle", "Naissance", "Grossesse form", "Dispo. Produits", "Envoi form. ("+ store.count() +")"};
         mainMenu = new List("Formulaires FNUAP", Choice.IMPLICIT, mainMenu_items, null);
 
         // setup menu
@@ -69,26 +70,33 @@ public class UNFPAMIDlet extends MIDlet implements CommandListener {
                     display.setCurrent (u5_form);
                     break;
 
-		        // Form mother
+                // Form mother
                 case 1:
                      MaternalMortalityrForm matmor_form = new MaternalMortalityrForm(this);
                      display.setCurrent (matmor_form);
                     break;
 
-                // products
+                // Birth
                 case 2:
-                    CommoditiesForm stock_form = new CommoditiesForm(this);
-                    display.setCurrent (stock_form);
+                    BirthForm birth_form = new BirthForm(this);
+                    display.setCurrent (birth_form);
                     break;
 
-                // submit stored messages
+                // pregnancy form
                 case 3:
                     PregnancyForm pregnancy_reports = new PregnancyForm(this);
                     display.setCurrent (pregnancy_reports);
                     break;
 
-                // submit stored messages
+                // products
                 case 4:
+                    CommoditiesForm stock_form = new CommoditiesForm(this);
+                    display.setCurrent (stock_form);
+                    break;
+
+
+                // submit stored messages
+                case 5:
                     SendSavedReports saved_reports = new SendSavedReports(this);
                     display.setCurrent (saved_reports);
                     break;

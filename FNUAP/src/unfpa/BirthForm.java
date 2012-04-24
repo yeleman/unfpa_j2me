@@ -16,7 +16,7 @@ import java.util.Date;
  * @author alou/fadiga
  */
 
-public class Under5Form extends Form implements CommandListener {
+public class BirthForm extends Form implements CommandListener {
 
     private static final Command CMD_EXIT = new Command ("Retour",
                                                             Command.BACK, 1);
@@ -34,46 +34,61 @@ public class Under5Form extends Form implements CommandListener {
 
     //register
     private DateField reporting_date;
-    private TextField reporting_location;
-    private TextField death_location;
-    private TextField name;
+    private TextField householder;
+    private TextField name_mother;
+    private TextField name_father;
+    private TextField name_child;
+    private static final String[] sexList= {"F", "M"};
+    private ChoiceGroup sex;
+    private static final String[] YesNon = {"OUI", "NON"};
+    private static final String[] TypeLocation = {"Domicile", "Centre", "Autre"};
+    private TextField other;
+    private ChoiceGroup born_alive;
+    private ChoiceGroup location;
     private DateField dob;
     private TextField age;
     private DateField dod;
     Date now = new Date();
     String sep = " ";
 
-    public Under5Form(UNFPAMIDlet midlet) {
-        super("Mortalité infantile");
+    public BirthForm(UNFPAMIDlet midlet) {
+        super("Données de naissance");
         this.midlet = midlet;
-    
+
         config = new Configuration();
         store = new SMSStore();
 
-        reporting_date =  new DateField("Date de visite:", DateField.DATE, TimeZone.getTimeZone("GMT"));
+        //date
+        reporting_date =  new DateField("Date d'enregistrement", DateField.DATE, TimeZone.getTimeZone("GMT"));
         reporting_date.setDate(now);
-
-        reporting_location = new TextField("Code village (visite):", null, Constants.LOC_CODE_MAX, TextField.ANY);
-
-        name = new TextField("Nom de l'enfant", null, 20, TextField.ANY);
-
         dob =  new DateField("Date de naissance:", DateField.DATE, TimeZone.getTimeZone("GMT"));
         dob.setDate(now);
 
+        //text
+        householder = new TextField("Chef de menage", null, 20, TextField.ANY);
+        name_mother = new TextField("Nom de la mère", null, 20, TextField.ANY);
+        name_father = new TextField("Nom du père", null, 20, TextField.ANY);
+        name_child = new TextField("Nom de l'enfant", null, 20, TextField.ANY);
+        other = new TextField("Précision", null, 20, TextField.ANY);
         age =  new TextField("Age (DDN inconnue):", null, Constants.AGE_STR_MAX, TextField.ANY);
 
-        dod =  new DateField("Date du décès:", DateField.DATE, TimeZone.getTimeZone("GMT"));
-        dod.setDate(now);
+        //choice
+        location = new ChoiceGroup("Lieu de Naissance:", ChoiceGroup.POPUP, TypeLocation, null);
+        sex = new ChoiceGroup("Sexe:", ChoiceGroup.POPUP, sexList, null);
+        born_alive = new ChoiceGroup("Né vivant:", ChoiceGroup.POPUP, YesNon, null);
+        
 
-        death_location = new TextField("Code village (décès):", null, Constants.LOC_CODE_MAX, TextField.ANY);
-
+        append(householder);
         append(reporting_date);
-        append(reporting_location);
-        append(name);
+        append(name_father);
+        append(name_mother);
+        append(name_child);
         append(age);
         append(dob);
-        append(dod);
-        append(death_location);
+        append(location);
+        append(other);
+        append(sex);
+        append(born_alive);
 
         addCommand(CMD_EXIT);
         addCommand(CMD_SAVE);
@@ -87,9 +102,10 @@ public class Under5Form extends Form implements CommandListener {
         // TODO: ajouter tous les champs.
 
         // all fields are required to be filled.
-        if (name.getString().length() == 0||
-            reporting_location.getString().length() == 0||
-            death_location.getString().length() == 0) {
+        if (householder.getString().length() == 0||
+            name_father.getString().length() == 0||
+            name_mother.getString().length() == 0||
+            name_child.getString().length() == 0) {
             return false;
         }
         return true;
@@ -103,70 +119,79 @@ public class Under5Form extends Form implements CommandListener {
             return false;
         }
 
-        if (SharedChecks.isDateValide(dod.getDate())!= true){
-            
-            ErrorMessage = "(Date de la mort) " + ErrorMessage;
-            return false;
-        }
-
-        if (SharedChecks.Under5(dob.getDate()) == false) {
-            ErrorMessage = "L'enfant doit être moins de 5ans.";
-            return false;
-        }
-
-        if (SharedChecks.ValidateCode(reporting_location.getString()) == true) {
-            ErrorMessage = "[Code village (visite)] ce code n'est pas valide";
-            return false;
-        }
-
-        if (SharedChecks.ValidateCode(death_location.getString()) == true) {
-            ErrorMessage = "[Code village (décès)] ce code n'est pas valide";
-            return false;
-        }
-
-        if (SharedChecks.compareDobDod(dob.getDate(), dod.getDate()) == true) {
-            ErrorMessage = "[Erreur] la date de la mort ne peut pas être inferieure à la date de la naissance";
-            return false;
-        }
-
         return true;
+    }
+
+    public String AddZero(int num){
+        String snum = "";
+        if (num < 10)
+            snum = "0" + num;
+        else
+            snum = snum + num;
+        return snum;
     }
 
     public String toSMSFormat() {
 
         String fdob;
+        String loc;
+        int born;
+
         int reporting_date_array[] = SharedChecks.formatDateString(reporting_date.getDate());
-        String reporting_d = String.valueOf(reporting_date_array[2]) + SharedChecks.addzero(reporting_date_array[1]) + SharedChecks.addzero(reporting_date_array[0]);
+        int reporting_date_day = reporting_date_array[0];
+        int reporting_date_month = reporting_date_array[1];
+        int reporting_date_year = reporting_date_array[2];
 
         int dob_array[] = SharedChecks.formatDateString(dob.getDate());
-        String dob_d = String.valueOf(dob_array[2]) + SharedChecks.addzero(dob_array[1]) + SharedChecks.addzero(dob_array[0]);
-
-        int dod_array[] = SharedChecks.formatDateString(dod.getDate());
-        String dod_d = String.valueOf(dod_array[2]) + SharedChecks.addzero(dod_array[1]) + SharedChecks.addzero(dod_array[0]);
+        int dob_day = dob_array[0];
+        int dob_month = dob_array[1];
+        int dob_year = dob_array[2];
 
         if (age.getString().length() != 0)
             fdob = age.getString();
         else
-            fdob = dob_d;
+            fdob = dob_year + AddZero(dob_month) + AddZero(dob_day);
 
-        return "fnuap du5 " + sep + reporting_d + sep
-                            + reporting_location.getString() 
-                            + sep + name.getString() + sep
-                            + fdob + sep + dod_d
-                            + sep + death_location.getString();
+        if (location.getString(location.getSelectedIndex()).equals("Domicile"))
+            loc = "D";
+        else if (location.getString(location.getSelectedIndex()).equals("Centre"))
+            loc = "C";
+        else
+            loc = other.getString();
+
+        if (born_alive.getString(born_alive.getSelectedIndex()).equals("OUI"))
+            born = 1;
+        else
+            born = 0;
+
+        System.out.print("alou");
+        return "fnuap born" + sep + reporting_date_year +  AddZero(reporting_date_month)
+                           + AddZero(reporting_date_day) + sep
+                           + householder.getString() + sep
+                           + name_father.getString() + sep
+                           + name_mother.getString() + sep
+                           + name_child.getString() + sep
+                           + fdob + sep
+                           + loc + sep
+                           + sex.getString(sex.getSelectedIndex()) + sep
+                           + born;
     }
 
-    
     public String toText() {
 
-        return "E] " + name.getString();
-    }
+        int dob_array[] = SharedChecks.formatDateString(dob.getDate());
+        int dob_day = dob_array[0];
+        int dob_month = dob_array[1];
+        int dob_year = dob_array[2];
 
+        return "N] " + householder.getString() + sep + dob_year + "/"
+                            + dob_month + "/" + dob_day;
+    }
 
     public void commandAction(Command c, Displayable d) {
         // help command displays Help Form.
         if (c == CMD_HELP) {
-            HelpForm h = new HelpForm(this.midlet, this, "under5");
+            HelpForm h = new HelpForm(this.midlet, this, "born");
             this.midlet.display.setCurrent(h);
         }
 

@@ -170,18 +170,17 @@ public MaternalMortalityrForm(UNFPAMIDlet midlet) {
      * @return <code>String</code> to be sent by SMS
      */
 
-    int reporting_date_array[] = SharedChecks.formatDateString(reporting_date.getDate());
-    String reporting_d = String.valueOf(reporting_date_array[2]) + SharedChecks.addzero(reporting_date_array[1]) + String.valueOf(reporting_date_array[0]);
-    
-    int dob_array[] = SharedChecks.formatDateString(dob.getDate());
-    String dob_d = String.valueOf(dob_array[2]) + SharedChecks.addzero(dob_array[1]) + String.valueOf(dob_array[0]);
-
-    int dod_array[] = SharedChecks.formatDateString(dod.getDate());
-    String dod_d = String.valueOf(dod_array[2]) + SharedChecks.addzero(dod_array[1]) + String.valueOf(dod_array[0]);
-
     public String toSMSFormat() {
         
         String fdob;
+        int reporting_date_array[] = SharedChecks.formatDateString(reporting_date.getDate());
+        String reporting_d = String.valueOf(reporting_date_array[2]) + SharedChecks.addzero(reporting_date_array[1]) + String.valueOf(reporting_date_array[0]);
+
+        int dob_array[] = SharedChecks.formatDateString(dob.getDate());
+        String dob_d = String.valueOf(dob_array[2]) + SharedChecks.addzero(dob_array[1]) + String.valueOf(dob_array[0]);
+
+        int dod_array[] = SharedChecks.formatDateString(dod.getDate());
+        String dod_d = String.valueOf(dod_array[2]) + SharedChecks.addzero(dod_array[1]) + String.valueOf(dod_array[0]);
 
         if (age.getString().length() != 0)
             fdob = age.getString();
@@ -206,8 +205,7 @@ public MaternalMortalityrForm(UNFPAMIDlet midlet) {
     }
 
     public String toText() {
-        return "F]: " + name.getString() + sep + reporting_date_array[0] +
-                "/" + reporting_date_array[1] + "/" + reporting_date_array[2];
+        return "F]: " + name.getString();
     }
 
     public void commandAction(Command c, Displayable d) {
