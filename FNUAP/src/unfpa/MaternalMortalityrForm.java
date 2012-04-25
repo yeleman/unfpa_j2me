@@ -35,6 +35,8 @@ public class MaternalMortalityrForm extends Form implements CommandListener {
     private String ErrorMessage = "";
     private static final String[] pregnant = {"NON", "OUI"};
     private static final String[] pregnancy_related_death = {"NON", "OUI", "N/A"};
+    private static final String[] place_death = {"Domicile", "Centre", "Autre"};
+    private static final String[] sex = {"F", "M"};
 
     //General Informatien
     private DateField reporting_date;
@@ -45,6 +47,8 @@ public class MaternalMortalityrForm extends Form implements CommandListener {
     private DateField dob;
     private TextField age;
     private DateField dod;
+    private ChoiceGroup sexfield;
+    private ChoiceGroup place_deathfield;
     private TextField death_location;
     private TextField living_children;
     private TextField dead_children;
@@ -67,6 +71,7 @@ public MaternalMortalityrForm(UNFPAMIDlet midlet) {
     
     name =  new TextField("Nom de la défunte:", null, 20, TextField.ANY);
 
+    sexfield = new ChoiceGroup("Sexe", ChoiceGroup.POPUP, sex, null);
     dob =  new DateField("Date de naissance:", DateField.DATE, TimeZone.getTimeZone("GMT"));
     dob.setDate(new Date());
 
@@ -75,7 +80,8 @@ public MaternalMortalityrForm(UNFPAMIDlet midlet) {
     dod =  new DateField("Date du décès:", DateField.DATE, TimeZone.getTimeZone("GMT"));
     dod.setDate(new Date());
 
-    death_location =  new TextField("Code village (décès):", null, Constants.LOC_CODE_MAX, TextField.ANY);
+    place_deathfield = new ChoiceGroup("Lieu le décès", ChoiceGroup.POPUP, place_death, null);
+    death_location =  new TextField("Vilage(décès):", null, 20, TextField.ANY);
 
     living_children =  new TextField("Nbre enfants (en vie):", null, 2, TextField.NUMERIC);
 
@@ -91,9 +97,11 @@ public MaternalMortalityrForm(UNFPAMIDlet midlet) {
     append(reporting_date);
     append(reporting_location);
     append(name);
+    append(sexfield);
     append(age);
     append(dob);
     append(dod);
+    append(place_deathfield);
     append(death_location);
     append(living_children);
     append(dead_children);
@@ -140,7 +148,11 @@ public MaternalMortalityrForm(UNFPAMIDlet midlet) {
             ErrorMessage = "Durée de la grossesse est obligatoire si la femme est en enceinte.";
             return false;
         }
-        
+
+        if (place_deathfield.getSelectedIndex() == 2 && death_location.getString().length() == 0){
+            ErrorMessage = "Donner un lieu de décès.";
+            return false;
+        }
         if (SharedChecks.isDateValide(reporting_date.getDate()) != true) {
             ErrorMessage = "(Date repportage) " + ErrorMessage;
             return false;
@@ -173,14 +185,20 @@ public MaternalMortalityrForm(UNFPAMIDlet midlet) {
     public String toSMSFormat() {
         
         String fdob;
+        String place_d;
+        if (place_deathfield.getSelectedIndex() == 2){
+            place_d = death_location.getString();
+        } else {
+            place_d = String.valueOf(place_deathfield.getSelectedIndex()); // 0=Domicile et 1=Centre
+        }
         int reporting_date_array[] = SharedChecks.formatDateString(reporting_date.getDate());
-        String reporting_d = String.valueOf(reporting_date_array[2]) + SharedChecks.addzero(reporting_date_array[1]) + String.valueOf(reporting_date_array[0]);
+        String reporting_d = String.valueOf(reporting_date_array[2]) + SharedChecks.addzero(reporting_date_array[1]) + SharedChecks.addzero(reporting_date_array[0]);
 
         int dob_array[] = SharedChecks.formatDateString(dob.getDate());
-        String dob_d = String.valueOf(dob_array[2]) + SharedChecks.addzero(dob_array[1]) + String.valueOf(dob_array[0]);
+        String dob_d = String.valueOf(dob_array[2]) + SharedChecks.addzero(dob_array[1]) + SharedChecks.addzero(dob_array[0]);
 
         int dod_array[] = SharedChecks.formatDateString(dod.getDate());
-        String dod_d = String.valueOf(dod_array[2]) + SharedChecks.addzero(dod_array[1]) + String.valueOf(dod_array[0]);
+        String dod_d = String.valueOf(dod_array[2]) + SharedChecks.addzero(dod_array[1]) + SharedChecks.addzero(dod_array[0]);
 
         if (age.getString().length() != 0)
             fdob = age.getString();
@@ -197,11 +215,18 @@ public MaternalMortalityrForm(UNFPAMIDlet midlet) {
         // fnuap dpw reporting_location name dob dod death_location
         // living_children dead_children pregnant pregnancy_weeks
         // pregnancy_related_death
-        return "fnuap dpw" + sep + reporting_d + sep + reporting_location.getString() + sep
-                           + name.getString() + sep + fdob + sep + dod_d + sep + death_location.getString() + sep
-                           + living_children.getString() + sep + dead_children.getString()
-                           + sep + pregnantField.getSelectedIndex() + sep + pregnancy_weeks.getString() + sep
-                           + pregnancy_related;
+        return "fnuap dpw" + sep + reporting_d
+                           + sep + reporting_location.getString() 
+                           + sep + name.getString()
+                           + sep + sexfield.getSelectedIndex()// 0=F 1=M
+                           + sep + fdob 
+                           + sep + dod_d 
+                           + sep + place_d
+                           + sep + living_children.getString() 
+                           + sep + dead_children.getString()
+                           + sep + pregnantField.getSelectedIndex() 
+                           + sep + pregnancy_weeks.getString()
+                           + sep + pregnancy_related;
     }
 
     public String toText() {

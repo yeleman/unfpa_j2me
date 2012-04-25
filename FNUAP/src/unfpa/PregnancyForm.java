@@ -142,7 +142,7 @@ public PregnancyForm(UNFPAMIDlet midlet) {
         if (end_pregnancyfield.getString(end_pregnancyfield.getSelectedIndex()).equals("OUI")){
             resul_pregnancy = resulting_pregnancyfield.getSelectedIndex();
             int date_pregnancy_array[] = SharedChecks.formatDateString(date_pregnancy.getDate());
-            d_pregnancy = String.valueOf(date_pregnancy_array[2]) + SharedChecks.addzero(date_pregnancy_array[1]) + String.valueOf(date_pregnancy_array[0]);
+            d_pregnancy = String.valueOf(date_pregnancy_array[2]) + SharedChecks.addzero(date_pregnancy_array[1]) + SharedChecks.addzero(date_pregnancy_array[0]);
         }
 
         return "fnuap gpw" + sep + name_household_head.getString()
