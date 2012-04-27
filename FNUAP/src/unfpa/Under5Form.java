@@ -33,6 +33,11 @@ public class Under5Form extends Form implements CommandListener {
     private SMSStore store;
 
     //register
+    private static final String[] sexList= {"F", "M"};
+    private static final String[] TypeLocation = {"Domicile", "Centre", "Autre"};
+    private ChoiceGroup sex;
+    private TextField other;
+    private ChoiceGroup location;
     private DateField reporting_date;
     private TextField reporting_location;
     private TextField death_location;
@@ -61,7 +66,9 @@ public class Under5Form extends Form implements CommandListener {
         dob.setDate(now);
 
         age =  new TextField("Age (DDN inconnue):", null, Constants.AGE_STR_MAX, TextField.ANY);
-
+        sex = new ChoiceGroup("Sexe:", ChoiceGroup.POPUP, sexList, null);
+        location = new ChoiceGroup("Lieu de Naissance:", ChoiceGroup.POPUP, TypeLocation, null);
+        other = new TextField("Précision", null, 20, TextField.ANY);
         dod =  new DateField("Date du décès:", DateField.DATE, TimeZone.getTimeZone("GMT"));
         dod.setDate(now);
 
@@ -73,7 +80,10 @@ public class Under5Form extends Form implements CommandListener {
         append(age);
         append(dob);
         append(dod);
+        append(sex);
         append(death_location);
+        append(location);
+        append(other);
 
         addCommand(CMD_EXIT);
         addCommand(CMD_SAVE);
@@ -132,6 +142,7 @@ public class Under5Form extends Form implements CommandListener {
 
     public String toSMSFormat() {
 
+        String loc;
         String fdob;
         int reporting_date_array[] = SharedChecks.formatDateString(reporting_date.getDate());
         String reporting_d = String.valueOf(reporting_date_array[2]) + SharedChecks.addzero(reporting_date_array[1]) + SharedChecks.addzero(reporting_date_array[0]);
@@ -147,11 +158,21 @@ public class Under5Form extends Form implements CommandListener {
         else
             fdob = dob_d;
 
+        if (location.getString(location.getSelectedIndex()).equals("Domicile"))
+            loc = "D";
+        else if (location.getString(location.getSelectedIndex()).equals("Centre"))
+            loc = "C";
+        else
+            loc = other.getString();
+
         return "fnuap du5 " + sep + reporting_d + sep
-                            + reporting_location.getString() 
-                            + sep + name.getString() + sep
-                            + fdob + sep + dod_d
-                            + sep + death_location.getString();
+                            + reporting_location.getString() + sep
+                            + name.getString() + sep
+                            + fdob + sep
+                            + dod_d + sep
+                            + death_location.getString() + sep
+                            + loc + sep
+                            + sex.getString(sex.getSelectedIndex()) + sep;
     }
 
     

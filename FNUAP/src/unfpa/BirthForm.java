@@ -48,7 +48,6 @@ public class BirthForm extends Form implements CommandListener {
     private ChoiceGroup location;
     private DateField dob;
     private TextField age;
-    private DateField dod;
     Date now = new Date();
     String sep = " ";
 
