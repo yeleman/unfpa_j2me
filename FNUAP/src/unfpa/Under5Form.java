@@ -104,6 +104,7 @@ public class Under5Form extends Form implements CommandListener {
     }
 
     public boolean isValid() {
+        // TODO la date visite ne doit pas être > a la date de naissance
         ErrorMessage = "La date indiquée est dans le futur.";
 
         if (SharedChecks.isDateValide(reporting_date.getDate()) != true) {
@@ -224,7 +225,6 @@ public class Under5Form extends Form implements CommandListener {
                                    null, AlertType.CONFIRMATION);
                 this.midlet.display.setCurrent (alert, this.midlet.mainMenu);
             } else {
-                // TODO: ajouter sauvegarde dans BDD.
 
                if (store.add(this.toText(), this.toSMSFormat())) {
                     alert = new Alert ("Échec d'envoi SMS", "Impossible d'envoyer" +
