@@ -35,20 +35,14 @@ public class MaternalMortalityrForm extends Form implements CommandListener {
     private String ErrorMessage = "";
     private static final String[] pregnant = {"NON", "OUI"};
     private static final String[] pregnancy_related_death = {"NON", "OUI", "N/A"};
-    private static final String[] place_death = {"Domicile", "Centre", "Autre"};
-    private static final String[] sex = {"F", "M"};
-
     //General Informatien
     private DateField reporting_date;
     private TextField reporting_location;
-
     // Maternal Mortality Form
     private TextField name;
     private DateField dob;
     private TextField age;
     private DateField dod;
-    private ChoiceGroup sexfield;
-    private ChoiceGroup place_deathfield;
     private TextField death_location;
     private TextField living_children;
     private TextField dead_children;
@@ -66,42 +60,27 @@ public MaternalMortalityrForm(UNFPAMIDlet midlet) {
 
     reporting_date =  new DateField("Date de visite:", DateField.DATE, TimeZone.getTimeZone("GMT"));
     reporting_date.setDate(new Date());
-
     reporting_location =  new TextField("Code village (visite):", null, Constants.LOC_CODE_MAX, TextField.ANY);
-    
     name =  new TextField("Nom de la défunte:", null, 20, TextField.ANY);
-
-    sexfield = new ChoiceGroup("Sexe", ChoiceGroup.POPUP, sex, null);
     dob =  new DateField("Date de naissance:", DateField.DATE, TimeZone.getTimeZone("GMT"));
     dob.setDate(new Date());
-
     age =  new TextField("Age (DDN inconnue):", null, Constants.AGE_STR_MAX, TextField.ANY);
-
     dod =  new DateField("Date du décès:", DateField.DATE, TimeZone.getTimeZone("GMT"));
     dod.setDate(new Date());
-
-    place_deathfield = new ChoiceGroup("Lieu le décès", ChoiceGroup.POPUP, place_death, null);
-    death_location =  new TextField("Vilage(décès):", null, 20, TextField.ANY);
-
+    death_location =  new TextField("Code vilage(décès):", null, Constants.LOC_CODE_MAX, TextField.ANY);
     living_children =  new TextField("Nbre enfants (en vie):", null, 2, TextField.NUMERIC);
-
     dead_children =  new TextField("Nbre enfants (décédés):", null, 2, TextField.NUMERIC);
-
     pregnantField = new ChoiceGroup("Grossesse en cours:", ChoiceGroup.POPUP, pregnant, null);
-
     pregnancy_weeks =  new TextField("Nb de semaine de grossesse:", null, 3, TextField.NUMERIC);
-
     pregnancy_related_deathField = new ChoiceGroup("Décès lié à la grossesse:", ChoiceGroup.POPUP, pregnancy_related_death, null);
 
     // add fields to forms
     append(reporting_date);
     append(reporting_location);
     append(name);
-    append(sexfield);
     append(age);
     append(dob);
     append(dod);
-    append(place_deathfield);
     append(death_location);
     append(living_children);
     append(dead_children);
@@ -145,14 +124,15 @@ public MaternalMortalityrForm(UNFPAMIDlet midlet) {
 
         if (pregnantField.getString(pregnantField.getSelectedIndex()).equals("OUI") &&
             pregnancy_weeks.getString().length() == 0) {
-            ErrorMessage = "Durée de la grossesse est obligatoire si la femme est en enceinte.";
+            ErrorMessage = "Durée de la grossesse est obligatoire si la femme est enceinte.";
+            return false;
+        }
+        if (pregnantField.getString(pregnantField.getSelectedIndex()).equals("NON") &&
+            pregnancy_weeks.getString().length() != 0) {
+            ErrorMessage = "Elle doit être enceinte s'il y a une duré de grossesse";
             return false;
         }
 
-        if (place_deathfield.getSelectedIndex() == 2 && death_location.getString().length() == 0){
-            ErrorMessage = "Donner un lieu de décès.";
-            return false;
-        }
         if (SharedChecks.isDateValide(reporting_date.getDate()) != true) {
             ErrorMessage = "(Date repportage) " + ErrorMessage;
             return false;
@@ -185,12 +165,6 @@ public MaternalMortalityrForm(UNFPAMIDlet midlet) {
     public String toSMSFormat() {
         
         String fdob;
-        String place_d;
-        if (place_deathfield.getSelectedIndex() == 2){
-            place_d = death_location.getString();
-        } else {
-            place_d = String.valueOf(place_deathfield.getSelectedIndex()); // 0=Domicile et 1=Centre
-        }
         int reporting_date_array[] = SharedChecks.formatDateString(reporting_date.getDate());
         String reporting_d = String.valueOf(reporting_date_array[2]) + SharedChecks.addzero(reporting_date_array[1]) + SharedChecks.addzero(reporting_date_array[0]);
 
@@ -211,6 +185,10 @@ public MaternalMortalityrForm(UNFPAMIDlet midlet) {
         } else {
             pregnancy_related = pregnancy_related_deathField.getSelectedIndex();
         }
+       String pregnancy_w = "-1";
+        if (pregnantField.getString(pregnantField.getSelectedIndex()).equals("OUI")){
+            pregnancy_w = pregnancy_weeks.getString();
+        }
 
         // fnuap dpw reporting_location name dob dod death_location
         // living_children dead_children pregnant pregnancy_weeks
@@ -218,14 +196,13 @@ public MaternalMortalityrForm(UNFPAMIDlet midlet) {
         return "fnuap dpw" + sep + reporting_d
                            + sep + reporting_location.getString() 
                            + sep + name.getString()
-                           + sep + sexfield.getSelectedIndex()// 0=F 1=M
-                           + sep + fdob 
-                           + sep + dod_d 
-                           + sep + place_d
+                           + sep + fdob
+                           + sep + dod_d
+                           + sep + death_location.getString()
                            + sep + living_children.getString() 
                            + sep + dead_children.getString()
                            + sep + pregnantField.getSelectedIndex() 
-                           + sep + pregnancy_weeks.getString()
+                           + sep + pregnancy_w
                            + sep + pregnancy_related;
     }
 
