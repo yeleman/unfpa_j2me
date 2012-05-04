@@ -77,10 +77,10 @@ public class Under5Form extends Form implements CommandListener {
         append(reporting_date);
         append(reporting_location);
         append(name);
+        append(sex);
         append(age);
         append(dob);
         append(dod);
-        append(sex);
         append(death_location);
         append(location);
         append(other);
@@ -138,6 +138,11 @@ public class Under5Form extends Form implements CommandListener {
             return false;
         }
 
+        if (age.getString().charAt(age.getString().length() - 1) != 'a'
+            || age.getString().charAt(age.getString().length() - 1)!='m'){
+            ErrorMessage = "Age doit être suivi d'un 'a' pour l'année ou d'un 'm' pour le mois" ;
+            return false;
+        }
         return true;
     }
 
@@ -166,19 +171,18 @@ public class Under5Form extends Form implements CommandListener {
         else
             loc = other.getString();
 
-        return "fnuap du5 " + sep + reporting_d + sep
-                            + reporting_location.getString() + sep
-                            + name.getString() + sep
-                            + fdob + sep
-                            + dod_d + sep
-                            + death_location.getString() + sep
-                            + loc + sep
-                            + sex.getString(sex.getSelectedIndex()) + sep;
+        return "fnuap du5 " + sep + reporting_d 
+                            + sep + reporting_location.getString()
+                            + sep + name.getString()
+                            + sep + sex.getString(sex.getSelectedIndex())
+                            + sep + fdob
+                            + sep + dod_d
+                            + sep + death_location.getString()
+                            + sep + loc;
     }
 
-    
-    public String toText() {
 
+    public String toText() {
         return "E] " + name.getString();
     }
 
@@ -207,7 +211,7 @@ public class Under5Form extends Form implements CommandListener {
                 this.midlet.display.setCurrent (alert, this);
                 return;
             }
-
+            
             if (!this.isValid()) {
                 alert = new Alert("Données incorrectes!", this.ErrorMessage,
                                   null, AlertType.ERROR);
@@ -225,7 +229,6 @@ public class Under5Form extends Form implements CommandListener {
                                    null, AlertType.CONFIRMATION);
                 this.midlet.display.setCurrent (alert, this.midlet.mainMenu);
             } else {
-
                if (store.add(this.toText(), this.toSMSFormat())) {
                     alert = new Alert ("Échec d'envoi SMS", "Impossible d'envoyer" +
                                        " la demande par SMS. Le rapport a été enregistré dans le téléphone.", null,
@@ -236,7 +239,6 @@ public class Under5Form extends Form implements CommandListener {
                 }
                 this.midlet.display.setCurrent (alert, this);
             }
-
         }
     }
 }
