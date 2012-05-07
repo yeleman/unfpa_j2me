@@ -104,7 +104,7 @@ public class Under5Form extends Form implements CommandListener {
     }
 
     public boolean isValid() {
-        // TODO la date visite ne doit pas être > a la date de naissance
+        
         ErrorMessage = "La date indiquée est dans le futur.";
 
         if (SharedChecks.isDateValide(reporting_date.getDate()) != true) {
@@ -136,13 +136,26 @@ public class Under5Form extends Form implements CommandListener {
         if (SharedChecks.compareDobDod(dob.getDate(), dod.getDate()) == true) {
             ErrorMessage = "[Erreur] la date de la mort ne peut pas être inferieure à la date de la naissance";
             return false;
-        }
-        String age_nbr = String.valueOf(age.getString().charAt(age.getString().length() - 1));
-        
-        if (!age_nbr.equals("a") && !age_nbr.equals("m")){
-            ErrorMessage = "Age doit être suivi d'un 'a' pour l'année ou d'un 'm' pour le mois" ;
+        }        
+
+        if (SharedChecks.compareDobDod(dob.getDate(), reporting_date.getDate()) == true) {
+            ErrorMessage = "[Erreur] la date de visite ne peut pas être inferieure à la date de la naissance";
             return false;
         }
+
+        if (age.getString().length()!= 0){
+            String age_nbr = String.valueOf(age.getString().charAt(age.getString().length() - 1));
+
+            if (!age_nbr.equals("a") && !age_nbr.equals("m")){
+                ErrorMessage = "Age doit être suivi d'un 'a' pour l'année ou d'un 'm' pour le mois" ;
+                return false;
+            }
+        }
+
+        if (location.getString(location.getSelectedIndex()).equals("Autre") && other.getString().length() == 0){
+                ErrorMessage = "La précision est obligatoire." ;
+                return false;
+            }
         return true;
     }
 
@@ -150,6 +163,7 @@ public class Under5Form extends Form implements CommandListener {
 
         String loc;
         String fdob;
+
         int reporting_date_array[] = SharedChecks.formatDateString(reporting_date.getDate());
         String reporting_d = String.valueOf(reporting_date_array[2]) + SharedChecks.addzero(reporting_date_array[1]) + SharedChecks.addzero(reporting_date_array[0]);
 
@@ -179,6 +193,7 @@ public class Under5Form extends Form implements CommandListener {
                             + sep + dod_d
                             + sep + death_location.getString()
                             + sep + loc;
+
     }
 
 
