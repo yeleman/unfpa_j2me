@@ -137,9 +137,9 @@ public class Under5Form extends Form implements CommandListener {
             ErrorMessage = "[Erreur] la date de la mort ne peut pas être inferieure à la date de la naissance";
             return false;
         }
-
-        if (age.getString().charAt(age.getString().length() - 1) != 'a'
-            || age.getString().charAt(age.getString().length() - 1)!='m'){
+        String age_nbr = String.valueOf(age.getString().charAt(age.getString().length() - 1));
+        
+        if (!age_nbr.equals("a") && !age_nbr.equals("m")){
             ErrorMessage = "Age doit être suivi d'un 'a' pour l'année ou d'un 'm' pour le mois" ;
             return false;
         }

@@ -151,6 +151,13 @@ public MaternalMortalityrForm(UNFPAMIDlet midlet) {
             return false;
         }
 
+        String age_nbr = String.valueOf(age.getString().charAt(age.getString().length() - 1));
+
+        if (!age_nbr.equals("a") && !age_nbr.equals("m")){
+            ErrorMessage = "Age doit être suivi d'un 'a' pour l'année ou d'un 'm' pour le mois" ;
+            return false;
+        }
+        
         if (SharedChecks.ValidateCode(reporting_location.getString()) == true) {
             ErrorMessage = "[Code village (visite)] ce code n'est pas valide";
             return false;
