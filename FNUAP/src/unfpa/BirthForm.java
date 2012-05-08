@@ -125,22 +125,30 @@ public class BirthForm extends Form implements CommandListener {
             ErrorMessage = "(Date repportage) " + ErrorMessage;
             return false;
         }
-
+        if (SharedChecks.compareDobDod(dob.getDate(), reporting_date.getDate()) == true) {
+            ErrorMessage = "[Erreur] la date de visite ne peut pas être inferieure à la date de la naissance";
+            return false;
+        }
         if (SharedChecks.ValidateCode(reporting_location.getString()) == true) {
             ErrorMessage = "[Code village (visite)] ce code n'est pas valide";
             return false;
         }
+        
+        if (age.getString().length()!= 0){
+            String age_nbr = String.valueOf(age.getString().charAt(age.getString().length() - 1));
 
+            if (!age_nbr.equals("a") && !age_nbr.equals("m")){
+                ErrorMessage = "Age doit être suivi d'un 'a' pour l'année ou d'un 'm' pour le mois" ;
+                return false;
+            }
+        }
+
+        if (location.getString(location.getSelectedIndex()).equals("Autre") && other.getString().length() == 0){
+                ErrorMessage = "La précision est obligatoire." ;
+                return false;
+            }
+        
         return true;
-    }
-
-    public String AddZero(int num){
-        String snum = "";
-        if (num < 10)
-            snum = "0" + num;
-        else
-            snum = snum + num;
-        return snum;
     }
 
     public String toSMSFormat() {
@@ -162,7 +170,7 @@ public class BirthForm extends Form implements CommandListener {
         if (age.getString().length() != 0)
             fdob = age.getString();
         else
-            fdob = dob_year + AddZero(dob_month) + AddZero(dob_day);
+            fdob = dob_year + SharedChecks.addzero(dob_month) + SharedChecks.addzero(dob_day);
 
         if (location.getString(location.getSelectedIndex()).equals("Domicile"))
             loc = "D";
@@ -176,17 +184,16 @@ public class BirthForm extends Form implements CommandListener {
         else
             born = 0;
 
-        return "fnuap born" + sep + reporting_date_year +  AddZero(reporting_date_month)
-                           + AddZero(reporting_date_day) + sep
-                           + reporting_location.getString() + sep
-                           + householder.getString() + sep
-                           + name_father.getString() + sep
-                           + name_mother.getString() + sep
-                           + name_child.getString() + sep
-                           + fdob + sep
-                           + loc + sep
-                           + sex.getString(sex.getSelectedIndex()) + sep
-                           + born;
+        return "fnuap born" + sep + reporting_date_year +  SharedChecks.addzero(reporting_date_month) + SharedChecks.addzero(reporting_date_day)
+                            + sep + reporting_location.getString()
+                            + sep  + householder.getString()
+                            + sep + name_father.getString()
+                            + sep + name_mother.getString()
+                            + sep  + name_child.getString()
+                            + sep + fdob
+                            + sep + loc
+                            + sep + sex.getString(sex.getSelectedIndex())
+                            + sep + born;
     }
 
     public String toText() {

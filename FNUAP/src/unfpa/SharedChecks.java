@@ -152,6 +152,7 @@ public class SharedChecks {
         int dod_day = dateU5[0];
         int dod_month = dateU5[1];
         int dod_year = dateU5[2];
+
         if (is_before(dod_day, dod_month, dod_year, dob_day, dob_month, dob_year) == true)
             return true;
         else

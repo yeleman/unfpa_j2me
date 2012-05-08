@@ -77,10 +77,10 @@ public class Under5Form extends Form implements CommandListener {
         append(reporting_date);
         append(reporting_location);
         append(name);
+        append(sex);
         append(age);
         append(dob);
         append(dod);
-        append(sex);
         append(death_location);
         append(location);
         append(other);
@@ -104,7 +104,7 @@ public class Under5Form extends Form implements CommandListener {
     }
 
     public boolean isValid() {
-        // TODO la date visite ne doit pas être > a la date de naissance
+        
         ErrorMessage = "La date indiquée est dans le futur.";
 
         if (SharedChecks.isDateValide(reporting_date.getDate()) != true) {
@@ -136,8 +136,26 @@ public class Under5Form extends Form implements CommandListener {
         if (SharedChecks.compareDobDod(dob.getDate(), dod.getDate()) == true) {
             ErrorMessage = "[Erreur] la date de la mort ne peut pas être inferieure à la date de la naissance";
             return false;
+        }        
+
+        if (SharedChecks.compareDobDod(dob.getDate(), reporting_date.getDate()) == true) {
+            ErrorMessage = "[Erreur] la date de visite ne peut pas être inferieure à la date de la naissance";
+            return false;
         }
 
+        if (age.getString().length()!= 0){
+            String age_nbr = String.valueOf(age.getString().charAt(age.getString().length() - 1));
+
+            if (!age_nbr.equals("a") && !age_nbr.equals("m")){
+                ErrorMessage = "Age doit être suivi d'un 'a' pour l'année ou d'un 'm' pour le mois" ;
+                return false;
+            }
+        }
+
+        if (location.getString(location.getSelectedIndex()).equals("Autre") && other.getString().length() == 0){
+                ErrorMessage = "La précision est obligatoire." ;
+                return false;
+            }
         return true;
     }
 
@@ -145,6 +163,7 @@ public class Under5Form extends Form implements CommandListener {
 
         String loc;
         String fdob;
+
         int reporting_date_array[] = SharedChecks.formatDateString(reporting_date.getDate());
         String reporting_d = String.valueOf(reporting_date_array[2]) + SharedChecks.addzero(reporting_date_array[1]) + SharedChecks.addzero(reporting_date_array[0]);
 
@@ -166,19 +185,19 @@ public class Under5Form extends Form implements CommandListener {
         else
             loc = other.getString();
 
-        return "fnuap du5 " + sep + reporting_d + sep
-                            + reporting_location.getString() + sep
-                            + name.getString() + sep
-                            + fdob + sep
-                            + dod_d + sep
-                            + death_location.getString() + sep
-                            + loc + sep
-                            + sex.getString(sex.getSelectedIndex()) + sep;
+        return "fnuap du5 " + sep + reporting_d 
+                            + sep + reporting_location.getString()
+                            + sep + name.getString()
+                            + sep + sex.getString(sex.getSelectedIndex())
+                            + sep + fdob
+                            + sep + dod_d
+                            + sep + death_location.getString()
+                            + sep + loc;
+
     }
 
-    
-    public String toText() {
 
+    public String toText() {
         return "E] " + name.getString();
     }
 
@@ -207,7 +226,7 @@ public class Under5Form extends Form implements CommandListener {
                 this.midlet.display.setCurrent (alert, this);
                 return;
             }
-
+            
             if (!this.isValid()) {
                 alert = new Alert("Données incorrectes!", this.ErrorMessage,
                                   null, AlertType.ERROR);
@@ -225,7 +244,6 @@ public class Under5Form extends Form implements CommandListener {
                                    null, AlertType.CONFIRMATION);
                 this.midlet.display.setCurrent (alert, this.midlet.mainMenu);
             } else {
-
                if (store.add(this.toText(), this.toSMSFormat())) {
                     alert = new Alert ("Échec d'envoi SMS", "Impossible d'envoyer" +
                                        " la demande par SMS. Le rapport a été enregistré dans le téléphone.", null,
@@ -236,7 +254,6 @@ public class Under5Form extends Form implements CommandListener {
                 }
                 this.midlet.display.setCurrent (alert, this);
             }
-
         }
     }
 }
