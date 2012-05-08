@@ -76,9 +76,9 @@ public PregnancyForm(UNFPAMIDlet midlet) {
     append(name_pregnant_woman);
     append(age);
     append(name_husband);
-    append(age_pregnancy);
-    append(end_pregnancyfield);
+    append(age_pregnancy);  
     append(expected_date_confinement);
+    append(end_pregnancyfield);
     append(resulting_pregnancyfield);
     append(date_pregnancy);
 
@@ -113,11 +113,11 @@ public PregnancyForm(UNFPAMIDlet midlet) {
         int agepregnancy =  Integer.parseInt(age_pregnancy.getString());
 
         if (agepregnancy < 0){
-            ErrorMessage = "Le mois doit être supérieur à zéro.";
+            ErrorMessage = "Le nombre de mois doit être supérieur à zéro.";
             return false;
         }
         if (agepregnancy > 12){
-                ErrorMessage = "Le mois doit être inférieur à 12.";
+                ErrorMessage = "Le nombre de mois doit être inférieur à 12.";
                 return false;
             }
 
@@ -133,14 +133,11 @@ public PregnancyForm(UNFPAMIDlet midlet) {
 
         int date_recording_array[] = SharedChecks.formatDateString(date_recording.getDate());
         String d_recording = String.valueOf(date_recording_array[2]) + SharedChecks.addzero(date_recording_array[1]) + SharedChecks.addzero(date_recording_array[0]);
-
-        String expect_date_c = "-";
+        int  expected_date_c_array[] = SharedChecks.formatDateString(expected_date_confinement.getDate());
+        String expect_date_c = String.valueOf(expected_date_c_array[2]) + SharedChecks.addzero(expected_date_c_array[1]) + SharedChecks.addzero(expected_date_c_array[0]);
         int resul_pregnancy = -1;
         String d_pregnancy = "-";
         if (end_pregnancyfield.getString(end_pregnancyfield.getSelectedIndex()).equals("OUI")){
-            int  expected_date_c_array[] = SharedChecks.formatDateString(expected_date_confinement.getDate());
-            expect_date_c = String.valueOf(expected_date_c_array[2]) + SharedChecks.addzero(expected_date_c_array[1]) + SharedChecks.addzero(expected_date_c_array[0]);
-            
             resul_pregnancy = resulting_pregnancyfield.getSelectedIndex();
 
             int date_pregnancy_array[] = SharedChecks.formatDateString(date_pregnancy.getDate());
@@ -153,13 +150,12 @@ public PregnancyForm(UNFPAMIDlet midlet) {
                            + sep + age.getString()
                            + sep + name_husband.getString()
                            + sep + age_pregnancy.getString()
-                           + sep + expect_date_c // Si la n'est pas terminer d_pregnancy = - si non une date(20120427)
-                           + sep + resul_pregnancy  // Si la n'est pas terminer resul_pregnancy = -1 si non l'index de l'element chosi de {"Né vivant", "Mort-né", "Avortement"}
-                           + sep + d_pregnancy; // Si la n'est pas terminer d_pregnancy = - si non une date(20120427)
+                           + sep + expect_date_c // Si la grossesse n'est pas terminer d_pregnancy = - si non une date(20120427)
+                           + sep + resul_pregnancy  // Si la grossesse n'est pas terminer resul_pregnancy = -1 si non l'index de l'element chosi de {"Né vivant", "Mort-né", "Avortement"}
+                           + sep + d_pregnancy; // Si la grossesse n'est pas terminer d_pregnancy = - si non une date(20120427)
         }
 
     public String toText() {
-
         return "F]: " + name_household_head.getString() + sep ;
     }
 
