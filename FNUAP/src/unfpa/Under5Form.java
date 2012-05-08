@@ -165,13 +165,19 @@ public class Under5Form extends Form implements CommandListener {
         String fdob;
 
         int reporting_date_array[] = SharedChecks.formatDateString(reporting_date.getDate());
-        String reporting_d = String.valueOf(reporting_date_array[2]) + SharedChecks.addzero(reporting_date_array[1]) + SharedChecks.addzero(reporting_date_array[0]);
+        String reporting_d = String.valueOf(reporting_date_array[2]) 
+                             + SharedChecks.addzero(reporting_date_array[1]) 
+                             + SharedChecks.addzero(reporting_date_array[0]);
 
         int dob_array[] = SharedChecks.formatDateString(dob.getDate());
-        String dob_d = String.valueOf(dob_array[2]) + SharedChecks.addzero(dob_array[1]) + SharedChecks.addzero(dob_array[0]);
+        String dob_d = String.valueOf(dob_array[2]) 
+                             + SharedChecks.addzero(dob_array[1]) 
+                             + SharedChecks.addzero(dob_array[0]);
 
         int dod_array[] = SharedChecks.formatDateString(dod.getDate());
-        String dod_d = String.valueOf(dod_array[2]) + SharedChecks.addzero(dod_array[1]) + SharedChecks.addzero(dod_array[0]);
+        String dod_d = String.valueOf(dod_array[2]) 
+                             + SharedChecks.addzero(dod_array[1]) 
+                             + SharedChecks.addzero(dod_array[0]);
 
         if (age.getString().length() != 0)
             fdob = age.getString();
@@ -187,7 +193,7 @@ public class Under5Form extends Form implements CommandListener {
 
         return "fnuap du5 " + sep + reporting_d 
                             + sep + reporting_location.getString()
-                            + sep + name.getString()
+                            + sep + name.getString().replace(' ', '_')
                             + sep + sex.getString(sex.getSelectedIndex())
                             + sep + fdob
                             + sep + dod_d
