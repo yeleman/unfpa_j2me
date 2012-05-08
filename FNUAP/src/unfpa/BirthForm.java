@@ -89,7 +89,7 @@ public class BirthForm extends Form implements CommandListener {
         append(location);
         append(other);
         append(sex);
-        append(born_alive);
+        append(born_aliveunfpa  );
 
         addCommand(CMD_EXIT);
         addCommand(CMD_SAVE);

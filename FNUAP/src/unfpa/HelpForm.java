@@ -61,6 +61,12 @@ public class HelpForm extends Form implements CommandListener {
         } else if (section.equalsIgnoreCase("saved_reports")) {
             text = "Vous pouvez envoyer tous les SMS à la fois ou le faire un à un.\n" +
                 "En cas de problème, contactez l'ANTIM.";
+        } else if (section.equalsIgnoreCase("born")) {
+            text = "Pour envoyer un rappaort de naissance, vous devez renseigner le formulaire avec les informations presentent sur le formulaire papier. \n" +
+                "En cas de problème, contactez l'ANTIM.";
+        } else if (section.equalsIgnoreCase("pregnancy")) {
+            text = "Pour envoyer un rappaort de grossesse , vous devez renseigner le formulaire avec les informations presentent sur le formulaire papier. \n" +
+                "En cas de problème, contactez l'ANTIM.";
         } else if (section.equalsIgnoreCase("commodities")) {
             text = "Si la structure fournit des produits selectionnez oui et dans le champ dans bas indiquez la quantité.\n" +
                 "La période concernée est le mois precedant" +
