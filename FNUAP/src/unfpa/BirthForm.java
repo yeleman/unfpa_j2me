@@ -8,13 +8,13 @@ import unfpa.Constants.*;
 import unfpa.SharedChecks.*;
 import java.util.Date;
 
-
 /**
  * J2ME Form displaying a long help text
  * Instanciated with a section paramater
  * which triggers appropriate text.
  * @author alou/fadiga
  */
+
 
 public class BirthForm extends Form implements CommandListener {
 
@@ -101,11 +101,11 @@ public class BirthForm extends Form implements CommandListener {
     public boolean isComplete() {
 
         // all fields are required to be filled.
-        if (reporting_location.getString().length() == 0||
-            householder.getString().length() == 0||
-            name_father.getString().length() == 0||
-            name_mother.getString().length() == 0||
-            name_child.getString().length() == 0) {
+        if (reporting_location.getString().length() == 0
+            || householder.getString().length() == 0
+            || name_father.getString().length() == 0
+            || name_mother.getString().length() == 0
+            || name_child.getString().length() == 0) {
             return false;
         }
         return true;
@@ -158,19 +158,19 @@ public class BirthForm extends Form implements CommandListener {
         int born;
 
         int reporting_date_array[] = SharedChecks.formatDateString(reporting_date.getDate());
-        int reporting_date_day = reporting_date_array[0];
-        int reporting_date_month = reporting_date_array[1];
-        int reporting_date_year = reporting_date_array[2];
+        String reporting_d = String.valueOf(reporting_date_array[2]) 
+                             + SharedChecks.addzero(reporting_date_array[1]) 
+                             + SharedChecks.addzero(reporting_date_array[0]);
 
         int dob_array[] = SharedChecks.formatDateString(dob.getDate());
-        int dob_day = dob_array[0];
-        int dob_month = dob_array[1];
-        int dob_year = dob_array[2];
+        String dob_d = String.valueOf(dob_array[2]) 
+                             + SharedChecks.addzero(dob_array[1]) 
+                             + SharedChecks.addzero(dob_array[0]);
 
         if (age.getString().length() != 0)
             fdob = age.getString();
         else
-            fdob = dob_year + SharedChecks.addzero(dob_month) + SharedChecks.addzero(dob_day);
+            fdob = dob_d;
 
         if (location.getString(location.getSelectedIndex()).equals("Domicile"))
             loc = "D";
@@ -184,12 +184,12 @@ public class BirthForm extends Form implements CommandListener {
         else
             born = 0;
 
-        return "fnuap born" + sep + reporting_date_year +  SharedChecks.addzero(reporting_date_month) + SharedChecks.addzero(reporting_date_day)
+        return "fnuap born" + sep + reporting_d
                             + sep + reporting_location.getString()
-                            + sep  + householder.getString()
-                            + sep + name_father.getString()
-                            + sep + name_mother.getString()
-                            + sep  + name_child.getString()
+                            + sep + householder.getString().replace(' ', '_')
+                            + sep + name_father.getString().replace(' ', '_')
+                            + sep + name_mother.getString().replace(' ', '_')
+                            + sep + name_child.getString().replace(' ', '_')
                             + sep + fdob
                             + sep + loc
                             + sep + sex.getString(sex.getSelectedIndex())

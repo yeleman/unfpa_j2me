@@ -103,11 +103,11 @@ public MaternalMortalityrForm(UNFPAMIDlet midlet) {
     public boolean isComplete() {
         // all fields are required to be filled.
         // TODO: verifier AGE/DDN
-       if (reporting_location.getString().length() == 0 ||
-            name.getString().length() == 0 ||
-            death_location.getString().length() == 0 ||
-            living_children.getString().length() == 0 ||
-            dead_children.getString().length() == 0) {
+       if (reporting_location.getString().length() == 0
+            || name.getString().length() == 0
+            || death_location.getString().length() == 0
+            || living_children.getString().length() == 0
+            || dead_children.getString().length() == 0) {
             return false;
         }
         return true;
@@ -174,27 +174,35 @@ public MaternalMortalityrForm(UNFPAMIDlet midlet) {
     public String toSMSFormat() {
         
         String fdob;
+
         int reporting_date_array[] = SharedChecks.formatDateString(reporting_date.getDate());
-        String reporting_d = String.valueOf(reporting_date_array[2]) + SharedChecks.addzero(reporting_date_array[1]) + SharedChecks.addzero(reporting_date_array[0]);
+        String reporting_d = String.valueOf(reporting_date_array[2]) 
+                             + SharedChecks.addzero(reporting_date_array[1]) 
+                             + SharedChecks.addzero(reporting_date_array[0]);
 
         int dob_array[] = SharedChecks.formatDateString(dob.getDate());
-        String dob_d = String.valueOf(dob_array[2]) + SharedChecks.addzero(dob_array[1]) + SharedChecks.addzero(dob_array[0]);
+        String dob_d = String.valueOf(dob_array[2]) 
+                             + SharedChecks.addzero(dob_array[1]) 
+                             + SharedChecks.addzero(dob_array[0]);
 
         int dod_array[] = SharedChecks.formatDateString(dod.getDate());
-        String dod_d = String.valueOf(dod_array[2]) + SharedChecks.addzero(dod_array[1]) + SharedChecks.addzero(dod_array[0]);
+        String dod_d = String.valueOf(dod_array[2]) 
+                             + SharedChecks.addzero(dod_array[1]) 
+                             + SharedChecks.addzero(dod_array[0]);
 
         if (age.getString().length() != 0)
             fdob = age.getString();
         else
             fdob = dob_d;
 
-       int pregnancy_related;
+        int pregnancy_related;
         if ((pregnancy_related_deathField.getString(pregnancy_related_deathField.getSelectedIndex()).equals("N/A"))){
             pregnancy_related = -1;
         } else {
             pregnancy_related = pregnancy_related_deathField.getSelectedIndex();
         }
-       String pregnancy_w = "-1";
+
+        String pregnancy_w = "-1";
         if (pregnantField.getString(pregnantField.getSelectedIndex()).equals("OUI")){
             pregnancy_w = pregnancy_weeks.getString();
         }
@@ -204,7 +212,7 @@ public MaternalMortalityrForm(UNFPAMIDlet midlet) {
         // pregnancy_related_death
         return "fnuap dpw" + sep + reporting_d
                            + sep + reporting_location.getString() 
-                           + sep + name.getString()
+                           + sep + name.getString().replace(' ', '_')
                            + sep + fdob
                            + sep + dod_d
                            + sep + death_location.getString()
