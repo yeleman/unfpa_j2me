@@ -74,13 +74,13 @@ public class BirthForm extends Form implements CommandListener {
         reporting_location = new TextField("Code village (visite):", null, Constants.LOC_CODE_MAX, TextField.ANY);
 
         //choice
-        location = new ChoiceGroup("Lieu de Naissance:", ChoiceGroup.POPUP, TypeLocation, null);
+        location = new ChoiceGroup("Lieu de naissance:", ChoiceGroup.POPUP, TypeLocation, null);
         sex = new ChoiceGroup("Sexe:", ChoiceGroup.POPUP, sexList, null);
         born_alive = new ChoiceGroup("Né vivant:", ChoiceGroup.POPUP, YesNon, null);
-        
+
+        append(reporting_date);
         append(reporting_location);
         append(householder);
-        append(reporting_date);
         append(name_father);
         append(name_mother);
         append(name_child);
@@ -117,12 +117,12 @@ public class BirthForm extends Form implements CommandListener {
         ErrorMessage = "La date indiquée est dans le futur.";
 
         if (SharedChecks.isDateValide(reporting_date.getDate()) != true) {
-            ErrorMessage = "(Date repportage) " + ErrorMessage;
+            ErrorMessage = "[Date repportage] " + ErrorMessage;
             return false;
         }
 
         if (SharedChecks.isDateValide(dob.getDate()) != true) {
-            ErrorMessage = "(Date repportage) " + ErrorMessage;
+            ErrorMessage = "[Date repportage] " + ErrorMessage;
             return false;
         }
         if (SharedChecks.compareDobDod(dob.getDate(), reporting_date.getDate()) == true) {
@@ -138,13 +138,13 @@ public class BirthForm extends Form implements CommandListener {
             String age_nbr = String.valueOf(age.getString().charAt(age.getString().length() - 1));
 
             if (!age_nbr.equals("a") && !age_nbr.equals("m")){
-                ErrorMessage = "Age doit être suivi d'un 'a' pour l'année ou d'un 'm' pour le mois" ;
+                ErrorMessage = "Le nombre d'age doit être suivi d'un 'a' pour l'année ou d'un 'm' pour le mois" ;
                 return false;
             }
         }
 
         if (location.getString(location.getSelectedIndex()).equals("Autre") && other.getString().length() == 0){
-                ErrorMessage = "La précision est obligatoire." ;
+                ErrorMessage = "Precisez le lieu de naissance " ;
                 return false;
             }
         

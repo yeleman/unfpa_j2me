@@ -41,7 +41,7 @@ public class HelpForm extends Form implements CommandListener {
         if (section.equalsIgnoreCase("mainmenu")) {
             text = "Ouvrer le formulaire qui correspond à votre opération puis " +
                    "renseignez les champs et envoyez.\n" +
-                   "Un SMS non envoyé est sauvegardé dans <<Envoi form>>" +
+                   "Un SMS non envoyé est sauvegardé dans <<Envoi form>>.\n" +
                    "En cas de problème, contactez l'ANTIM.";
         } else if (section.equalsIgnoreCase("version")) {
             text = "FNUAP - Version " + Constants.version + "\n\n" +
@@ -63,13 +63,19 @@ public class HelpForm extends Form implements CommandListener {
                 "En cas de problème, contactez l'ANTIM.";
         } else if (section.equalsIgnoreCase("born")) {
             text = "Pour envoyer un rappaort de naissance, vous devez renseigner le formulaire avec les informations presentent sur le formulaire papier. \n" +
+                    "Date d'enregistrement correspond à la date de la visite. \n" +
+                    "Indiquez l'age si la date de naissance n'est pas connue.\n" +
+                    "Lieu de naissance si le choix est 'Autre' le champ Précision est obligatoire.\n" +
                 "En cas de problème, contactez l'ANTIM.";
         } else if (section.equalsIgnoreCase("pregnancy")) {
             text = "Pour envoyer un rappaort de grossesse , vous devez renseigner le formulaire avec les informations presentent sur le formulaire papier. \n" +
+                    "Date d'enregistrement correspond à la date de la visite. \n" +
+                    "Indiquez la age en nombre d'année.\n" +
+                    "Si la grossesse n'est pas terminée, les champs 'Issu de la grossesse' et 'Date de l'issu de la grossees' ne sont pas pris en comptes.\n" +
                 "En cas de problème, contactez l'ANTIM.";
         } else if (section.equalsIgnoreCase("commodities")) {
             text = "Si la structure fournit des produits selectionnez oui et dans le champ dans bas indiquez la quantité.\n" +
-                "La période concernée est le mois precedant" +
+                "La période concernée est le mois precedant.\n "  +
                 "En cas de problème, contactez l'ANTIM.";
         } else {
             text = "Aucune aide disponible pour cet élément.";
