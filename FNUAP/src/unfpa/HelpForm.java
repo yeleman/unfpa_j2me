@@ -39,7 +39,7 @@ public class HelpForm extends Form implements CommandListener {
         String text;
 
         if (section.equalsIgnoreCase("mainmenu")) {
-            text = "Ouvrer le formulaire qui correspond à votre opération puis " +
+            text = "Ouvrez le formulaire qui correspond à votre opération puis " +
                    "renseignez les champs et envoyez.\n" +
                    "Un SMS non envoyé est sauvegardé dans <<Envoi form>>.\n" +
                    "En cas de problème, contactez l'ANTIM.";
@@ -62,19 +62,16 @@ public class HelpForm extends Form implements CommandListener {
             text = "Vous pouvez envoyer tous les SMS à la fois ou le faire un à un.\n" +
                 "En cas de problème, contactez l'ANTIM.";
         } else if (section.equalsIgnoreCase("born")) {
-            text = "Pour envoyer un rappaort de naissance, vous devez renseigner le formulaire avec les informations presentent sur le formulaire papier. \n" +
-                    "Date d'enregistrement correspond à la date de la visite. \n" +
-                    "Indiquez l'age si la date de naissance n'est pas connue.\n" +
-                    "Lieu de naissance si le choix est 'Autre' le champ Précision est obligatoire.\n" +
+            text = "Pour envoyer un rapport de naissance, vous devez renseigner le formulaire avec les informations presentent sur le formulaire papier. \n" +
                 "En cas de problème, contactez l'ANTIM.";
         } else if (section.equalsIgnoreCase("pregnancy")) {
-            text = "Pour envoyer un rappaort de grossesse , vous devez renseigner le formulaire avec les informations presentent sur le formulaire papier. \n" +
-                    "Date d'enregistrement correspond à la date de la visite. \n" +
+            text = "Pour envoyer un rapport de grossesse , vous devez renseigner le formulaire avec les informations presentent sur le formulaire papier. \n" +
                     "Indiquez la age en nombre d'année.\n" +
-                    "Si la grossesse n'est pas terminée, les champs 'Issu de la grossesse' et 'Date de l'issu de la grossees' ne sont pas pris en comptes.\n" +
+                    "Si la grossesse n'est pas terminée, les champs 'Issue de la grossesse' et 'Date de l'issue de la grossesse' ne sont pas pris en comptes.\n" +
                 "En cas de problème, contactez l'ANTIM.";
         } else if (section.equalsIgnoreCase("commodities")) {
-            text = "Si la structure fournit des produits selectionnez oui et dans le champ dans bas indiquez la quantité.\n" +
+            text = "Repondre par OUI ou NON si le service propose le planing familial et l'accouchement." +
+                    "Si la structure fournit des produits selectionnez oui et dans le champ dans bas indiquez la quantité.\n" +
                 "La période concernée est le mois precedant.\n "  +
                 "En cas de problème, contactez l'ANTIM.";
         } else {

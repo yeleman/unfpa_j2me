@@ -34,20 +34,17 @@ public class BirthForm extends Form implements CommandListener {
 
     //register
     private DateField reporting_date;
-    private TextField householder;
     private TextField name_mother;
-    private TextField name_father;
+    private TextField family_name;
     private TextField name_child;
     private TextField reporting_location;
     private static final String[] sexList= {"F", "M"};
     private ChoiceGroup sex;
     private static final String[] YesNon = {"OUI", "NON"};
     private static final String[] TypeLocation = {"Domicile", "Centre", "Autre"};
-    private TextField other;
     private ChoiceGroup born_alive;
     private ChoiceGroup location;
     private DateField dob;
-    private TextField age;
     Date now = new Date();
     String sep = " ";
 
@@ -59,18 +56,15 @@ public class BirthForm extends Form implements CommandListener {
         store = new SMSStore();
 
         //date
-        reporting_date =  new DateField("Date d'enregistrement", DateField.DATE, TimeZone.getTimeZone("GMT"));
+        reporting_date =  new DateField("Date de visite", DateField.DATE, TimeZone.getTimeZone("GMT"));
         reporting_date.setDate(now);
         dob =  new DateField("Date de naissance:", DateField.DATE, TimeZone.getTimeZone("GMT"));
         dob.setDate(now);
 
         //text
-        householder = new TextField("Chef de menage", null, 20, TextField.ANY);
-        name_mother = new TextField("Nom de la mère", null, 20, TextField.ANY);
-        name_father = new TextField("Nom du père", null, 20, TextField.ANY);
-        name_child = new TextField("Nom de l'enfant", null, 20, TextField.ANY);
-        other = new TextField("Précision", null, 20, TextField.ANY);
-        age =  new TextField("Age (DDN inconnue):", null, Constants.AGE_STR_MAX, TextField.ANY);
+        name_mother = new TextField("Prénom de la mère", null, 20, TextField.ANY);
+        family_name = new TextField("Nom de famille", null, 20, TextField.ANY);
+        name_child = new TextField("Prénom de l'enfant", null, 20, TextField.ANY);
         reporting_location = new TextField("Code village (visite):", null, Constants.LOC_CODE_MAX, TextField.ANY);
 
         //choice
@@ -80,14 +74,11 @@ public class BirthForm extends Form implements CommandListener {
 
         append(reporting_date);
         append(reporting_location);
-        append(householder);
-        append(name_father);
+        append(family_name);
         append(name_mother);
         append(name_child);
-        append(age);
         append(dob);
         append(location);
-        append(other);
         append(sex);
         append(born_alive);
 
@@ -102,10 +93,7 @@ public class BirthForm extends Form implements CommandListener {
 
         // all fields are required to be filled.
         if (reporting_location.getString().length() == 0
-            || householder.getString().length() == 0
-            || name_father.getString().length() == 0
-            || name_mother.getString().length() == 0
-            || name_child.getString().length() == 0) {
+            || family_name.getString().length() == 0) {
             return false;
         }
         return true;
@@ -133,28 +121,15 @@ public class BirthForm extends Form implements CommandListener {
             ErrorMessage = "[Code village (visite)] ce code n'est pas valide";
             return false;
         }
-        
-        if (age.getString().length()!= 0){
-            String age_nbr = String.valueOf(age.getString().charAt(age.getString().length() - 1));
 
-            if (!age_nbr.equals("a") && !age_nbr.equals("m")){
-                ErrorMessage = "Le nombre d'age doit être suivi d'un 'a' pour l'année ou d'un 'm' pour le mois" ;
-                return false;
-            }
-        }
-
-        if (location.getString(location.getSelectedIndex()).equals("Autre") && other.getString().length() == 0){
-                ErrorMessage = "Precisez le lieu de naissance " ;
-                return false;
-            }
-        
         return true;
     }
 
     public String toSMSFormat() {
 
-        String fdob;
         String loc;
+        String mother;
+        String child;
         int born;
 
         int reporting_date_array[] = SharedChecks.formatDateString(reporting_date.getDate());
@@ -167,30 +142,35 @@ public class BirthForm extends Form implements CommandListener {
                              + SharedChecks.addzero(dob_array[1]) 
                              + SharedChecks.addzero(dob_array[0]);
 
-        if (age.getString().length() != 0)
-            fdob = age.getString();
-        else
-            fdob = dob_d;
-
         if (location.getString(location.getSelectedIndex()).equals("Domicile"))
             loc = "D";
         else if (location.getString(location.getSelectedIndex()).equals("Centre"))
             loc = "C";
         else
-            loc = other.getString();
+            loc = "A";
 
         if (born_alive.getString(born_alive.getSelectedIndex()).equals("OUI"))
             born = 1;
         else
             born = 0;
 
+        if (name_mother.getString().length() == 0)
+            mother = "-";
+        else
+            mother = name_mother.getString();
+
+        if (name_child.getString().length() == 0)
+            child = "-";
+        else
+            child = name_child.getString();
+
+
         return "fnuap born" + sep + reporting_d
                             + sep + reporting_location.getString()
-                            + sep + householder.getString().replace(' ', '_')
-                            + sep + name_father.getString().replace(' ', '_')
-                            + sep + name_mother.getString().replace(' ', '_')
-                            + sep + name_child.getString().replace(' ', '_')
-                            + sep + fdob
+                            + sep + family_name.getString().replace(' ', '_')
+                            + sep + mother.replace(' ', '_')
+                            + sep + child.replace(' ', '_')
+                            + sep + dob_d
                             + sep + loc
                             + sep + sex.getString(sex.getSelectedIndex())
                             + sep + born;
@@ -203,7 +183,7 @@ public class BirthForm extends Form implements CommandListener {
         int dob_month = dob_array[1];
         int dob_year = dob_array[2];
 
-        return "N] " + householder.getString() + sep + dob_year + "/"
+        return "N] " + sep + dob_year + "/"
                             + dob_month + "/" + dob_day;
     }
 

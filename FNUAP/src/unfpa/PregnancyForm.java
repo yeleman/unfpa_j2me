@@ -57,19 +57,19 @@ public class PregnancyForm extends Form implements CommandListener {
         config = new Configuration();
         store = new SMSStore();
 
-        name_household_head =  new TextField("Nom du chef de menage:", null, 20, TextField.ANY);
-        date_recording =  new DateField("Date enregistrement:", DateField.DATE, TimeZone.getTimeZone("GMT"));
+        name_household_head = new TextField("Nom du chef de menage:", null, 20, TextField.ANY);
+        date_recording = new DateField("Date de visite:", DateField.DATE, TimeZone.getTimeZone("GMT"));
         date_recording.setDate(new Date());
         reporting_location = new TextField("Code village (visite):", null, Constants.LOC_CODE_MAX, TextField.ANY);
-        name_pregnant_woman =  new TextField("Nom de la femme enceinte:", null, 20, TextField.ANY);
+        name_pregnant_woman = new TextField("Nom de la femme enceinte:", null, 20, TextField.ANY);
         age =  new TextField("Age:", null, 4, TextField.NUMERIC);
         name_husband =  new TextField("Nom de son mari:", null, 20, TextField.ANY);
-        age_pregnancy =  new TextField("Age de la grossesse (en mois):",  null, 2, TextField.NUMERIC);
+        age_pregnancy = new TextField("Age de la grossesse (en mois):",  null, 2, TextField.NUMERIC);
         expected_date_confinement =  new DateField("Date probable d'accouchement:", DateField.DATE, TimeZone.getTimeZone("GMT"));
         expected_date_confinement.setDate(new Date());
-        end_pregnancyfield = new ChoiceGroup("La grossesse est elle terminée? ", ChoiceGroup.POPUP, choix, null);
-        resulting_pregnancyfield = new ChoiceGroup("Issu de la grossesse:", ChoiceGroup.POPUP, resulting_pregnancy, null);
-        date_pregnancy =  new DateField("Date de l'issu de la grossesse:", DateField.DATE, TimeZone.getTimeZone("GMT"));
+        end_pregnancyfield = new ChoiceGroup("La grossesse est-elle terminée?", ChoiceGroup.POPUP, choix, null);
+        resulting_pregnancyfield = new ChoiceGroup("Issue de la grossesse:", ChoiceGroup.POPUP, resulting_pregnancy, null);
+        date_pregnancy = new DateField("Date de l'issue de la grossesse:", DateField.DATE, TimeZone.getTimeZone("GMT"));
         date_pregnancy.setDate(new Date());
 
         // add fields to forms
