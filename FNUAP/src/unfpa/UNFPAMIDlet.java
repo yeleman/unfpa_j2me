@@ -35,7 +35,7 @@ public class UNFPAMIDlet extends MIDlet implements CommandListener {
         config = new Configuration();
         SMSStore store = new SMSStore();
 
-        String[] mainMenu_items = {"Mortalité infantile", "Mortalité maternelle",
+        String[] mainMenu_items = {"Mort. infantile", "Mort. maternelle",
                                    "Naissance", "Grossesse", "Dispo. Produits",
                                    "Envoi form. (" + store.count() + ")"};
         mainMenu = new List("Formulaires FNUAP", Choice.IMPLICIT, mainMenu_items, null);
