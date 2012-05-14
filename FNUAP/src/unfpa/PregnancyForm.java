@@ -235,7 +235,7 @@ public class PregnancyForm extends Form implements CommandListener {
                                        AlertType.WARNING);
                 }
                 this.midlet.startApp();
-                this.midlet.display.setCurrent (alert, this);
+                this.midlet.display.setCurrent (alert, this.midlet.mainMenu);
             }
         }
     }
