@@ -259,6 +259,7 @@ public class BirthForm extends Form implements CommandListener {
                     alert = new Alert ("Échec d'enregistrement", "Impossible d'envoyer ni d'enregistrer dans le téléphone.", null,
                                        AlertType.WARNING);
                 }
+                this.midlet.startApp();
                 this.midlet.display.setCurrent (alert, this);
             }
 

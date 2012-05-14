@@ -93,7 +93,7 @@ public class SendSavedReports extends List implements CommandListener {
                                        " la demande par SMS. Le rapport a été enregistré dans le téléphone.", null,
                                        AlertType.WARNING);
                 }
-                this.midlet.display.setCurrent(alert, this.midlet.mainMenu);
+                this.midlet.startApp();
             }
 
             // exit commands comes back to main menu.
