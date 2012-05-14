@@ -33,7 +33,7 @@ public class Configuration {
             // the following has to be in order of indexes.
             this.set("server_number", "00000000", true);
             this.set("server_number", Constants.server_number, false);
-            this.set("cscom_code", "", true);
+            this.set("cscom_code", "kid", true);
             this.set("profile", "chw", true);
         }
     }

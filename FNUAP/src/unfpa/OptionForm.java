@@ -41,7 +41,7 @@ public OptionForm(UNFPAMIDlet midlet) {
 
     numberField = new TextField ("Numéro du serveur:", phone_number, 8, TextField.PHONENUMBER);
     cscom_code = new TextField("Code CSCOM", config.get("cscom_code"), 20, TextField.ANY);
-    profile = new TextField("Code CSCOM", config.get("profile"), 20, TextField.ANY);
+    profile = new TextField("Profile", config.get("profile"), 20, TextField.ANY);
 
     append(numberField);
     append(cscom_code);

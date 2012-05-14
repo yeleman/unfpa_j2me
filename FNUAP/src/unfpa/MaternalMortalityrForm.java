@@ -58,7 +58,7 @@ public MaternalMortalityrForm(UNFPAMIDlet midlet) {
     config = new Configuration();
     store = new SMSStore();
 
-    reporting_date =  new DateField("Date de visite:", DateField.DATE, TimeZone.getTimeZone("GMT"));
+    reporting_date =  new DateField("Date de la visite:", DateField.DATE, TimeZone.getTimeZone("GMT"));
     reporting_date.setDate(new Date());
     reporting_location =  new TextField("Code village (visite):", null, Constants.LOC_CODE_MAX, TextField.ANY);
     name =  new TextField("Nom de la défunte:", null, 20, TextField.ANY);
@@ -124,12 +124,12 @@ public MaternalMortalityrForm(UNFPAMIDlet midlet) {
 
         if (pregnantField.getString(pregnantField.getSelectedIndex()).equals("OUI") &&
             pregnancy_weeks.getString().length() == 0) {
-            ErrorMessage = "Durée de la grossesse est obligatoire si la femme est enceinte.";
+            ErrorMessage = "La durée de la grossesse est obligatoire si la femme est enceinte.";
             return false;
         }
         if (pregnantField.getString(pregnantField.getSelectedIndex()).equals("NON") &&
             pregnancy_weeks.getString().length() != 0) {
-            ErrorMessage = "Elle doit être enceinte s'il y a une duré de grossesse";
+            ErrorMessage = "La femme doit être enceinte s'il y a une durée de grossesse";
             return false;
         }
 
@@ -155,7 +155,7 @@ public MaternalMortalityrForm(UNFPAMIDlet midlet) {
             String age_nbr = String.valueOf(age.getString().charAt(age.getString().length() - 1));
 
             if (!age_nbr.equals("a") && !age_nbr.equals("m")){
-                ErrorMessage = "Age doit être suivi d'un 'a' pour l'année ou d'un 'm' pour le mois" ;
+                ErrorMessage = "Le nombre d'age doit être suivi d'un 'a' pour l'année ou d'un 'm' pour le mois";
                 return false;
             }
         }

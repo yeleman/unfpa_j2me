@@ -55,7 +55,7 @@ public class Under5Form extends Form implements CommandListener {
         config = new Configuration();
         store = new SMSStore();
 
-        reporting_date =  new DateField("Date de visite:", DateField.DATE, TimeZone.getTimeZone("GMT"));
+        reporting_date =  new DateField("Date de la visite:", DateField.DATE, TimeZone.getTimeZone("GMT"));
         reporting_date.setDate(now);
 
         reporting_location = new TextField("Code village (visite):", null, Constants.LOC_CODE_MAX, TextField.ANY);
@@ -67,7 +67,7 @@ public class Under5Form extends Form implements CommandListener {
 
         age =  new TextField("Age (DDN inconnue):", null, Constants.AGE_STR_MAX, TextField.ANY);
         sex = new ChoiceGroup("Sexe:", ChoiceGroup.POPUP, sexList, null);
-        location = new ChoiceGroup("Lieu de Naissance:", ChoiceGroup.POPUP, TypeLocation, null);
+        location = new ChoiceGroup("Lieu de naissance:", ChoiceGroup.POPUP, TypeLocation, null);
         other = new TextField("Précision", null, 20, TextField.ANY);
         dod =  new DateField("Date du décès:", DateField.DATE, TimeZone.getTimeZone("GMT"));
         dod.setDate(now);
@@ -119,7 +119,7 @@ public class Under5Form extends Form implements CommandListener {
         }
 
         if (SharedChecks.Under5(dob.getDate()) == false) {
-            ErrorMessage = "L'enfant doit être moins de 5ans.";
+            ErrorMessage = "L'age de l'enfant doit être inferieur à 5ans.";
             return false;
         }
 
@@ -139,7 +139,7 @@ public class Under5Form extends Form implements CommandListener {
         }        
 
         if (SharedChecks.compareDobDod(dob.getDate(), reporting_date.getDate()) == true) {
-            ErrorMessage = "[Erreur] la date de visite ne peut pas être inferieure à la date de la naissance";
+            ErrorMessage = "[Erreur] la date de la visite ne peut pas être inferieure à la date de la naissance";
             return false;
         }
 
@@ -147,13 +147,13 @@ public class Under5Form extends Form implements CommandListener {
             String age_nbr = String.valueOf(age.getString().charAt(age.getString().length() - 1));
 
             if (!age_nbr.equals("a") && !age_nbr.equals("m")){
-                ErrorMessage = "Age doit être suivi d'un 'a' pour l'année ou d'un 'm' pour le mois" ;
+                ErrorMessage = "Le nombre d'age doit être suivi d'un 'a' pour l'année ou d'un 'm' pour le mois";
                 return false;
             }
         }
 
         if (location.getString(location.getSelectedIndex()).equals("Autre") && other.getString().length() == 0){
-                ErrorMessage = "La précision est obligatoire." ;
+                ErrorMessage = "Precisez le lieu de naissance ";
                 return false;
             }
         return true;
