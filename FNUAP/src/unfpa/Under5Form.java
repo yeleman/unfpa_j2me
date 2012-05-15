@@ -36,7 +36,6 @@ public class Under5Form extends Form implements CommandListener {
     private static final String[] sexList= {"F", "M"};
     private static final String[] TypeLocation = {"Domicile", "Centre", "Autre"};
     private ChoiceGroup sex;
-    private TextField other;
     private ChoiceGroup location;
     private DateField reporting_date;
     private TextField reporting_location;
@@ -67,8 +66,7 @@ public class Under5Form extends Form implements CommandListener {
 
         age =  new TextField("Age (DDN inconnue):", null, Constants.AGE_STR_MAX, TextField.ANY);
         sex = new ChoiceGroup("Sexe:", ChoiceGroup.POPUP, sexList, null);
-        location = new ChoiceGroup("Lieu de naissance:", ChoiceGroup.POPUP, TypeLocation, null);
-        other = new TextField("Précision", null, 20, TextField.ANY);
+        location = new ChoiceGroup("Lieu de decès:", ChoiceGroup.POPUP, TypeLocation, null);
         dod =  new DateField("Date du décès:", DateField.DATE, TimeZone.getTimeZone("GMT"));
         dod.setDate(now);
 
@@ -83,7 +81,6 @@ public class Under5Form extends Form implements CommandListener {
         append(dod);
         append(death_location);
         append(location);
-        append(other);
 
         addCommand(CMD_EXIT);
         addCommand(CMD_SAVE);
@@ -152,10 +149,6 @@ public class Under5Form extends Form implements CommandListener {
             }
         }
 
-        if (location.getString(location.getSelectedIndex()).equals("Autre") && other.getString().length() == 0){
-                ErrorMessage = "Precisez le lieu de naissance ";
-                return false;
-            }
         return true;
     }
 
@@ -189,16 +182,16 @@ public class Under5Form extends Form implements CommandListener {
         else if (location.getString(location.getSelectedIndex()).equals("Centre"))
             loc = "C";
         else
-            loc = other.getString();
+            loc = "A";
 
-        return "fnuap du5 " + sep + reporting_d 
-                            + sep + reporting_location.getString()
-                            + sep + name.getString().replace(' ', '_')
-                            + sep + sex.getString(sex.getSelectedIndex())
-                            + sep + fdob
-                            + sep + dod_d
-                            + sep + death_location.getString()
-                            + sep + loc;
+        return "fnuap du5" + sep + reporting_d 
+                           + sep + reporting_location.getString()
+                           + sep + name.getString().replace(' ', '_')
+                           + sep + sex.getString(sex.getSelectedIndex())
+                           + sep + fdob
+                           + sep + dod_d
+                           + sep + death_location.getString()
+                           + sep + loc;
 
     }
 
