@@ -176,7 +176,7 @@ public class PregnancyForm extends Form implements CommandListener {
         }
 
     public String toText() {
-        return "F]: " + name_household_head.getString() + sep ;
+        return "F] " + name_household_head.getString() ;
     }
 
     public void commandAction(Command c, Displayable d) {

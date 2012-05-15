@@ -33,7 +33,7 @@ public class CommoditiesForm extends Form implements CommandListener {
     private String ErrorMessage = "";
     private static final String[] choice = {"Non", "Oui"};
     private static final String[] year_list = {"2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020"};
-    private static final String[] yesnoavail = {"Non", "Oui(dispo.)", "Oui(non dispo.)"};
+    private static final String[] yesnoavail = {"Non", "Oui (dispo.)", "Oui (non dispo.)"};
     private static final String month_list[] = {"----", "(01)Jan","(02)Feb","(03)Mar","(04)Apr","(05)May","(06)Jun","(07)Jul","(08)Aug","(09)Sep","(10)Oct","(11)Nov","(12)Dec"};
 
     //General Informatien
@@ -90,7 +90,7 @@ public class CommoditiesForm extends Form implements CommandListener {
 
 
 public CommoditiesForm(UNFPAMIDlet midlet) {
-    super("Commodities");
+    super("Dispo. Produits");
     this.midlet = midlet;
 
     config = new Configuration();
@@ -100,61 +100,62 @@ public CommoditiesForm(UNFPAMIDlet midlet) {
     reporting_year = new ChoiceGroup("Année", ChoiceGroup.POPUP, year_list, null);
     reporting_month = new ChoiceGroup("Mois", ChoiceGroup.POPUP, month_list, null);
 
-    family_planning = new ChoiceGroup("planning familial", ChoiceGroup.EXCLUSIVE, choice, null);
-    delivery_services = new ChoiceGroup("Accouchement", ChoiceGroup.EXCLUSIVE, choice, null);
+    family_planning = new ChoiceGroup("planning familial", ChoiceGroup.POPUP, choice, null);
+    delivery_services = new ChoiceGroup("Accouchement", ChoiceGroup.POPUP, choice, null);
 
     male_condom = new ChoiceGroup("Préservatif masculin", ChoiceGroup.POPUP, choice, null);
-    nb_male_condom = new TextField("Quantité dispo.(pièces)", null, 6, TextField.NUMERIC);
+    nb_male_condom = new TextField("Quantité dispo. (pièces)", null, 6, TextField.NUMERIC);
     female_condom = new ChoiceGroup("Préservatif féminin", ChoiceGroup.POPUP, choice, null);
-    nb_female_condom = new TextField("Quantité dispo.(pièces)", null, 6, TextField.NUMERIC);
+    nb_female_condom = new TextField("Quantité dispo. (pièces)", null, 6, TextField.NUMERIC);
     oral_pills = new ChoiceGroup("Pilule", ChoiceGroup.POPUP, choice, null);
-    nb_oral_pills = new TextField("Quantité dispo.(cycles)", null, 6, TextField.NUMERIC);
+    nb_oral_pills = new TextField("Quantité dispo. (cycles)", null, 6, TextField.NUMERIC);
     injectable = new ChoiceGroup("Injectable", ChoiceGroup.POPUP, choice, null);
-    nb_injectable = new TextField("Quantité dispo.(flacons)", null, 6, TextField.NUMERIC);
+    nb_injectable = new TextField("Quantité dispo. (flacons)", null, 6, TextField.NUMERIC);
     iud = new ChoiceGroup("DIU", ChoiceGroup.POPUP, choice, null);
-    nb_iud = new TextField("Quantité dispo.(unité)", null, 6, TextField.NUMERIC);
+    nb_iud = new TextField("Quantité dispo. (unité)", null, 6, TextField.NUMERIC);
     implants = new ChoiceGroup("Implants", ChoiceGroup.POPUP, choice, null);
-    nb_implants = new TextField("Quantité dispo.(unité)", null, 6, TextField.NUMERIC);
+    nb_implants = new TextField("Quantité dispo. (unité)", null, 6, TextField.NUMERIC);
     female_sterilization = new ChoiceGroup("Stérilisation féminine", ChoiceGroup.POPUP, yesnoavail, null);
     male_sterilization = new ChoiceGroup("Stérilisation masculine", ChoiceGroup.POPUP, yesnoavail, null);
     amoxicillin_ij = new ChoiceGroup("Amoxicilline injectable", ChoiceGroup.POPUP, choice, null);
-    nb_amoxicillin_ij = new TextField("Quantité dispo.(flacons)", null, 6, TextField.NUMERIC);
+    nb_amoxicillin_ij = new TextField("Quantité dispo. (flacons)", null, 6, TextField.NUMERIC);
     amoxicillin_cap_gel = new ChoiceGroup("Amoxicilline capsule", ChoiceGroup.POPUP, choice, null);
-    nb_amoxicillin_cap_gel = new TextField("Quantité dispo.(capsules)", null, 6, TextField.NUMERIC);
+    nb_amoxicillin_cap_gel = new TextField("Quantité dispo. (capsules)", null, 6, TextField.NUMERIC);
     amoxicillin_suspension = new ChoiceGroup("Amoxicilline suspension", ChoiceGroup.POPUP, choice, null);
-    nb_amoxicillin_suspension = new TextField("Quantité dispo.(bouteilles)", null, 6, TextField.NUMERIC);
+    nb_amoxicillin_suspension = new TextField("Quantité dispo. (bouteilles)", null, 6, TextField.NUMERIC);
     azithromycine_tab = new ChoiceGroup("Azithromycine (comprimé / gel).", ChoiceGroup.POPUP, choice, null);
-    nb_azithromycine_tab = new TextField("Quantité dispo.(comprimés)", null, 6, TextField.NUMERIC);
+    nb_azithromycine_tab = new TextField("Quantité dispo. (comprimés)", null, 6, TextField.NUMERIC);
     azithromycine_suspension = new ChoiceGroup("Suspension d'azithromycine", ChoiceGroup.POPUP, choice, null);
-    nb_azithromycine_suspension = new TextField("Quantité dispo.(bouteilles)", null, 6, TextField.NUMERIC);
+    nb_azithromycine_suspension = new TextField("Quantité dispo. (bouteilles)", null, 6, TextField.NUMERIC);
     benzathine_penicillin = new ChoiceGroup("Benzathine pénicilline", ChoiceGroup.POPUP, choice, null);
-    nb_benzathine_penicillin = new TextField("Quantité dispo.(flacons)", null, 6, TextField.NUMERIC);
+    nb_benzathine_penicillin = new TextField("Quantité dispo. (flacons)", null, 6, TextField.NUMERIC);
     cefexime = new ChoiceGroup("Céfixime", ChoiceGroup.POPUP, choice, null);
-    nb_cefexime = new TextField("Quantité dispo.(comprimés)", null, 6, TextField.NUMERIC);
+    nb_cefexime = new TextField("Quantité dispo. (comprimés)", null, 6, TextField.NUMERIC);
     clotrimazole = new ChoiceGroup("Clotrimazole", ChoiceGroup.POPUP, choice, null);
-    nb_clotrimazole = new TextField("Quantité dispo.(comprimés)", null, 6, TextField.NUMERIC);
+    nb_clotrimazole = new TextField("Quantité dispo. (comprimés)", null, 6, TextField.NUMERIC);
     ergometrine_tab = new ChoiceGroup("Ergométrine (comprimé)", ChoiceGroup.POPUP, choice, null);
-    nb_ergometrine_tab = new TextField("Quantité dispo.(flacons)", null, 6, TextField.NUMERIC);
+    nb_ergometrine_tab = new TextField("Quantité dispo. (flacons)", null, 6, TextField.NUMERIC);
     ergometrine_vials = new ChoiceGroup("Ergométrine (flacons)", ChoiceGroup.POPUP, choice, null);
-    nb_ergometrine_vials = new TextField("Quantité dispo.(comprimés)", null, 6, TextField.NUMERIC);
+    nb_ergometrine_vials = new TextField("Quantité dispo. (comprimés)", null, 6, TextField.NUMERIC);
     iron = new ChoiceGroup("Fer", ChoiceGroup.POPUP, choice, null);
-    nb_iron = new TextField("Quantité dispo.(comprimés)", null, 6, TextField.NUMERIC);
+    nb_iron = new TextField("Quantité dispo. (comprimés)", null, 6, TextField.NUMERIC);
     folate = new ChoiceGroup("acide folique", ChoiceGroup.POPUP, choice, null);
-    nb_folate = new TextField("Quantité dispo.(comprimés)", null, 6, TextField.NUMERIC);
+    nb_folate = new TextField("Quantité dispo. (comprimés)", null, 6, TextField.NUMERIC);
     iron_folate = new ChoiceGroup("Fer / acide folique", ChoiceGroup.POPUP, choice, null);
-    nb_iron_folate = new TextField("Quantité dispo.(comprimés)", null, 6, TextField.NUMERIC);
+    nb_iron_folate = new TextField("Quantité dispo. (comprimés)", null, 6, TextField.NUMERIC);
     magnesium_sulfate = new ChoiceGroup("Sulfate de magnésium", ChoiceGroup.POPUP, choice, null);
-    nb_magnesium_sulfate = new TextField("Quantité dispo.(flacons)", null, 6, TextField.NUMERIC);
+    nb_magnesium_sulfate = new TextField("Quantité dispo. (flacons)", null, 6, TextField.NUMERIC);
     metronidazole = new ChoiceGroup("Sétronidazole", ChoiceGroup.POPUP, choice, null);
-    nb_metronidazole = new TextField("Quantité dispo.(flacons)", null, 6, TextField.NUMERIC);
+    nb_metronidazole = new TextField("Quantité dispo. (flacons)", null, 6, TextField.NUMERIC);
     oxytocine = new ChoiceGroup("Ocytocine", ChoiceGroup.POPUP, choice, null);
-    nb_oxytocine = new TextField("Quantité dispo.(flacons)", null, 6, TextField.NUMERIC);
+    nb_oxytocine = new TextField("Quantité dispo. (flacons)", null, 6, TextField.NUMERIC);
 
     append(reporting_year);
     append(reporting_month);
+    append("¤ Service proposé");
     append(family_planning);
     append(delivery_services);
-    append("Methode de contraception proposé");
+    append("¤ Methode de contraception proposé");
     append(male_condom);
     append(nb_male_condom);
     append(female_condom);
@@ -169,7 +170,7 @@ public CommoditiesForm(UNFPAMIDlet midlet) {
     append(nb_implants);
     append(female_sterilization);
     append(male_sterilization);
-    append("Disponibilité de medicament materno");
+    append("¤ Disponibilité de medicament materno");
     append(amoxicillin_ij);
     append(nb_amoxicillin_ij);
     append(amoxicillin_cap_gel);

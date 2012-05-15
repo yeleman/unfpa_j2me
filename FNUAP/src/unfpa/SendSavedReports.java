@@ -25,11 +25,10 @@ public class SendSavedReports extends List implements CommandListener {
         this.midlet = midlet;
 
         store = new SMSStore();
-        all_sms = store.getAll();
         config = new Configuration();
 
         for (int i=0; i<all_sms.length; i++) {
-            append(all_sms[i].name, null);
+            append(store.get(i).name, null);
         }
 
         setCommandListener (this);

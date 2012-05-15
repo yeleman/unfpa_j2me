@@ -201,10 +201,8 @@ public class BirthForm extends Form implements CommandListener {
         int dob_array[] = SharedChecks.formatDateString(dob.getDate());
         int dob_day = dob_array[0];
         int dob_month = dob_array[1];
-        int dob_year = dob_array[2];
 
-        return "N] " + householder.getString() + sep + dob_year + "/"
-                            + dob_month + "/" + dob_day;
+        return "N] " + householder.getString() + dob_day + "/" + dob_month;
     }
 
     public void commandAction(Command c, Displayable d) {

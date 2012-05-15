@@ -33,8 +33,7 @@ public class MaternalMortalityrForm extends Form implements CommandListener {
     String sep = " ";
 
     private String ErrorMessage = "";
-    private static final String[] pregnant = {"NON", "OUI"};
-    private static final String[] pregnancy_related_death = {"NON", "OUI", "N/A"};
+    private static final String[] choice = {"Non", "Oui"};
     //General Informatien
     private DateField reporting_date;
     private TextField reporting_location;
@@ -58,9 +57,9 @@ public MaternalMortalityrForm(UNFPAMIDlet midlet) {
     config = new Configuration();
     store = new SMSStore();
 
-    reporting_date =  new DateField("Date de la visite:", DateField.DATE, TimeZone.getTimeZone("GMT"));
+    reporting_date =  new DateField("Date de visite:", DateField.DATE, TimeZone.getTimeZone("GMT"));
     reporting_date.setDate(new Date());
-    reporting_location =  new TextField("Code village (visite):", null, Constants.LOC_CODE_MAX, TextField.ANY);
+    reporting_location =  new TextField("Code village(visite):", null, Constants.LOC_CODE_MAX, TextField.ANY);
     name =  new TextField("Nom de la défunte:", null, 20, TextField.ANY);
     dob =  new DateField("Date de naissance:", DateField.DATE, TimeZone.getTimeZone("GMT"));
     dob.setDate(new Date());
@@ -70,9 +69,9 @@ public MaternalMortalityrForm(UNFPAMIDlet midlet) {
     death_location =  new TextField("Code vilage(décès):", null, Constants.LOC_CODE_MAX, TextField.ANY);
     living_children =  new TextField("Nbre enfants (en vie):", null, 2, TextField.NUMERIC);
     dead_children =  new TextField("Nbre enfants (décédés):", null, 2, TextField.NUMERIC);
-    pregnantField = new ChoiceGroup("Grossesse en cours:", ChoiceGroup.POPUP, pregnant, null);
+    pregnantField = new ChoiceGroup("Grossesse en cours:", ChoiceGroup.POPUP, choice, null);
     pregnancy_weeks =  new TextField("Nb de semaine de grossesse:", null, 3, TextField.NUMERIC);
-    pregnancy_related_deathField = new ChoiceGroup("Décès lié à la grossesse:", ChoiceGroup.POPUP, pregnancy_related_death, null);
+    pregnancy_related_deathField = new ChoiceGroup("Décès lié à la grossesse:", ChoiceGroup.POPUP, choice, null);
 
     // add fields to forms
     append(reporting_date);

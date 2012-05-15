@@ -244,7 +244,9 @@ public class Under5Form extends Form implements CommandListener {
             // sends the sms and reply feedback
             SMSSender sms = new SMSSender();
             String number = config.get("server_number");
-            if (sms.send(number, this.toSMSFormat())) {
+//            if (sms.send(number, this.toSMSFormat())) {
+
+            if (1==2){
                 alert = new Alert ("Demande envoyée !", "Vous allez recevoir" +
                                    " une confirmation du serveur.",
                                    null, AlertType.CONFIRMATION);
