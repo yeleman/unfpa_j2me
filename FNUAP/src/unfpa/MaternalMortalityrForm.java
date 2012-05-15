@@ -223,7 +223,7 @@ public MaternalMortalityrForm(UNFPAMIDlet midlet) {
     }
 
     public String toText() {
-        return "F]: " + name.getString();
+        return "MM] " + name.getString();
     }
 
     public void commandAction(Command c, Displayable d) {

@@ -197,7 +197,7 @@ public class Under5Form extends Form implements CommandListener {
 
 
     public String toText() {
-        return "E] " + name.getString();
+        return "MI] " + name.getString();
     }
 
 

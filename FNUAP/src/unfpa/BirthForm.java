@@ -182,7 +182,7 @@ public class BirthForm extends Form implements CommandListener {
         int dob_day = dob_array[0];
         int dob_month = dob_array[1];
 
-        return "N] " + family_name.getString() + dob_day + "/" + dob_month;
+        return "DN] " + family_name.getString() + dob_day + "/" + dob_month;
     }
 
     public void commandAction(Command c, Displayable d) {
