@@ -43,7 +43,6 @@ public class PregnancyForm extends Form implements CommandListener {
     private TextField reporting_location;
     private TextField age;
     private ChoiceGroup end_pregnancyfield;
-    private TextField name_husband;
     private TextField age_pregnancy;
     private DateField expected_date_confinement;
     private ChoiceGroup resulting_pregnancyfield;
@@ -63,7 +62,6 @@ public class PregnancyForm extends Form implements CommandListener {
         reporting_location = new TextField("Code village (visite):", null, Constants.LOC_CODE_MAX, TextField.ANY);
         name_pregnant_woman = new TextField("Nom de la femme enceinte:", null, 20, TextField.ANY);
         age =  new TextField("Age:", null, 4, TextField.NUMERIC);
-        name_husband =  new TextField("Nom de son mari:", null, 20, TextField.ANY);
         age_pregnancy = new TextField("Age de la grossesse (en mois):",  null, 2, TextField.NUMERIC);
         expected_date_confinement =  new DateField("Date probable d'accouchement:", DateField.DATE, TimeZone.getTimeZone("GMT"));
         expected_date_confinement.setDate(new Date());
@@ -77,7 +75,6 @@ public class PregnancyForm extends Form implements CommandListener {
         append(reporting_location);
         append(name_household_head);
         append(name_pregnant_woman);
-        append(name_husband);
         append(age);
         append(age_pregnancy);
         append(expected_date_confinement);
@@ -101,7 +98,6 @@ public class PregnancyForm extends Form implements CommandListener {
        if (reporting_location.getString().length() == 0
            || name_household_head.getString().length() == 0
            || name_pregnant_woman.getString().length() == 0
-           || name_husband.getString().length() == 0
            || age_pregnancy.getString().length() == 0) {
             return false;
         }
@@ -168,7 +164,6 @@ public class PregnancyForm extends Form implements CommandListener {
                            + sep + d_recording // Date
                            + sep + name_pregnant_woman.getString().replace(' ', '_')
                            + sep + age.getString()
-                           + sep + name_husband.getString().replace(' ', '_')
                            + sep + age_pregnancy.getString()
                            + sep + expect_date_c // Si la grossesse n'est pas terminer d_pregnancy = - si non une date(20120427)
                            + sep + resul_pregnancy  // Si la grossesse n'est pas terminer resul_pregnancy = -1 si non l'index de l'element chosi de {"Né vivant", "Mort-né", "Avortement"}

@@ -184,14 +184,14 @@ public class Under5Form extends Form implements CommandListener {
         else
             loc = "A";
 
-        return "fnuap du5 " + sep + reporting_d 
-                            + sep + reporting_location.getString()
-                            + sep + name.getString().replace(' ', '_')
-                            + sep + sex.getString(sex.getSelectedIndex())
-                            + sep + fdob
-                            + sep + dod_d
-                            + sep + death_location.getString()
-                            + sep + loc;
+        return "fnuap du5" + sep + reporting_d 
+                           + sep + reporting_location.getString()
+                           + sep + name.getString().replace(' ', '_')
+                           + sep + sex.getString(sex.getSelectedIndex())
+                           + sep + fdob
+                           + sep + dod_d
+                           + sep + death_location.getString()
+                           + sep + loc;
 
     }
 
