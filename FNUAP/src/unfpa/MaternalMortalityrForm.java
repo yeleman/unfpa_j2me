@@ -121,32 +121,13 @@ public MaternalMortalityrForm(UNFPAMIDlet midlet) {
     public boolean isValid() {
         ErrorMessage = "La date indiquée est dans le futur.";
 
-        if (pregnantField.getString(pregnantField.getSelectedIndex()).equals("OUI") &&
-            pregnancy_weeks.getString().length() == 0) {
-            ErrorMessage = "La durée de la grossesse est obligatoire si la femme est enceinte.";
-            return false;
-        }
-        if (pregnantField.getString(pregnantField.getSelectedIndex()).equals("NON") &&
-            pregnancy_weeks.getString().length() != 0) {
-            ErrorMessage = "La femme doit être enceinte s'il y a une durée de grossesse";
-            return false;
-        }
-
         if (SharedChecks.isDateValide(reporting_date.getDate()) != true) {
             ErrorMessage = "(Date repportage) " + ErrorMessage;
             return false;
         }
-        if (SharedChecks.isDateValide(dob.getDate()) != true) {
-            ErrorMessage = "(Date de naissance) " + ErrorMessage;
-            return false;
-        }
-        if (SharedChecks.isDateValide(dod.getDate())!= true){
-            ErrorMessage = "(Date de la mort) " + ErrorMessage;
-            return false;
-        }
 
-        if (SharedChecks.compareDobDod(dob.getDate(), dod.getDate()) == true) {
-            ErrorMessage = "[Erreur] la date de la mort est superieur à la date de la naissance";
+        if (SharedChecks.ValidateCode(reporting_location.getString()) == true) {
+            ErrorMessage = "[Code village (visite)] ce code n'est pas valide";
             return false;
         }
 
@@ -154,15 +135,43 @@ public MaternalMortalityrForm(UNFPAMIDlet midlet) {
             String age_nbr = String.valueOf(age.getString().charAt(age.getString().length() - 1));
 
             if (!age_nbr.equals("a") && !age_nbr.equals("m")){
-                ErrorMessage = "Le nombre d'age doit être suivi d'un 'a' pour l'année ou d'un 'm' pour le mois";
+                ErrorMessage = "[Age (DDN inconnue)] le nombre d'âge doit être suivi d'un 'a' pour l'année ou d'un 'm' pour le mois";
                 return false;
             }
         }
-        
-        if (SharedChecks.ValidateCode(reporting_location.getString()) == true) {
-            ErrorMessage = "[Code village (visite)] ce code n'est pas valide";
+
+        if (SharedChecks.compareDobDod(dob.getDate(), reporting_date.getDate()) == true) {
+            ErrorMessage = "[Erreur] la date de visite ne peut pas être inferieure à la date de naissance";
             return false;
         }
+
+        if (SharedChecks.isDateValide(dod.getDate())!= true){
+            ErrorMessage = "(Date du décès) " + ErrorMessage;
+            return false;
+        }
+
+        if (SharedChecks.compareDobDod(dob.getDate(), dod.getDate()) == true) {
+            ErrorMessage = "[Erreur] la date du décès ne peut pas être inferieure à la date de naissance";
+            return false;
+        }
+
+        if (SharedChecks.ValidateCode(death_location.getString()) == true) {
+            ErrorMessage = "[Code village (décès)] ce code n'est pas valide";
+            return false;
+        }
+
+        if (pregnantField.getString(pregnantField.getSelectedIndex()).equals("Oui") &&
+            pregnancy_weeks.getString().length() == 0) {
+            ErrorMessage = "[Nb de semaine de grossesse] la durée de la grossesse est obligatoire si la femme est enceinte.";
+            return false;
+        }
+
+        if (pregnantField.getString(pregnantField.getSelectedIndex()).equals("Non") &&
+            pregnancy_weeks.getString().length() != 0) {
+            ErrorMessage = "[Grossesse en cours] la femme doit être enceinte s'il y a une durée de grossesse.";
+            return false;
+        }
+
         return true;
     }
 

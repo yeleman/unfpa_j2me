@@ -123,7 +123,7 @@ public CommoditiesForm(UNFPAMIDlet midlet) {
     nb_amoxicillin_cap_gel = new TextField("Quantité dispo. (capsules)", null, 6, TextField.NUMERIC);
     amoxicillin_suspension = new ChoiceGroup("Amoxicilline suspension", ChoiceGroup.POPUP, choice, null);
     nb_amoxicillin_suspension = new TextField("Quantité dispo. (bouteilles)", null, 6, TextField.NUMERIC);
-    azithromycine_tab = new ChoiceGroup("Azithromycine (comprimé / gel).", ChoiceGroup.POPUP, choice, null);
+    azithromycine_tab = new ChoiceGroup("Azithromycine (comprimé/gel)", ChoiceGroup.POPUP, choice, null);
     nb_azithromycine_tab = new TextField("Quantité dispo. (comprimés)", null, 6, TextField.NUMERIC);
     azithromycine_suspension = new ChoiceGroup("Suspension d'azithromycine", ChoiceGroup.POPUP, choice, null);
     nb_azithromycine_suspension = new TextField("Quantité dispo. (bouteilles)", null, 6, TextField.NUMERIC);
@@ -141,7 +141,7 @@ public CommoditiesForm(UNFPAMIDlet midlet) {
     nb_iron = new TextField("Quantité dispo. (comprimés)", null, 6, TextField.NUMERIC);
     folate = new ChoiceGroup("acide folique", ChoiceGroup.POPUP, choice, null);
     nb_folate = new TextField("Quantité dispo. (comprimés)", null, 6, TextField.NUMERIC);
-    iron_folate = new ChoiceGroup("Fer / acide folique", ChoiceGroup.POPUP, choice, null);
+    iron_folate = new ChoiceGroup("Fer/acide folique", ChoiceGroup.POPUP, choice, null);
     nb_iron_folate = new TextField("Quantité dispo. (comprimés)", null, 6, TextField.NUMERIC);
     magnesium_sulfate = new ChoiceGroup("Sulfate de magnésium", ChoiceGroup.POPUP, choice, null);
     nb_magnesium_sulfate = new TextField("Quantité dispo. (flacons)", null, 6, TextField.NUMERIC);

@@ -38,7 +38,7 @@ public class PregnancyForm extends Form implements CommandListener {
 
     //private TextField reporting_location;
     private TextField name_household_head;
-    private DateField date_recording;
+    private DateField reporting_date;
     private TextField name_pregnant_woman;
     private TextField reporting_location;
     private TextField age;
@@ -57,8 +57,8 @@ public class PregnancyForm extends Form implements CommandListener {
         store = new SMSStore();
 
         name_household_head = new TextField("Nom du chef de menage:", null, 20, TextField.ANY);
-        date_recording = new DateField("Date de visite:", DateField.DATE, TimeZone.getTimeZone("GMT"));
-        date_recording.setDate(new Date());
+        reporting_date = new DateField("Date de visite:", DateField.DATE, TimeZone.getTimeZone("GMT"));
+        reporting_date.setDate(new Date());
         reporting_location = new TextField("Code village (visite):", null, Constants.LOC_CODE_MAX, TextField.ANY);
         name_pregnant_woman = new TextField("Nom de la femme enceinte:", null, 20, TextField.ANY);
         age =  new TextField("Age:", null, 4, TextField.NUMERIC);
@@ -71,7 +71,7 @@ public class PregnancyForm extends Form implements CommandListener {
         date_pregnancy.setDate(new Date());
 
         // add fields to forms
-        append(date_recording);
+        append(reporting_date);
         append(reporting_location);
         append(name_household_head);
         append(name_pregnant_woman);
@@ -113,16 +113,26 @@ public class PregnancyForm extends Form implements CommandListener {
     public boolean isValid() {
         int agepregnancy =  Integer.parseInt(age_pregnancy.getString());
 
+        if (SharedChecks.isDateValide(reporting_date.getDate()) != true) {
+            ErrorMessage = "[Date de visite] " + ErrorMessage;
+            return false;
+        }
+
+        if (SharedChecks.ValidateCode(reporting_location.getString()) == true) {
+            ErrorMessage = "[Code village (visite)] ce code n'est pas valide.";
+            return false;
+        }
+
         if (agepregnancy < 0){
-            ErrorMessage = "Le nombre de mois doit être supérieur à zéro.";
+            ErrorMessage = "[Age de la grossesse (en mois)] le nombre de mois doit être supérieur à zéro.";
             return false;
         }
         if (agepregnancy > 12){
-                ErrorMessage = "Le nombre de mois doit être inférieur à 12.";
+                ErrorMessage = "[Age de la grossesse (en mois)] le nombre de mois doit être inférieur à 12.";
                 return false;
             }
         if (SharedChecks.ValidateCode(reporting_location.getString()) == true) {
-            ErrorMessage = "[Code village (visite)] ce code n'est pas valide";
+            ErrorMessage = "[Code village (visite)] ce code n'est pas valide.";
             return false;
         }
 
@@ -140,10 +150,10 @@ public class PregnancyForm extends Form implements CommandListener {
         int resul_pregnancy = 0;
         String d_pregnancy = "-";
         
-        int date_recording_array[] = SharedChecks.formatDateString(date_recording.getDate());
-        String d_recording = String.valueOf(date_recording_array[2]) 
-                             + SharedChecks.addzero(date_recording_array[1])
-                             + SharedChecks.addzero(date_recording_array[0]);
+        int reporting_date_array[] = SharedChecks.formatDateString(reporting_date.getDate());
+        String d_recording = String.valueOf(reporting_date_array[2])
+                             + SharedChecks.addzero(reporting_date_array[1])
+                             + SharedChecks.addzero(reporting_date_array[0]);
 
         int  expected_date_c_array[] = SharedChecks.formatDateString(expected_date_confinement.getDate());
             expect_date_c = String.valueOf(expected_date_c_array[2])

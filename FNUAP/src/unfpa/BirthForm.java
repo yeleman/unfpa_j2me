@@ -56,15 +56,15 @@ public class BirthForm extends Form implements CommandListener {
         store = new SMSStore();
 
         //date
-        reporting_date =  new DateField("Date de visite", DateField.DATE, TimeZone.getTimeZone("GMT"));
+        reporting_date =  new DateField("Date de visite:", DateField.DATE, TimeZone.getTimeZone("GMT"));
         reporting_date.setDate(now);
         dob =  new DateField("Date de naissance:", DateField.DATE, TimeZone.getTimeZone("GMT"));
         dob.setDate(now);
 
         //text
-        name_mother = new TextField("Prénom de la mère", null, 20, TextField.ANY);
-        family_name = new TextField("Nom de famille", null, 20, TextField.ANY);
-        name_child = new TextField("Prénom de l'enfant", null, 20, TextField.ANY);
+        name_mother = new TextField("Prénom de la mère:", null, 20, TextField.ANY);
+        family_name = new TextField("Nom de famille:", null, 20, TextField.ANY);
+        name_child = new TextField("Prénom de l'enfant:", null, 20, TextField.ANY);
         reporting_location = new TextField("Code village (visite):", null, Constants.LOC_CODE_MAX, TextField.ANY);
 
         //choice
@@ -105,20 +105,21 @@ public class BirthForm extends Form implements CommandListener {
         ErrorMessage = "La date indiquée est dans le futur.";
 
         if (SharedChecks.isDateValide(reporting_date.getDate()) != true) {
-            ErrorMessage = "[Date repportage] " + ErrorMessage;
+            ErrorMessage = "[Date de visite] " + ErrorMessage;
+            return false;
+        }
+
+        if (SharedChecks.ValidateCode(reporting_location.getString()) == true) {
+            ErrorMessage = "[Code village (visite)] ce code n'est pas valide.";
             return false;
         }
 
         if (SharedChecks.isDateValide(dob.getDate()) != true) {
-            ErrorMessage = "[Date repportage] " + ErrorMessage;
+            ErrorMessage = "[Date de naissance] " + ErrorMessage;
             return false;
         }
         if (SharedChecks.compareDobDod(dob.getDate(), reporting_date.getDate()) == true) {
-            ErrorMessage = "[Erreur] la date de visite ne peut pas être inferieure à la date de la naissance";
-            return false;
-        }
-        if (SharedChecks.ValidateCode(reporting_location.getString()) == true) {
-            ErrorMessage = "[Code village (visite)] ce code n'est pas valide";
+            ErrorMessage = "[Erreur] la date de visite ne peut pas être inferieure à la date de la naissance.";
             return false;
         }
 
