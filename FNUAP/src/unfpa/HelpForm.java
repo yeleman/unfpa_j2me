@@ -74,8 +74,8 @@ public class HelpForm extends Form implements CommandListener {
                     "Si la grossesse n'est pas terminée, les champs 'Issue de la grossesse' et 'Date de l'issue de la grossesse' ne sont pas pris en comptes.\n" +
                 "En cas de problème, contactez l'ANTIM.";
         } else if (section.equalsIgnoreCase("commodities")) {
-            text = "Repondre par OUI ou NON si le service propose le planing familial et l'accouchement." +
-                    "Si la structure fournis des produits selectionnez oui et dans le champ dans bas indiquez la quantité.\n" +
+            text = "Repondre par OUI ou NON si le service propose le planing familial et l'accouchement.\n" +
+                    "Si la structure fournit des produits selectionnez oui et dans le champ dans bas indiquez la quantité.\n" +
                 "La période concernée est le mois precedant.\n "  +
                 "En cas de problème, contactez l'ANTIM.";
         } else {
