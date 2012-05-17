@@ -223,7 +223,8 @@ public MaternalMortalityrForm(UNFPAMIDlet midlet) {
     }
 
     public String toText() {
-        return "MM] " + name.getString();
+        int reporting_date_array[] = SharedChecks.formatDateString(reporting_date.getDate());
+        return "M-" + reporting_date_array[0] + "] " + name.getString();
     }
 
     public void commandAction(Command c, Displayable d) {

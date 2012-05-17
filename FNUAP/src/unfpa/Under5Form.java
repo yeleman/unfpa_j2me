@@ -197,7 +197,8 @@ public class Under5Form extends Form implements CommandListener {
 
 
     public String toText() {
-        return "MI] " + name.getString();
+        int reporting_date_array[] = SharedChecks.formatDateString(reporting_date.getDate());
+        return "E-" + reporting_date_array[0] + "] " + name.getString();
     }
 
 
@@ -237,9 +238,7 @@ public class Under5Form extends Form implements CommandListener {
             // sends the sms and reply feedback
             SMSSender sms = new SMSSender();
             String number = config.get("server_number");
-//            if (sms.send(number, this.toSMSFormat())) {
-
-            if (1==2){
+            if (sms.send(number, this.toSMSFormat())) {
                 alert = new Alert ("Demande envoyée !", "Vous allez recevoir" +
                                    " une confirmation du serveur.",
                                    null, AlertType.CONFIRMATION);

@@ -286,8 +286,8 @@ public CommoditiesForm(UNFPAMIDlet midlet) {
 
     public String toText() {
 
-        return  "P]:" + reporting_month.getString(reporting_month.getSelectedIndex())
-                + "/" + reporting_year.getString(reporting_year.getSelectedIndex());
+        return  "P] " + reporting_month.getString(reporting_month.getSelectedIndex())
+                + "-" + reporting_year.getString(reporting_year.getSelectedIndex());
     }
     
     public void commandAction(Command c, Displayable d) {

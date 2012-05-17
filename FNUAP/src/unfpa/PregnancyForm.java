@@ -171,7 +171,9 @@ public class PregnancyForm extends Form implements CommandListener {
         }
 
     public String toText() {
-        return "DG] " + name_household_head.getString() ;
+        int date_recording_array[] = SharedChecks.formatDateString(date_recording.getDate());
+        
+        return "G-" +  date_recording_array[0] + "] " + name_household_head.getString();
     }
 
     public void commandAction(Command c, Displayable d) {

@@ -177,12 +177,9 @@ public class BirthForm extends Form implements CommandListener {
     }
 
     public String toText() {
-
         int dob_array[] = SharedChecks.formatDateString(dob.getDate());
-        int dob_day = dob_array[0];
-        int dob_month = dob_array[1];
 
-        return "DN] " + family_name.getString() + dob_day + "/" + dob_month;
+        return "N-" + dob_array[0] + "] " + family_name.getString();
     }
 
     public void commandAction(Command c, Displayable d) {
