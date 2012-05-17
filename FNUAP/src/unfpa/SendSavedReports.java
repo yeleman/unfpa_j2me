@@ -30,15 +30,17 @@ public class SendSavedReports extends List implements CommandListener {
         config = new Configuration();
 
         for (int i=0; i<all_sms.length; i++) {
-            append(store.get(i).name, null);
+            append(all_sms[i].name, null);
 //            append(store.get(i).name, null);
         }
 
         setCommandListener (this);
         addCommand (CMD_EXIT);
-        addCommand(CMD_SEND);
-        addCommand(CMD_SEND_ALL);
-        addCommand (CMD_DELETE);
+        if (store.count() > 0){
+            addCommand(CMD_SEND);
+            addCommand(CMD_SEND_ALL);
+            addCommand (CMD_DELETE);
+        }
         addCommand (CMD_HELP);
     }
 
