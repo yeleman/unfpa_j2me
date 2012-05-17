@@ -75,7 +75,7 @@ public class HelpForm extends Form implements CommandListener {
                 "En cas de problème, contactez l'ANTIM.";
         } else if (section.equalsIgnoreCase("commodities")) {
             text = "Repondre par OUI ou NON si le service propose le planing familial et l'accouchement." +
-                    "Si la structure fournist des produits selectionnez oui et dans le champ dans bas indiquez la quantité.\n" +
+                    "Si la structure fournis des produits selectionnez oui et dans le champ dans bas indiquez la quantité.\n" +
                 "La période concernée est le mois precedant.\n "  +
                 "En cas de problème, contactez l'ANTIM.";
         } else {
