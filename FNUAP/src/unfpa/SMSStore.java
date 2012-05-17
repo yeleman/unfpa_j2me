@@ -75,12 +75,14 @@ public class SMSStore {
             int i = 0;
             if (num_recors > 0) {
                 while( recordEnumeration.hasNextElement() ) {
-                    String string = new String(recordEnumeration.nextRecord());
-                    if (string != null) {
-                        StoredSMS ssms = this.valueToSMS(string);
-                        all_sms[i] = ssms;
-                        i++;
+                    int index = recordEnumeration.nextRecordId();
+                    if (!this.isValidRecord(index)) {
+                        continue;
                     }
+                    // we need to get record-- since get() adds ++.
+                    StoredSMS record = this.get(index - 1);
+                    all_sms[i] = record;
+                    i++;
                 }
             } else {
                 System.out.println("no records");
@@ -92,6 +94,39 @@ public class SMSStore {
         }
         return all_sms;
     }
+
+    public boolean isValidRecord(int id) {
+
+        try {
+            recordstore = RecordStore.openRecordStore(SMSStore.database, true);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return false;
+        }
+
+        try {
+            recordstore.getRecordSize(id);
+            try { recordstore.closeRecordStore(); } catch (Exception ex) {}
+            return true;
+        } catch (RecordStoreNotOpenException e1) {
+            e1.printStackTrace();
+            try { recordstore.closeRecordStore(); } catch (Exception ex) {}
+            return false;
+        } catch (InvalidRecordIDException e1) {
+            //e1.printStackTrace(); //this printStackTrace is hidden on purpose: the error is in fact used to find out if the record id is valid or not.
+            try { recordstore.closeRecordStore(); } catch (Exception ex) {}
+            return false;
+        } catch (RecordStoreException e1) {
+            e1.printStackTrace();
+            try { recordstore.closeRecordStore(); } catch (Exception ex) {}
+            return false;
+        }
+        catch (Exception ex2) {
+            try { recordstore.closeRecordStore(); } catch (Exception ex) {}
+            return false;
+        }
+    }
+
 
     /*
      * Delete one record from its index.
