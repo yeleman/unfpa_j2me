@@ -51,7 +51,7 @@ public class MaternalMortalityrForm extends Form implements CommandListener {
 
 
 public MaternalMortalityrForm(UNFPAMIDlet midlet) {
-    super("Mortalité maternelle");
+    super("Mortalité Maternelle");
     this.midlet = midlet;
 
     config = new Configuration();
