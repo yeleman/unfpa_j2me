@@ -34,16 +34,16 @@ public class BirthForm extends Form implements CommandListener {
 
     //register
     private DateField reporting_date;
-    private TextField name_mother;
+    private TextField surname_mother;
     private TextField family_name;
-    private TextField name_child;
+    private TextField surname_child;
     private TextField reporting_location;
     private static final String[] sexList= {"F", "M"};
     private ChoiceGroup sex;
     private static final String[] YesNon = {"OUI", "NON"};
-    private static final String[] TypeLocation = {"Domicile", "Centre", "Autre"};
+    private static final String[] birth_place = {"Domicile", "Centre", "Autre"};
     private ChoiceGroup born_alive;
-    private ChoiceGroup location;
+    private ChoiceGroup birth_location;
     private DateField dob;
     Date now = new Date();
     String sep = " ";
@@ -62,23 +62,23 @@ public class BirthForm extends Form implements CommandListener {
         dob.setDate(now);
 
         //text
-        name_mother = new TextField("Prénom de la mère:", null, 20, TextField.ANY);
+        surname_mother = new TextField("Prénom de la mère:", null, 20, TextField.ANY);
         family_name = new TextField("Nom de famille:", null, 20, TextField.ANY);
-        name_child = new TextField("Prénom de l'enfant:", null, 20, TextField.ANY);
+        surname_child = new TextField("Prénom de l'enfant:", null, 20, TextField.ANY);
         reporting_location = new TextField("Code village (visite):", null, Constants.LOC_CODE_MAX, TextField.ANY);
 
         //choice
-        location = new ChoiceGroup("Lieu de naissance:", ChoiceGroup.POPUP, TypeLocation, null);
+        birth_location = new ChoiceGroup("Lieu de naissance:", ChoiceGroup.POPUP, birth_place, null);
         sex = new ChoiceGroup("Sexe:", ChoiceGroup.POPUP, sexList, null);
         born_alive = new ChoiceGroup("Né vivant:", ChoiceGroup.POPUP, YesNon, null);
 
         append(reporting_date);
         append(reporting_location);
         append(family_name);
-        append(name_mother);
-        append(name_child);
+        append(surname_mother);
+        append(surname_child);
         append(dob);
-        append(location);
+        append(birth_location);
         append(sex);
         append(born_alive);
 
@@ -143,9 +143,9 @@ public class BirthForm extends Form implements CommandListener {
                              + SharedChecks.addzero(dob_array[1]) 
                              + SharedChecks.addzero(dob_array[0]);
 
-        if (location.getString(location.getSelectedIndex()).equals("Domicile"))
+        if (birth_location.getString(birth_location.getSelectedIndex()).equals("Domicile"))
             loc = "D";
-        else if (location.getString(location.getSelectedIndex()).equals("Centre"))
+        else if (birth_location.getString(birth_location.getSelectedIndex()).equals("Centre"))
             loc = "C";
         else
             loc = "A";
@@ -155,15 +155,15 @@ public class BirthForm extends Form implements CommandListener {
         else
             born = 0;
 
-        if (name_mother.getString().length() == 0)
+        if (surname_mother.getString().length() == 0)
             mother = "-";
         else
-            mother = name_mother.getString();
+            mother = surname_mother.getString();
 
-        if (name_child.getString().length() == 0)
+        if (surname_child.getString().length() == 0)
             child = "-";
         else
-            child = name_child.getString();
+            child = surname_child.getString();
 
 
         return "fnuap born" + sep + reporting_d
