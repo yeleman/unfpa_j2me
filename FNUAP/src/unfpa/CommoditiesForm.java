@@ -2,6 +2,8 @@
 package unfpa;
 
 import javax.microedition.lcdui.*;
+import java.util.TimeZone;
+import java.util.Date;
 import unfpa.Configuration.*;
 import unfpa.Constants.*;
 import unfpa.HelpForm.*;
@@ -229,9 +231,28 @@ public CommoditiesForm(UNFPAMIDlet midlet) {
      */
 
     public boolean isValid() {
-         if (reporting_month.getSelectedIndex() == 0) {
+        
+        
+        int year = Integer.parseInt(reporting_year.getString(reporting_year.getSelectedIndex()));
+        int month = reporting_month.getSelectedIndex();
+        
+        Date now = new Date();
+        int array[] = SharedChecks.formatDateString(now);
+        int now_month = array[1];
+        int now_year = array[2];
+        if (month == 0) {
              ErrorMessage = "Le mois n'est pas valide.";
              return false;
+        }
+        if (now_year < year){
+            ErrorMessage = "Le l'année est dans le future.";
+            return false;
+        }
+        else {
+            if(now_month < month){
+                ErrorMessage = "Le mois est dans le future.";
+                return false;
+            }
         }
         return true;
     }

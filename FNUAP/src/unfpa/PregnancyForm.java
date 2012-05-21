@@ -34,19 +34,19 @@ public class PregnancyForm extends Form implements CommandListener {
 
     private String ErrorMessage = "";
     private static final String[] choix = {"NON", "OUI"};
-    private static final String[] resulting_pregnancy = {"Né vivant", "Mort-né", "Avortement"};
+    private static final String[] pregnancy_result = {"Né vivant", "Mort-né", "Avortement"};
 
     //private TextField reporting_location;
-    private TextField name_household_head;
+    private TextField householder_name;
     private DateField reporting_date;
-    private TextField name_pregnant_woman;
+    private TextField mother_name;
     private TextField reporting_location;
     private TextField age;
     private ChoiceGroup end_pregnancyfield;
-    private TextField age_pregnancy;
-    private DateField expected_date_confinement;
-    private ChoiceGroup resulting_pregnancyfield;
-    private DateField date_pregnancy;
+    private TextField pregnancy_age;
+    private DateField expected_delivery_date;
+    private ChoiceGroup pregnancy_resultfield;
+    private DateField delivery_date;
 
 
     public PregnancyForm(UNFPAMIDlet midlet) {
@@ -56,31 +56,31 @@ public class PregnancyForm extends Form implements CommandListener {
         config = new Configuration();
         store = new SMSStore();
 
-        name_household_head = new TextField("Nom du chef de ménage:", null, 20, TextField.ANY);
+        householder_name = new TextField("Nom du chef de ménage:", null, 20, TextField.ANY);
         reporting_date = new DateField("Date de visite:", DateField.DATE, TimeZone.getTimeZone("GMT"));
         reporting_date.setDate(new Date());
         reporting_location = new TextField("Code village (visite):", null, Constants.LOC_CODE_MAX, TextField.ANY);
-        name_pregnant_woman = new TextField("Nom de la femme enceinte:", null, 20, TextField.ANY);
+        mother_name = new TextField("Nom de la mère:", null, 20, TextField.ANY);
         age =  new TextField("Age:", null, 4, TextField.NUMERIC);
-        age_pregnancy = new TextField("Age de la grossesse (en mois):",  null, 2, TextField.NUMERIC);
-        expected_date_confinement =  new DateField("Date probable d'accouchement:", DateField.DATE, TimeZone.getTimeZone("GMT"));
-        expected_date_confinement.setDate(new Date());
+        pregnancy_age = new TextField("Age de la grossesse (en mois):",  null, 2, TextField.NUMERIC);
+        expected_delivery_date =  new DateField("Date probable d'accouchement:", DateField.DATE, TimeZone.getTimeZone("GMT"));
+        expected_delivery_date.setDate(new Date());
         end_pregnancyfield = new ChoiceGroup("La grossesse est-elle terminée?", ChoiceGroup.POPUP, choix, null);
-        resulting_pregnancyfield = new ChoiceGroup("Issue de la grossesse:", ChoiceGroup.POPUP, resulting_pregnancy, null);
-        date_pregnancy = new DateField("Date de l'issue de la grossesse:", DateField.DATE, TimeZone.getTimeZone("GMT"));
-        date_pregnancy.setDate(new Date());
+        pregnancy_resultfield = new ChoiceGroup("Issue de la grossesse:", ChoiceGroup.POPUP, pregnancy_result, null);
+        delivery_date = new DateField("Date de l'issue de la grossesse:", DateField.DATE, TimeZone.getTimeZone("GMT"));
+        delivery_date.setDate(new Date());
 
         // add fields to forms
         append(reporting_date);
         append(reporting_location);
-        append(name_household_head);
-        append(name_pregnant_woman);
+        append(householder_name);
+        append(mother_name);
         append(age);
-        append(age_pregnancy);
-        append(expected_date_confinement);
+        append(pregnancy_age);
+        append(expected_delivery_date);
         append(end_pregnancyfield);
-        append(resulting_pregnancyfield);
-        append(date_pregnancy);
+        append(pregnancy_resultfield);
+        append(delivery_date);
 
         addCommand(CMD_EXIT);
         addCommand(CMD_SEND);
@@ -96,9 +96,9 @@ public class PregnancyForm extends Form implements CommandListener {
 
     public boolean isComplete() {
        if (reporting_location.getString().length() == 0
-           || name_household_head.getString().length() == 0
-           || name_pregnant_woman.getString().length() == 0
-           || age_pregnancy.getString().length() == 0) {
+           || householder_name.getString().length() == 0
+           || mother_name.getString().length() == 0
+           || pregnancy_age.getString().length() == 0) {
             return false;
         }
         return true;
@@ -111,7 +111,7 @@ public class PregnancyForm extends Form implements CommandListener {
      */
 
     public boolean isValid() {
-        int agepregnancy =  Integer.parseInt(age_pregnancy.getString());
+        int agepregnancy =  Integer.parseInt(pregnancy_age.getString());
 
         if (SharedChecks.isDateValide(reporting_date.getDate()) != true) {
             ErrorMessage = "[Date de visite] " + ErrorMessage;
@@ -151,26 +151,26 @@ public class PregnancyForm extends Form implements CommandListener {
                              + SharedChecks.addzero(reporting_date_array[1])
                              + SharedChecks.addzero(reporting_date_array[0]);
 
-        int  expected_date_c_array[] = SharedChecks.formatDateString(expected_date_confinement.getDate());
+        int  expected_date_c_array[] = SharedChecks.formatDateString(expected_delivery_date.getDate());
             expect_date_c = String.valueOf(expected_date_c_array[2])
                             + SharedChecks.addzero(expected_date_c_array[1])
                             + SharedChecks.addzero(expected_date_c_array[0]);
 
         if (end_pregnancyfield.getString(end_pregnancyfield.getSelectedIndex()).equals("OUI")) {
-            resul_pregnancy = resulting_pregnancyfield.getSelectedIndex() + 1;
+            resul_pregnancy = pregnancy_resultfield.getSelectedIndex() + 1;
 
-            int date_pregnancy_array[] = SharedChecks.formatDateString(date_pregnancy.getDate());
-            d_pregnancy = String.valueOf(date_pregnancy_array[2])
-                          + SharedChecks.addzero(date_pregnancy_array[1])
-                          + SharedChecks.addzero(date_pregnancy_array[0]);
+            int delivery_date_array[] = SharedChecks.formatDateString(delivery_date.getDate());
+            d_pregnancy = String.valueOf(delivery_date_array[2])
+                          + SharedChecks.addzero(delivery_date_array[1])
+                          + SharedChecks.addzero(delivery_date_array[0]);
         }
 
         return "fnuap gpw" + sep + reporting_location.getString()
-                           + sep + name_household_head.getString().replace(' ', '_')
+                           + sep + householder_name.getString().replace(' ', '_')
                            + sep + d_recording // Date
-                           + sep + name_pregnant_woman.getString().replace(' ', '_')
-                           + sep + age.getString()
-                           + sep + age_pregnancy.getString()
+                           + sep + mother_name.getString().replace(' ', '_')
+                           + sep + age.getString() + "a"
+                           + sep + pregnancy_age.getString()
                            + sep + expect_date_c // Si la grossesse n'est pas terminer d_pregnancy = - si non une date(20120427)
                            + sep + resul_pregnancy  // Si la grossesse n'est pas terminer resul_pregnancy = -1 si non l'index de l'element chosi de {"Né vivant", "Mort-né", "Avortement"}
                            + sep + d_pregnancy; // Si la grossesse n'est pas terminer d_pregnancy = - si non une date(20120427)
@@ -179,7 +179,7 @@ public class PregnancyForm extends Form implements CommandListener {
     public String toText() {
         int date_recording_array[] = SharedChecks.formatDateString(reporting_date.getDate());
         
-        return "G-" +  date_recording_array[0] + "] " + name_household_head.getString();
+        return "G-" +  date_recording_array[0] + "] " + householder_name.getString();
     }
 
     public void commandAction(Command c, Displayable d) {
