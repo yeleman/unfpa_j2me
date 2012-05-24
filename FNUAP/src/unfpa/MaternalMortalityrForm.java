@@ -210,7 +210,7 @@ public MaternalMortalityrForm(UNFPAMIDlet midlet) {
             pregnancy_related = pregnancy_related_deathField.getSelectedIndex();
         }
 
-        String pregnancy_w = "-1";
+        String pregnancy_w = "-";
         if (pregnantField.getString(pregnantField.getSelectedIndex()).equals("OUI")){
             pregnancy_w = pregnancy_weeks.getString();
         }
