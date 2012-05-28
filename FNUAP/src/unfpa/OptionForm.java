@@ -21,8 +21,9 @@ public class OptionForm extends Form implements CommandListener {
     
     private Configuration config;
     private TextField numberField;
+    private ChoiceGroup profileField;
     private TextField cscom_code;
-    private TextField profile;
+     private static final String[] profile = {"CREDOS", "UNAFP"};
     UNFPAMIDlet midlet;
 
 public OptionForm(UNFPAMIDlet midlet) {
@@ -41,11 +42,11 @@ public OptionForm(UNFPAMIDlet midlet) {
 
     numberField = new TextField ("Numéro du serveur:", phone_number, 8, TextField.PHONENUMBER);
     cscom_code = new TextField("Code CSCOM", config.get("cscom_code"), 20, TextField.ANY);
-    profile = new TextField("Profile", config.get("profile"), 20, TextField.ANY);
+    profileField = new ChoiceGroup("Profile", ChoiceGroup.POPUP, profile, null);
 
     append(numberField);
     append(cscom_code);
-    append(profile);
+    append(profileField);
 
     addCommand(CMD_EXIT);
     addCommand(CMD_SAVE);
@@ -93,7 +94,9 @@ public OptionForm(UNFPAMIDlet midlet) {
                 this.midlet.display.setCurrent (alert, this);
                 return;
             }
-            if (config.set("server_number", numberField.getString()) && config.set("cscom_code", cscom_code.getString()) && config.set("profile", profile.getString())) {
+            if (config.set("server_number", numberField.getString()) && 
+                    config.set("cscom_code", cscom_code.getString()) &&
+                    config.set("profile", profileField.getString(profileField.getSelectedIndex()))) {
                 alert = new Alert ("Confirmation!", "Votre modification a été bien enregistré.", null, AlertType.CONFIRMATION);
                 this.midlet.display.setCurrent (alert, this.midlet.mainMenu);
             } else {

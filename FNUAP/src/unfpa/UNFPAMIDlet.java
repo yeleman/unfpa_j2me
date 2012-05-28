@@ -25,6 +25,7 @@ public class UNFPAMIDlet extends MIDlet implements CommandListener {
     public Display display;
     public List mainMenu;
     private Configuration config;
+    private String profile = "";
 
     public UNFPAMIDlet() {
         display = Display.getDisplay(this);
@@ -34,11 +35,20 @@ public class UNFPAMIDlet extends MIDlet implements CommandListener {
 
         config = new Configuration();
         SMSStore store = new SMSStore();
+        profile = config.get("profile");
 
-        String[] mainMenu_items = {"Mort. infantile", "Mort. maternelle",
-                                   "Naissance", "Grossesse", "Dispo. Produits",
+        String[] mainMenu_credos = {"Mort. infantile", "Naissance", "Grossesse",
+                                    "Envoi form. (" + store.count() + ")"};
+
+        String[] mainMenu_unfpa = {"Mort. infantile", "Mort. maternelle",
+                                   "Dispo. Produits",
                                    "Envoi form. (" + store.count() + ")"};
-        mainMenu = new List("Formulaires FNUAP", Choice.IMPLICIT, mainMenu_items, null);
+        if(profile.equals("CREDOS")){
+            mainMenu = new List("Formulaires FNUAP", Choice.IMPLICIT, mainMenu_credos, null);
+        }
+        if(profile.equals("UNAFP")){
+            mainMenu = new List("Formulaires FNUAP", Choice.IMPLICIT, mainMenu_unfpa, null);
+        }
 
         // setup menu
         mainMenu.setCommandListener (this);
@@ -62,7 +72,36 @@ public class UNFPAMIDlet extends MIDlet implements CommandListener {
         // if it originates from the MainMenu list
         if (s.equals (mainMenu)) {
             // and is a select command
-            if (c == List.SELECT_COMMAND) {
+            if (c == List.SELECT_COMMAND && this.profile.equals("CREDOS")) {
+
+                switch (((List) s).getSelectedIndex ()) {
+
+                // Form under5
+                case 0:
+                    Under5Form u5_form = new Under5Form(this);
+                    display.setCurrent (u5_form);
+                    break;
+
+                // Birth
+                case 1:
+                    BirthForm birth_form = new BirthForm(this);
+                    display.setCurrent (birth_form);
+                    break;
+
+                // pregnancy form
+                case 2:
+                    PregnancyForm pregnancy_reports = new PregnancyForm(this);
+                    display.setCurrent (pregnancy_reports);
+                    break;
+
+                // submit stored messages
+                case 3:
+                    SendSavedReports saved_reports = new SendSavedReports(this);
+                    display.setCurrent (saved_reports);
+                    break;
+                }
+            }
+            if (c == List.SELECT_COMMAND && this.profile.equals("UNAFP")) {
 
                 switch (((List) s).getSelectedIndex ()) {
 
@@ -78,31 +117,18 @@ public class UNFPAMIDlet extends MIDlet implements CommandListener {
                      display.setCurrent (matmor_form);
                     break;
 
-                // Birth
-                case 2:
-                    BirthForm birth_form = new BirthForm(this);
-                    display.setCurrent (birth_form);
-                    break;
-
-                // pregnancy form
-                case 3:
-                    PregnancyForm pregnancy_reports = new PregnancyForm(this);
-                    display.setCurrent (pregnancy_reports);
-                    break;
-
                 // products
-                case 4:
+                case 2:
                     CommoditiesForm stock_form = new CommoditiesForm(this);
                     display.setCurrent (stock_form);
                     break;
 
 
                 // submit stored messages
-                case 5:
+                case 3:
                     SendSavedReports saved_reports = new SendSavedReports(this);
                     display.setCurrent (saved_reports);
                     break;
-
                 }
             }
         }

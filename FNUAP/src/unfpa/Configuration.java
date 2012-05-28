@@ -34,7 +34,7 @@ public class Configuration {
             this.set("server_number", "00000000", true);
             this.set("server_number", Constants.server_number, false);
             this.set("cscom_code", "kid", true);
-            this.set("profile", "chw", true);
+            this.set("profile", "UNAFP", true);
         }
     }
 
@@ -55,7 +55,7 @@ public class Configuration {
         try
         {
         // open record store
-        recordstore = RecordStore.openRecordStore(Configuration.database, true );
+        recordstore = RecordStore.openRecordStore(Configuration.database, true);
 
         // record is internally a byte array
         byte[] byteInputData = new byte[1024];
