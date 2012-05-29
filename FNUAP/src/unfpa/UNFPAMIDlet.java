@@ -44,9 +44,9 @@ public class UNFPAMIDlet extends MIDlet implements CommandListener {
                                    "Dispo. Produits",
                                    "Envoi form. (" + store.count() + ")"};
         if(profile.equals("CREDOS")){
-            mainMenu = new List("Formulaires FNUAP", Choice.IMPLICIT, mainMenu_credos, null);
+            mainMenu = new List("Formulaires CREDOS", Choice.IMPLICIT, mainMenu_credos, null);
         }
-        if(profile.equals("UNAFP")){
+        if(profile.equals("FNUAP")){
             mainMenu = new List("Formulaires FNUAP", Choice.IMPLICIT, mainMenu_unfpa, null);
         }
 

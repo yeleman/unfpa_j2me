@@ -23,7 +23,7 @@ public class OptionForm extends Form implements CommandListener {
     private TextField numberField;
     private ChoiceGroup profileField;
     private TextField cscom_code;
-     private static final String[] profile = {"CREDOS", "UNAFP"};
+    private static final String[] profile = {"CREDOS", "FNUAP"};
     UNFPAMIDlet midlet;
 
 public OptionForm(UNFPAMIDlet midlet) {
@@ -44,6 +44,14 @@ public OptionForm(UNFPAMIDlet midlet) {
     cscom_code = new TextField("Code CSCOM", config.get("cscom_code"), 20, TextField.ANY);
     profileField = new ChoiceGroup("Profile", ChoiceGroup.POPUP, profile, null);
 
+    int sel = 0;
+    for (int i = 0; i<profile.length ; i++) {
+        if (profile[i].equals(config.get("profile"))) {
+            sel = i;
+            break;
+        }
+    }
+    profileField.setSelectedIndex(sel, true);
     append(numberField);
     append(cscom_code);
     append(profileField);
@@ -98,6 +106,7 @@ public OptionForm(UNFPAMIDlet midlet) {
                     config.set("cscom_code", cscom_code.getString()) &&
                     config.set("profile", profileField.getString(profileField.getSelectedIndex()))) {
                 alert = new Alert ("Confirmation!", "Votre modification a été bien enregistré.", null, AlertType.CONFIRMATION);
+                this.midlet.startApp();
                 this.midlet.display.setCurrent (alert, this.midlet.mainMenu);
             } else {
                 alert = new Alert ("Échec", "Impossible d'enregistrer cette modification.", null, AlertType.WARNING);

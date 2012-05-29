@@ -34,7 +34,7 @@ public class Configuration {
             this.set("server_number", "00000000", true);
             this.set("server_number", Constants.server_number, false);
             this.set("cscom_code", "kid", true);
-            this.set("profile", "UNAFP", true);
+            this.set("profile", "FNUAP", true);
         }
     }
 
