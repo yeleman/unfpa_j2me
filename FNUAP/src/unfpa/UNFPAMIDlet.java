@@ -101,7 +101,7 @@ public class UNFPAMIDlet extends MIDlet implements CommandListener {
                     break;
                 }
             }
-            if (c == List.SELECT_COMMAND && this.profile.equals("UNAFP")) {
+            if (c == List.SELECT_COMMAND && this.profile.equals("FNUAP")) {
 
                 switch (((List) s).getSelectedIndex ()) {
 
