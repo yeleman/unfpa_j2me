@@ -31,7 +31,7 @@ public class PregnancyForm extends Form implements CommandListener {
     private SMSStore store;
 
     String sep = " ";
-
+ 
     private String ErrorMessage = "";
     private static final String[] choix = {"NON", "OUI"};
     private static final String[] pregnancy_result = {"Né vivant", "Mort-né", "Avortement"};
@@ -165,7 +165,8 @@ public class PregnancyForm extends Form implements CommandListener {
                           + SharedChecks.addzero(delivery_date_array[0]);
         }
 
-        return "fnuap gpw" + sep + reporting_location.getString()
+        String prof = SharedChecks.profile();
+        return "fnuap gpw" + sep + prof + sep + reporting_location.getString()
                            + sep + householder_name.getString().replace(' ', '_')
                            + sep + d_recording // Date
                            + sep + mother_name.getString().replace(' ', '_')

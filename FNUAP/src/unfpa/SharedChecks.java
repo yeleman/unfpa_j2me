@@ -4,6 +4,7 @@
  */
 
 package unfpa;
+import unfpa.Configuration.*;
 import java.util.Date;
 
 /**
@@ -174,6 +175,17 @@ public class SharedChecks {
         else
             snum = snum + num;
         return snum;
+    }
+
+    public static String profile(){
+        Configuration config = new Configuration();
+        String prof = config.get("profile");
+
+        if (prof.equals("FNUAP"))
+            prof = "f";
+        else
+            prof = "c";
+        return prof;
     }
 
 }

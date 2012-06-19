@@ -165,8 +165,8 @@ public class BirthForm extends Form implements CommandListener {
         else
             child = surname_child.getString();
 
-
-        return "fnuap born" + sep + reporting_d
+        String prof = SharedChecks.profile();
+        return "fnuap born" + sep + prof + sep + reporting_d
                             + sep + reporting_location.getString()
                             + sep + family_name.getString().replace(' ', '_')
                             + sep + mother.replace(' ', '_')
