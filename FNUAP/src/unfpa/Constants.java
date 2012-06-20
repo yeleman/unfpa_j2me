@@ -7,8 +7,8 @@ package unfpa;
  */
 public class Constants {
 
-    public static final String version = "0.3";
+    public static final String version = "0.4";
     public static final String server_number = "65731076";
-    public static final int LOC_CODE_MAX = 3;
+    public static final int LOC_CODE_MAX = 4;
     public static final int AGE_STR_MAX = 3;
 }

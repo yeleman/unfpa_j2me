@@ -161,7 +161,7 @@ public class SharedChecks {
     }
 
     public static boolean ValidateCode(String code) {
-        if (code.length() == 3 && code.indexOf(" ") == -1) {
+        if (code.length() >= 3 && code.indexOf(" ") == -1) {
             return false;
         }
         else {
