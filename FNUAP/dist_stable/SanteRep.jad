@@ -1,9 +1,9 @@
 MIDlet-1: UNFPAMIDlet,,unfpa.UNFPAMIDlet
 MIDlet-Description: Collecte FNUAP
-MIDlet-Icon: nut-32-32.png
-MIDlet-Jar-Size: 42874
-MIDlet-Jar-URL: FNUAP.jar
-MIDlet-Name: FNUAP
+MIDlet-Icon: unfpa-32-32.png
+MIDlet-Jar-Size: 45362
+MIDlet-Jar-URL: SanteRep.jar
+MIDlet-Name: Sante Reproduction
 MIDlet-Vendor: YELEMAN S.A.R.L
 MIDlet-Version: 1.0
 MicroEdition-Configuration: CLDC-1.1
