@@ -23,6 +23,9 @@ public class OptionForm extends Form implements CommandListener {
     private TextField numberField;
     private ChoiceGroup profileField;
     private TextField cscom_code;
+    private ChoiceGroup district;
+    private String[] districts;
+
     private static final String[] profile = {"CREDOS", "FNUAP"};
     UNFPAMIDlet midlet;
 
@@ -31,6 +34,7 @@ public OptionForm(UNFPAMIDlet midlet) {
     this.midlet = midlet;
     
     config = new Configuration();
+    districts = Constants.codes_district();
 
     // retrieve phone number from config
     // if not present, use constant
@@ -42,19 +46,33 @@ public OptionForm(UNFPAMIDlet midlet) {
 
     numberField = new TextField ("Numéro du serveur:", phone_number, 8, TextField.PHONENUMBER);
     cscom_code = new TextField("Code CSCOM", config.get("cscom_code"), 20, TextField.ANY);
+    district = new ChoiceGroup("District", ChoiceGroup.POPUP, Constants.names_district(), null);
     profileField = new ChoiceGroup("Profile", ChoiceGroup.POPUP, profile, null);
 
     int sel = 0;
+    String my_profile = config.get("profile");
     for (int i = 0; i<profile.length ; i++) {
-        if (profile[i].equals(config.get("profile"))) {
+        if (profile[i].equals(my_profile)) {
             sel = i;
             break;
         }
     }
+    int dis_index = 0;
+    String my_dis = config.get("district_code");
+    for (int i=0; i<districts.length;i++) {
+        if (districts[i].equals(my_dis)) {
+            dis_index = i;
+            break;
+        }
+    }
+
     profileField.setSelectedIndex(sel, true);
+    district.setSelectedIndex(dis_index, true);
+
     append(numberField);
     append(cscom_code);
     append(profileField);
+    append(district);
 
     addCommand(CMD_EXIT);
     addCommand(CMD_SAVE);
@@ -102,8 +120,13 @@ public OptionForm(UNFPAMIDlet midlet) {
                 this.midlet.display.setCurrent (alert, this);
                 return;
             }
+
+            String code_district = districts[district.getSelectedIndex()];
+            // System.out.println("Code SELECTION: " + code_district);
+
             if (config.set("server_number", numberField.getString()) && 
                     config.set("cscom_code", cscom_code.getString()) &&
+                    config.set("district_code", code_district) &&
                     config.set("profile", profileField.getString(profileField.getSelectedIndex()))) {
                 alert = new Alert ("Confirmation!", "Votre modification a été bien enregistré.", null, AlertType.CONFIRMATION);
                 this.midlet.startApp();

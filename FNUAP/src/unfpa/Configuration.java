@@ -15,6 +15,7 @@ public class Configuration {
     private int server_number_index = 1;
     private int cscom_code_index = 2;
     private int profile_index = 3;
+    private int district_code_index = 4;
 
 
     private static final String database = "configuration";
@@ -35,6 +36,8 @@ public class Configuration {
             this.set("server_number", Constants.server_number, false);
             this.set("cscom_code", "kid", true);
             this.set("profile", "FNUAP", true);
+            this.set("district_code", "kati", true);
+
         }
     }
 
@@ -97,6 +100,8 @@ public class Configuration {
             index = cscom_code_index;
         } else if (variable.equals("profile")) {
             index = profile_index;
+        } else if (variable.equals("district_code")) {
+            index = district_code_index;
         } else {
             index = -1;
         }

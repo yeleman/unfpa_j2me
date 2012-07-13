@@ -11,6 +11,7 @@ import unfpa.StoredSMS.*;
 import unfpa.PregnancyForm.*;
 import unfpa.SendSavedReports.*;
 import unfpa.BirthForm.*;
+import unfpa.Constants.*;
 
 /*
  * J2ME Midlet allowing user to fill and submit UNFPA Forms
@@ -58,6 +59,17 @@ public class UNFPAMIDlet extends MIDlet implements CommandListener {
         mainMenu.addCommand (CMD_SRVNUM);
 
        display.setCurrent(mainMenu);
+
+       String[] codes = Constants.codes_district();
+       for (int i=0; i<codes.length; i++) {
+        System.out.println(codes[i]);
+       }
+        System.out.println("-- stop -- ");
+        
+        String[] names = Constants.names_district();
+       for (int j=0; j<names.length; j++) {
+        System.out.println(names[j]);
+       }       
 
     }
 
