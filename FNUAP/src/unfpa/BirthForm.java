@@ -37,7 +37,7 @@ public class BirthForm extends Form implements CommandListener {
     private TextField surname_mother;
     private TextField family_name;
     private TextField surname_child;
-    private TextField reporting_location;
+    private ChoiceGroup reporting_location;
     private static final String[] sexList= {"F", "M"};
     private ChoiceGroup sex;
     private static final String[] YesNon = {"OUI", "NON"};
@@ -65,8 +65,7 @@ public class BirthForm extends Form implements CommandListener {
         surname_mother = new TextField("Prénom de la mère:", null, 20, TextField.ANY);
         family_name = new TextField("Nom de famille:", null, 20, TextField.ANY);
         surname_child = new TextField("Prénom de l'enfant:", null, 20, TextField.ANY);
-        reporting_location = new TextField("Code village (visite):", null, Constants.LOC_CODE_MAX, TextField.ANY);
-
+        reporting_location = new ChoiceGroup("Code village (visite):", ChoiceGroup.POPUP, Constants.names_village(), null);
         //choice
         birth_location = new ChoiceGroup("Lieu de naissance:", ChoiceGroup.POPUP, birth_place, null);
         sex = new ChoiceGroup("Sexe:", ChoiceGroup.POPUP, sexList, null);
@@ -92,8 +91,7 @@ public class BirthForm extends Form implements CommandListener {
     public boolean isComplete() {
 
         // all fields are required to be filled.
-        if (reporting_location.getString().length() == 0
-            || family_name.getString().length() == 0) {
+        if (family_name.getString().length() == 0) {
             return false;
         }
         return true;
@@ -106,11 +104,6 @@ public class BirthForm extends Form implements CommandListener {
 
         if (SharedChecks.isDateValide(reporting_date.getDate()) != true) {
             ErrorMessage = "[Date de visite] " + ErrorMessage;
-            return false;
-        }
-
-        if (SharedChecks.ValidateCode(reporting_location.getString()) == true) {
-            ErrorMessage = "[Code village (visite)] ce code n'est pas valide.";
             return false;
         }
 
@@ -134,13 +127,13 @@ public class BirthForm extends Form implements CommandListener {
         int born;
 
         int reporting_date_array[] = SharedChecks.formatDateString(reporting_date.getDate());
-        String reporting_d = String.valueOf(reporting_date_array[2]) 
-                             + SharedChecks.addzero(reporting_date_array[1]) 
+        String reporting_d = String.valueOf(reporting_date_array[2])
+                             + SharedChecks.addzero(reporting_date_array[1])
                              + SharedChecks.addzero(reporting_date_array[0]);
 
         int dob_array[] = SharedChecks.formatDateString(dob.getDate());
-        String dob_d = String.valueOf(dob_array[2]) 
-                             + SharedChecks.addzero(dob_array[1]) 
+        String dob_d = String.valueOf(dob_array[2])
+                             + SharedChecks.addzero(dob_array[1])
                              + SharedChecks.addzero(dob_array[0]);
 
         if (birth_location.getString(birth_location.getSelectedIndex()).equals("Domicile"))
@@ -167,7 +160,7 @@ public class BirthForm extends Form implements CommandListener {
 
         String prof = SharedChecks.profile();
         return "fnuap born" + sep + prof + sep + reporting_d
-                            + sep + reporting_location.getString()
+                            + sep + Constants.code_for_village(reporting_location)
                             + sep + family_name.getString().replace(' ', '_')
                             + sep + mother.replace(' ', '_')
                             + sep + child.replace(' ', '_')

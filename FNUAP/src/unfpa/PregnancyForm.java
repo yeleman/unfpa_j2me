@@ -31,7 +31,7 @@ public class PregnancyForm extends Form implements CommandListener {
     private SMSStore store;
 
     String sep = " ";
- 
+
     private String ErrorMessage = "";
     private static final String[] choix = {"NON", "OUI"};
     private static final String[] pregnancy_result = {"Né vivant", "Mort-né", "Avortement"};
@@ -40,7 +40,7 @@ public class PregnancyForm extends Form implements CommandListener {
     private TextField householder_name;
     private DateField reporting_date;
     private TextField mother_name;
-    private TextField reporting_location;
+    private ChoiceGroup reporting_location;
     private TextField age;
     private ChoiceGroup end_pregnancyfield;
     private TextField pregnancy_age;
@@ -59,7 +59,7 @@ public class PregnancyForm extends Form implements CommandListener {
         householder_name = new TextField("Nom du chef de ménage:", null, 20, TextField.ANY);
         reporting_date = new DateField("Date de visite:", DateField.DATE, TimeZone.getTimeZone("GMT"));
         reporting_date.setDate(new Date());
-        reporting_location = new TextField("Code village (visite):", null, Constants.LOC_CODE_MAX, TextField.ANY);
+        reporting_location = new ChoiceGroup("Code village (visite):", ChoiceGroup.POPUP, Constants.names_village(), null);
         mother_name = new TextField("Nom de la mère:", null, 20, TextField.ANY);
         age =  new TextField("Age:", null, 4, TextField.NUMERIC);
         pregnancy_age = new TextField("Age de la grossesse (en mois):",  null, 2, TextField.NUMERIC);
@@ -95,8 +95,7 @@ public class PregnancyForm extends Form implements CommandListener {
      */
 
     public boolean isComplete() {
-       if (reporting_location.getString().length() == 0
-           || householder_name.getString().length() == 0
+       if (householder_name.getString().length() == 0
            || mother_name.getString().length() == 0
            || pregnancy_age.getString().length() == 0) {
             return false;
@@ -118,11 +117,6 @@ public class PregnancyForm extends Form implements CommandListener {
             return false;
         }
 
-        if (SharedChecks.ValidateCode(reporting_location.getString()) == true) {
-            ErrorMessage = "[Code village (visite)] ce code n'est pas valide.";
-            return false;
-        }
-
         if (agepregnancy < 0){
             ErrorMessage = "[Age de la grossesse (en mois)] le nombre de mois doit être supérieur à zéro.";
             return false;
@@ -139,13 +133,13 @@ public class PregnancyForm extends Form implements CommandListener {
      * @return <code>String</code> to be sent by SMS
      */
 
-   
+
     public String toSMSFormat() {
 
         String expect_date_c = "-";
         int resul_pregnancy = 0;
         String d_pregnancy = "-";
-        
+
         int reporting_date_array[] = SharedChecks.formatDateString(reporting_date.getDate());
         String d_recording = String.valueOf(reporting_date_array[2])
                              + SharedChecks.addzero(reporting_date_array[1])
@@ -166,7 +160,8 @@ public class PregnancyForm extends Form implements CommandListener {
         }
 
         String prof = SharedChecks.profile();
-        return "fnuap gpw" + sep + prof + sep + reporting_location.getString()
+        return "fnuap gpw" + sep + prof
+                           + sep + Constants.code_for_village(reporting_location)
                            + sep + householder_name.getString().replace(' ', '_')
                            + sep + d_recording // Date
                            + sep + mother_name.getString().replace(' ', '_')
@@ -179,7 +174,7 @@ public class PregnancyForm extends Form implements CommandListener {
 
     public String toText() {
         int date_recording_array[] = SharedChecks.formatDateString(reporting_date.getDate());
-        
+
         return "G-" +  date_recording_array[0] + "] " + householder_name.getString();
     }
 
@@ -229,7 +224,7 @@ public class PregnancyForm extends Form implements CommandListener {
                                    null, AlertType.CONFIRMATION);
                 this.midlet.display.setCurrent (alert, this.midlet.mainMenu);
             } else {
-                
+
                 if (store.add(this.toText(), this.toSMSFormat())) {
                     alert = new Alert ("Échec d'envoi SMS", "Impossible d'envoyer" +
                                        " la demande par SMS. Le rapport a été enregistré dans le téléphone.", null,

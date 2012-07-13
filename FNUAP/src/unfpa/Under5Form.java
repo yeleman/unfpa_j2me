@@ -39,9 +39,8 @@ public class Under5Form extends Form implements CommandListener {
     private ChoiceGroup sex;
     private ChoiceGroup location;
     private DateField reporting_date;
-    // private TextField reporting_location;
     private ChoiceGroup reporting_location;
-    private TextField death_location;
+    private ChoiceGroup death_location;
     private TextField name;
     private DateField dob;
     private TextField age;
@@ -52,15 +51,14 @@ public class Under5Form extends Form implements CommandListener {
     public Under5Form(UNFPAMIDlet midlet) {
         super("Mortalité infantile");
         this.midlet = midlet;
-    
+
         config = new Configuration();
         store = new SMSStore();
 
         reporting_date =  new DateField("Date de visite:", DateField.DATE, TimeZone.getTimeZone("GMT"));
         reporting_date.setDate(now);
 
-        // reporting_location = new TextField("Code village (visite):", null, ConstantsConstants.LOC_CODE_MAX, TextField.ANY);
-        reporting_location = new ChoiceGroup("Village (visite):", ChoiceGroup.POPUP, Constants.names_village(), null);
+        reporting_location = new ChoiceGroup("Code village(visite):", ChoiceGroup.POPUP, Constants.names_village(), null);
 
         name = new TextField("Nom de l'enfant", null, 20, TextField.ANY);
 
@@ -73,7 +71,7 @@ public class Under5Form extends Form implements CommandListener {
         dod =  new DateField("Date du décès:", DateField.DATE, TimeZone.getTimeZone("GMT"));
         dod.setDate(now);
 
-        death_location = new TextField("Code village (décès):", null, Constants.LOC_CODE_MAX, TextField.ANY);
+        death_location =  new ChoiceGroup("Code village (décès):", ChoiceGroup.POPUP, Constants.names_village(), null);
 
         append(reporting_date);
         append(reporting_location);
@@ -95,16 +93,14 @@ public class Under5Form extends Form implements CommandListener {
     public boolean isComplete() {
 
         // all fields are required to be filled.
-        if (name.getString().length() == 0||
-            // reporting_location.getString().length() == 0||
-            death_location.getString().length() == 0) {
+        if (name.getString().length() == 0) {
             return false;
         }
         return true;
     }
 
     public boolean isValid() {
-        
+
         ErrorMessage = "La date indiquée est dans le futur.";
 
         if (SharedChecks.isDateValide(reporting_date.getDate()) != true) {
@@ -137,11 +133,6 @@ public class Under5Form extends Form implements CommandListener {
             return false;
         }
 
-        if (SharedChecks.ValidateCode(death_location.getString()) == true) {
-            ErrorMessage = "[Code village (décès)] ce code n'est pas valide";
-            return false;
-        }     
-
         if (age.getString().length()!= 0){
             String age_nbr = String.valueOf(age.getString().charAt(age.getString().length() - 1));
 
@@ -160,18 +151,18 @@ public class Under5Form extends Form implements CommandListener {
         String fdob;
 
         int reporting_date_array[] = SharedChecks.formatDateString(reporting_date.getDate());
-        String reporting_d = String.valueOf(reporting_date_array[2]) 
-                             + SharedChecks.addzero(reporting_date_array[1]) 
+        String reporting_d = String.valueOf(reporting_date_array[2])
+                             + SharedChecks.addzero(reporting_date_array[1])
                              + SharedChecks.addzero(reporting_date_array[0]);
 
         int dob_array[] = SharedChecks.formatDateString(dob.getDate());
-        String dob_d = String.valueOf(dob_array[2]) 
-                             + SharedChecks.addzero(dob_array[1]) 
+        String dob_d = String.valueOf(dob_array[2])
+                             + SharedChecks.addzero(dob_array[1])
                              + SharedChecks.addzero(dob_array[0]);
 
         int dod_array[] = SharedChecks.formatDateString(dod.getDate());
-        String dod_d = String.valueOf(dod_array[2]) 
-                             + SharedChecks.addzero(dod_array[1]) 
+        String dod_d = String.valueOf(dod_array[2])
+                             + SharedChecks.addzero(dod_array[1])
                              + SharedChecks.addzero(dod_array[0]);
 
         if (age.getString().length() != 0)
@@ -194,7 +185,7 @@ public class Under5Form extends Form implements CommandListener {
                            + sep + sex.getString(sex.getSelectedIndex())
                            + sep + fdob
                            + sep + dod_d
-                           + sep + death_location.getString()
+                           + sep + Constants.code_for_village(death_location)
                            + sep + loc;
 
     }
@@ -230,7 +221,7 @@ public class Under5Form extends Form implements CommandListener {
                 this.midlet.display.setCurrent (alert, this);
                 return;
             }
-            
+
             if (!this.isValid()) {
                 alert = new Alert("Données incorrectes!", this.ErrorMessage,
                                   null, AlertType.ERROR);

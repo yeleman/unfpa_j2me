@@ -36,13 +36,13 @@ public class MaternalMortalityrForm extends Form implements CommandListener {
     private static final String[] choice = {"Non", "Oui"};
     //General Informatien
     private DateField reporting_date;
-    private TextField reporting_location;
+    private ChoiceGroup reporting_location;
     // Maternal Mortality Form
     private TextField name;
     private DateField dob;
     private TextField age;
     private DateField dod;
-    private TextField death_location;
+    private ChoiceGroup death_location;
     private TextField living_children;
     private TextField dead_children;
     private ChoiceGroup pregnantField;
@@ -59,14 +59,14 @@ public MaternalMortalityrForm(UNFPAMIDlet midlet) {
 
     reporting_date =  new DateField("Date de visite:", DateField.DATE, TimeZone.getTimeZone("GMT"));
     reporting_date.setDate(new Date());
-    reporting_location =  new TextField("Code village(visite):", null, Constants.LOC_CODE_MAX, TextField.ANY);
+    reporting_location = new ChoiceGroup("Code village(visite):", ChoiceGroup.POPUP, Constants.names_village(), null);
     name =  new TextField("Nom de la défunte:", null, 20, TextField.ANY);
     dob =  new DateField("Date de naissance:", DateField.DATE, TimeZone.getTimeZone("GMT"));
     dob.setDate(new Date());
     age =  new TextField("Age (DDN inconnue):", null, Constants.AGE_STR_MAX, TextField.ANY);
     dod =  new DateField("Date du décès:", DateField.DATE, TimeZone.getTimeZone("GMT"));
     dod.setDate(new Date());
-    death_location =  new TextField("Code vilage(décès):", null, Constants.LOC_CODE_MAX, TextField.ANY);
+    death_location =  new ChoiceGroup("Code village (décès):", ChoiceGroup.POPUP, Constants.names_village(), null);
     living_children =  new TextField("Nbre enfants (en vie):", null, 2, TextField.NUMERIC);
     dead_children =  new TextField("Nbre enfants (décédés):", null, 2, TextField.NUMERIC);
     pregnantField = new ChoiceGroup("Grossesse en cours:", ChoiceGroup.POPUP, choice, null);
@@ -102,12 +102,10 @@ public MaternalMortalityrForm(UNFPAMIDlet midlet) {
     public boolean isComplete() {
         // all fields are required to be filled.
         // TODO: verifier AGE/DDN
-       if (reporting_location.getString().length() == 0
-            || name.getString().length() == 0
-            || death_location.getString().length() == 0
-            || living_children.getString().length() == 0
-            || dead_children.getString().length() == 0) {
-            return false;
+       if (name.getString().length() == 0
+           || living_children.getString().length() == 0
+           || dead_children.getString().length() == 0) {
+           return false;
         }
         return true;
     }
@@ -123,11 +121,6 @@ public MaternalMortalityrForm(UNFPAMIDlet midlet) {
 
         if (SharedChecks.isDateValide(reporting_date.getDate()) != true) {
             ErrorMessage = "(Date repportage) " + ErrorMessage;
-            return false;
-        }
-
-        if (SharedChecks.ValidateCode(reporting_location.getString()) == true) {
-            ErrorMessage = "[Code village (visite)] ce code n'est pas valide";
             return false;
         }
 
@@ -155,11 +148,6 @@ public MaternalMortalityrForm(UNFPAMIDlet midlet) {
             return false;
         }
 
-        if (SharedChecks.ValidateCode(death_location.getString()) == true) {
-            ErrorMessage = "[Code village (décès)] ce code n'est pas valide";
-            return false;
-        }
-
         if (pregnantField.getString(pregnantField.getSelectedIndex()).equals("Oui") &&
             pregnancy_weeks.getString().length() == 0) {
             ErrorMessage = "[Nb de semaine de grossesse] la durée de la grossesse est obligatoire si la femme est enceinte.";
@@ -180,22 +168,22 @@ public MaternalMortalityrForm(UNFPAMIDlet midlet) {
      */
 
     public String toSMSFormat() {
-        
+
         String fdob;
 
         int reporting_date_array[] = SharedChecks.formatDateString(reporting_date.getDate());
-        String reporting_d = String.valueOf(reporting_date_array[2]) 
-                             + SharedChecks.addzero(reporting_date_array[1]) 
+        String reporting_d = String.valueOf(reporting_date_array[2])
+                             + SharedChecks.addzero(reporting_date_array[1])
                              + SharedChecks.addzero(reporting_date_array[0]);
 
         int dob_array[] = SharedChecks.formatDateString(dob.getDate());
-        String dob_d = String.valueOf(dob_array[2]) 
-                             + SharedChecks.addzero(dob_array[1]) 
+        String dob_d = String.valueOf(dob_array[2])
+                             + SharedChecks.addzero(dob_array[1])
                              + SharedChecks.addzero(dob_array[0]);
 
         int dod_array[] = SharedChecks.formatDateString(dod.getDate());
-        String dod_d = String.valueOf(dod_array[2]) 
-                             + SharedChecks.addzero(dod_array[1]) 
+        String dod_d = String.valueOf(dod_array[2])
+                             + SharedChecks.addzero(dod_array[1])
                              + SharedChecks.addzero(dod_array[0]);
 
         if (age.getString().length() != 0)
@@ -220,15 +208,16 @@ public MaternalMortalityrForm(UNFPAMIDlet midlet) {
         // pregnancy_related_death
         String prof = SharedChecks.profile();
 //        System.out.println(prof);
-        return "fnuap dpw" + sep + prof + sep + reporting_d
-                           + sep + reporting_location.getString() 
+        return "fnuap dpw" + sep + prof
+                           + sep + reporting_d
+                           + sep + Constants.code_for_village(reporting_location)
                            + sep + name.getString().replace(' ', '_')
                            + sep + fdob
                            + sep + dod_d
-                           + sep + death_location.getString()
-                           + sep + living_children.getString() 
+                           + sep + Constants.code_for_village(death_location)
+                           + sep + living_children.getString()
                            + sep + dead_children.getString()
-                           + sep + pregnantField.getSelectedIndex() 
+                           + sep + pregnantField.getSelectedIndex()
                            + sep + pregnancy_w
                            + sep + pregnancy_related;
     }
@@ -284,7 +273,7 @@ public MaternalMortalityrForm(UNFPAMIDlet midlet) {
                                    null, AlertType.CONFIRMATION);
                 this.midlet.display.setCurrent (alert, this.midlet.mainMenu);
             } else {
-                
+
                 if (store.add(this.toText(), this.toSMSFormat())) {
                     alert = new Alert ("Échec d'envoi SMS", "Impossible d'envoyer" +
                                        " la demande par SMS. Le rapport a été enregistré dans le téléphone.", null,

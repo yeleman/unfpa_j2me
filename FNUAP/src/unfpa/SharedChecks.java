@@ -12,7 +12,7 @@ import java.util.Date;
  */
 public class SharedChecks {
     private static final String month_list[] = {"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};
-    
+
     public static int[] formatDateString(Date date_obj) {
         String date = date_obj.toString();
         int day = Integer.valueOf(date.substring(8, 10)).intValue();
@@ -86,7 +86,7 @@ public class SharedChecks {
         int now_day = array[0];
         int now_month = array[1];
         int now_year = array[2];
-        
+
         // calcule date 5 ans
         int d[] = {now_day, now_month, now_year};
 
@@ -168,6 +168,7 @@ public class SharedChecks {
             return true;
         }
     }
+
     public static String addzero(int num){
         String snum = "";
         if (num < 10)
