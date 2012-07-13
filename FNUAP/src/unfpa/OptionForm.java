@@ -122,12 +122,20 @@ public OptionForm(UNFPAMIDlet midlet) {
             }
 
             String code_district = districts[district.getSelectedIndex()];
-            // System.out.println("Code SELECTION: " + code_district);
+
+            System.out.println("Code SELECTION: " + code_district);
 
             if (config.set("server_number", numberField.getString()) && 
                     config.set("cscom_code", cscom_code.getString()) &&
                     config.set("district_code", code_district) &&
                     config.set("profile", profileField.getString(profileField.getSelectedIndex()))) {
+
+                System.out.println("Villages du district:");
+                String[] villages = Constants.names_village();
+                for (int i=0;i<villages.length;i++) {
+                    System.out.println(villages[i]);
+                }
+                
                 alert = new Alert ("Confirmation!", "Votre modification a été bien enregistré.", null, AlertType.CONFIRMATION);
                 this.midlet.startApp();
                 this.midlet.display.setCurrent (alert, this.midlet.mainMenu);

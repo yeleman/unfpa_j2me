@@ -35,10 +35,12 @@ public class Under5Form extends Form implements CommandListener {
     //register
     private static final String[] sexList= {"F", "M"};
     private static final String[] TypeLocation = {"Domicile", "Centre", "Autre"};
+
     private ChoiceGroup sex;
     private ChoiceGroup location;
     private DateField reporting_date;
-    private TextField reporting_location;
+    // private TextField reporting_location;
+    private ChoiceGroup reporting_location;
     private TextField death_location;
     private TextField name;
     private DateField dob;
@@ -57,7 +59,8 @@ public class Under5Form extends Form implements CommandListener {
         reporting_date =  new DateField("Date de visite:", DateField.DATE, TimeZone.getTimeZone("GMT"));
         reporting_date.setDate(now);
 
-        reporting_location = new TextField("Code village (visite):", null, Constants.LOC_CODE_MAX, TextField.ANY);
+        // reporting_location = new TextField("Code village (visite):", null, ConstantsConstants.LOC_CODE_MAX, TextField.ANY);
+        reporting_location = new ChoiceGroup("Village (visite):", ChoiceGroup.POPUP, Constants.names_village(), null);
 
         name = new TextField("Nom de l'enfant", null, 20, TextField.ANY);
 
@@ -93,7 +96,7 @@ public class Under5Form extends Form implements CommandListener {
 
         // all fields are required to be filled.
         if (name.getString().length() == 0||
-            reporting_location.getString().length() == 0||
+            // reporting_location.getString().length() == 0||
             death_location.getString().length() == 0) {
             return false;
         }
@@ -109,10 +112,10 @@ public class Under5Form extends Form implements CommandListener {
             return false;
         }
 
-        if (SharedChecks.ValidateCode(reporting_location.getString()) == true) {
-            ErrorMessage = "[Code village (visite)] ce code n'est pas valide";
-            return false;
-        }
+        // if (SharedChecks.ValidateCode(reporting_location.getString()) == true) {
+        //     ErrorMessage = "[Code village (visite)] ce code n'est pas valide";
+        //     return false;
+        // }
 
         if (SharedChecks.Under5(dob.getDate()) == false) {
             ErrorMessage = "[Date de naissance] l'âge de l'enfant doit être inferieur à 5ans.";
@@ -184,8 +187,9 @@ public class Under5Form extends Form implements CommandListener {
             loc = "A";
 
         String prof = SharedChecks.profile();
+
         return "fnuap du5" + sep + prof + sep + reporting_d
-                           + sep + reporting_location.getString()
+                           + sep + Constants.code_for_village(reporting_location)
                            + sep + name.getString().replace(' ', '_')
                            + sep + sex.getString(sex.getSelectedIndex())
                            + sep + fdob
