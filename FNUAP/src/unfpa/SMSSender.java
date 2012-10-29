@@ -23,7 +23,7 @@ public class SMSSender {
         MessageConnection smsconn = null;
 
         try {
-            System.out.println("address: "+address);
+            // System.out.println("address: "+address);
             /** Open the message connection. */
             smsconn = (MessageConnection) Connector.open (address);
 
@@ -34,7 +34,7 @@ public class SMSSender {
             System.out.println("Send:" + message);
         }
         catch (Throwable t) {
-            System.out.println ("Send caught: ");
+            // System.out.println ("Send caught: ");
             t.printStackTrace ();
             return false;
         }
@@ -44,7 +44,7 @@ public class SMSSender {
                 smsconn.close ();
             }
             catch (IOException ioe) {
-                System.out.println ("Closing connection caught: ");
+                // System.out.println ("Closing connection caught: ");
                 ioe.printStackTrace ();
             }
         }
