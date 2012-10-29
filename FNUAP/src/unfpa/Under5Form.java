@@ -118,7 +118,7 @@ public class Under5Form extends Form implements CommandListener {
             return false;
         }
 
-        if (SharedChecks.compareDobDod(dob.getDate(), reporting_date.getDate()) == true) {
+        if (age.getString().length() == 0 && SharedChecks.compareDobDod(dob.getDate(), reporting_date.getDate()) == true) {
             ErrorMessage = "[Erreur] la date de visite ne peut pas être inferieure à la date de naissance";
             return false;
         }
@@ -128,12 +128,17 @@ public class Under5Form extends Form implements CommandListener {
             return false;
         }
 
-        if (SharedChecks.compareDobDod(dob.getDate(), dod.getDate()) == true) {
+        if (age.getString().length() == 0 && SharedChecks.compareDobDod(dob.getDate(), dod.getDate()) == true) {
             ErrorMessage = "[Erreur] la date du décès ne peut pas être inferieure à la date de naissance";
             return false;
         }
 
-        if (age.getString().length()!= 0){
+        if (SharedChecks.compareDobDod(dod.getDate(), reporting_date.getDate()) == true) {
+            ErrorMessage = "[Erreur] la date de visite ne peut pas être inferieure à la date du décès ";
+            return false;
+        }
+
+        if (age.getString().length() != 0){
             String age_nbr = String.valueOf(age.getString().charAt(age.getString().length() - 1));
 
             if (!age_nbr.equals("a") && !age_nbr.equals("m")){

@@ -18,7 +18,7 @@ public class OptionForm extends Form implements CommandListener {
     private static final Command CMD_EXIT = new Command ("Retour", Command.BACK, 1);
     private static final Command CMD_SAVE = new Command ("Enreg.", Command.OK, 1);
     private static final Command CMD_HELP = new Command ("Aide", Command.HELP, 2);
-    
+
     private Configuration config;
     private TextField numberField;
     private ChoiceGroup profileField;

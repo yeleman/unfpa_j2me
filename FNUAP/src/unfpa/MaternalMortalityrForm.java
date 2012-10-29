@@ -133,7 +133,8 @@ public MaternalMortalityrForm(UNFPAMIDlet midlet) {
             }
         }
 
-        if (SharedChecks.compareDobDod(dob.getDate(), reporting_date.getDate()) == true) {
+        if (age.getString().length() == 0 && SharedChecks.compareDobDod(dob.getDate(),
+            reporting_date.getDate()) == true) {
             ErrorMessage = "[Erreur] la date de visite ne peut pas être inferieure à la date de naissance";
             return false;
         }
@@ -143,8 +144,13 @@ public MaternalMortalityrForm(UNFPAMIDlet midlet) {
             return false;
         }
 
-        if (SharedChecks.compareDobDod(dob.getDate(), dod.getDate()) == true) {
+        if (age.getString().length() == 0 && SharedChecks.compareDobDod(dob.getDate(), dod.getDate()) == true) {
             ErrorMessage = "[Erreur] la date du décès ne peut pas être inferieure à la date de naissance";
+            return false;
+        }
+
+        if (SharedChecks.compareDobDod(dod.getDate(), reporting_date.getDate()) == true) {
+            ErrorMessage = "[Erreur] la date de visite ne peut pas être inferieure à la date du décès ";
             return false;
         }
 
@@ -207,7 +213,7 @@ public MaternalMortalityrForm(UNFPAMIDlet midlet) {
         // living_children dead_children pregnant pregnancy_weeks
         // pregnancy_related_death
         String prof = SharedChecks.profile();
-//        System.out.println(prof);
+    
         return "fnuap dpw" + sep + prof
                            + sep + reporting_d
                            + sep + Constants.code_for_village(reporting_location)
