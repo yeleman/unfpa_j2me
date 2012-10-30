@@ -21,12 +21,13 @@ public class OptionForm extends Form implements CommandListener {
     private static final Command CMD_CONTINUE = new Command ("Continuer", Command.HELP, 2);
 
     private Configuration config;
+    private String[] districts;
+
     private TextField numberField;
     private ChoiceGroup profileField;
-    private TextField cscom_code;
-    private ChoiceGroup district;
-    private String[] districts;
-    private ChoiceGroup commune;
+    private TextField cscom_codeField;
+    private ChoiceGroup districtField;
+    private ChoiceGroup communeField;
 
     private static final String[] profile = {"CREDOS", "FNUAP"};
     UNFPAMIDlet midlet;
@@ -47,9 +48,8 @@ public OptionForm(UNFPAMIDlet midlet) {
     }
 
     numberField = new TextField ("Numéro du serveur:", phone_number, 8, TextField.PHONENUMBER);
-    cscom_code = new TextField("Code CSCOM", config.get("cscom_code"), 20, TextField.ANY);
-    district = new ChoiceGroup("District", ChoiceGroup.POPUP, Constants.names_district(), null);
-    commune = new ChoiceGroup("Commune", ChoiceGroup.POPUP, Constants.names_district(), null);
+    cscom_codeField = new TextField("Code CSCOM", config.get("cscom_code"), 20, TextField.ANY);
+    districtField = new ChoiceGroup("District", ChoiceGroup.POPUP, Constants.names_district(), null);
     profileField = new ChoiceGroup("Profile", ChoiceGroup.POPUP, profile, null);
 
     int sel = 0;
@@ -70,12 +70,12 @@ public OptionForm(UNFPAMIDlet midlet) {
     }
 
     profileField.setSelectedIndex(sel, true);
-    district.setSelectedIndex(dis_index, true);
+    districtField.setSelectedIndex(dis_index, true);
 
     append(numberField);
-    append(cscom_code);
+    append(cscom_codeField);
     append(profileField);
-    append(district);
+    append(districtField);
 
     addCommand(CMD_CONTINUE);
     addCommand(CMD_EXIT);
@@ -93,7 +93,7 @@ public OptionForm(UNFPAMIDlet midlet) {
         if (numberField.getString().length() == 0) {
             return false;
         }
-        if (cscom_code.getString().length() == 0) {
+        if (cscom_codeField.getString().length() == 0) {
             return false;
         }
         return true;
@@ -112,7 +112,9 @@ public OptionForm(UNFPAMIDlet midlet) {
         }
 
         if (c == CMD_CONTINUE) {
-            append(commune);
+            communeField = new ChoiceGroup("Commune", ChoiceGroup.POPUP, Constants.names_commune(districts[districtField.getSelectedIndex()]), null);
+            
+            append(communeField);
             removeCommand(CMD_CONTINUE);
             addCommand(CMD_SAVE);
         }
@@ -130,11 +132,13 @@ public OptionForm(UNFPAMIDlet midlet) {
                 return;
             }
 
-            String code_district = districts[district.getSelectedIndex()];
+            String district_code = districts[districtField.getSelectedIndex()];
+            String commune_code = Constants.code_for_commune(communeField, district_code);
 
             if (config.set("server_number", numberField.getString()) && 
-                    config.set("cscom_code", cscom_code.getString()) &&
-                    config.set("district_code", code_district) &&
+                    config.set("cscom_code", cscom_codeField.getString()) &&
+                    config.set("district_code", district_code) &&
+                    config.set("commune_code", commune_code) &&
                     config.set("profile", profileField.getString(profileField.getSelectedIndex()))) {
 
                 // System.out.println("Villages du district:");

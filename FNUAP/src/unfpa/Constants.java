@@ -62,6 +62,72 @@ public class Constants {
         return codes_district()[widget.getSelectedIndex()];
     }
 
+
+//  les Communes
+
+    public static Hashtable hash_commune(String district_code) {
+        // static manual list of villages by district
+        Hashtable ckati = new Hashtable();
+        ckati.put("ck1", "CKati marché");
+        ckati.put("ck2", "CKati Cocody");
+        ckati.put("ck3", "CKati koro");
+
+        Hashtable ckkr = new Hashtable();
+        ckkr.put("ckkr1", "CKKR marché");
+        ckkr.put("ckkr2", "CKKR Cocody");
+        ckkr.put("ckkr3", "CKKR koro");
+
+        Hashtable coule = new Hashtable();
+        coule.put("Co1", "COuele marché");
+        coule.put("Co2", "COuele Cocody");
+        coule.put("Co3", "COuele koro");
+
+        // match above ist with districts.
+        Hashtable districts = new Hashtable();
+        districts.put(CODE_OULESSEBOUGOU, coule);
+        districts.put(CODE_KATI, ckati);
+        districts.put(CODE_KOULIKORO, ckkr);
+
+        return (Hashtable)districts.get(district_code);
+    }
+
+
+    public static String[] codes_commune(String district_code) {
+
+        Hashtable commune_hash = Constants.hash_commune(district_code);
+        int num = commune_hash.size();
+        String[] codes = new String[num];
+        int i = 0;
+
+        for(Enumeration commune = commune_hash.keys(); commune.hasMoreElements();) {
+            String commune_code = (String)commune.nextElement();
+            codes[i] = commune_code;
+            i++;
+        }
+        return codes;
+    }
+
+
+    public static String[] names_commune(String district_code) {
+
+        Hashtable commune_hash = Constants.hash_commune(district_code);
+        int num = commune_hash.size();
+        String[] names = new String[num];
+        int i = 0;
+        for(Enumeration comm = commune_hash.keys(); comm.hasMoreElements();) {
+            String commune_code = (String)comm.nextElement();
+            String commune_name = (String)commune_hash.get(commune_code);
+            names[i] = commune_name;
+            i++;
+        }
+        return names;
+    }
+
+    public static String code_for_commune(ChoiceGroup widget, String district_code) {
+        return codes_commune(district_code)[widget.getSelectedIndex()];
+    }
+
+// Les Villages
     public static Hashtable hash_village() {
         // if no district_code provided, used stored one (config)
         Configuration config = new Configuration();
@@ -69,7 +135,7 @@ public class Constants {
         return hash_village(district_code);
     }
 
-    public static Hashtable hash_village(String district_code) {
+    public static Hashtable hash_village(String commune_code) {
         // static manual list of villages by district
         Hashtable kati = new Hashtable();
         kati.put("kat1", "Kati marché");
@@ -85,26 +151,29 @@ public class Constants {
         oule.put("oul1", "Ouele marché");
         oule.put("oul2", "Ouele Cocody");
         oule.put("oul3", "Ouele koro");
-
-        // match above ist with districts.
-        Hashtable districts = new Hashtable();
-        districts.put(CODE_OULESSEBOUGOU, oule);
-        districts.put(CODE_KATI, kati);
-        districts.put(CODE_KOULIKORO, kkr);
-
-        return (Hashtable)districts.get(district_code);
+        System.out.println("eeeeeee");
+        System.out.println(oule.keys());
+        System.out.println("zzzzzzzzz");
+        // match above ist with communes.
+        Hashtable communes = new Hashtable();
+        communes.put(CODE_OULESSEBOUGOU, oule);
+        communes.put(CODE_KATI, kati);
+        communes.put(CODE_KOULIKORO, kkr);
+        
+        return (Hashtable)communes.get(commune_code);
     }
+
 
     public static String[] codes_village() {
         // if no district_code provided, used stored one (config)
         Configuration config = new Configuration();
-        String district_code = config.get("district_code");
-        return codes_village(district_code);
+        String commune_code = config.get("commune_code");
+        return codes_village(commune_code);
     }
 
-    public static String[] codes_village(String district_code) {
+    public static String[] codes_village(String commune_code) {
 
-        Hashtable vil_hash = Constants.hash_village(district_code);
+        Hashtable vil_hash = Constants.hash_village(commune_code);
         int num = vil_hash.size();
         String[] codes = new String[num];
         int i = 0;
@@ -120,18 +189,18 @@ public class Constants {
     public static String[] names_village() {
         // if no district_code provided, used stored one (config)
         Configuration config = new Configuration();
-        String district_code = config.get("district_code");
-        return names_village(district_code);
+        String commune_code = config.get("commune_code");
+        return names_village(commune_code);
     }
 
-    public static String[] names_village(String district_code) {
-        // if no district_code provided, used stored one (config)
-        if (district_code.equals("")) {
+    public static String[] names_village(String commune_code) {
+        // if no commune_code provided, used stored one (config)
+        if (commune_code.equals("")) {
             Configuration config = new Configuration();
-            district_code = config.get("district_code");
+            commune_code = config.get("commune_code");
         }
 
-        Hashtable vil_hash = Constants.hash_village(district_code);
+        Hashtable vil_hash = Constants.hash_village(commune_code);
         int num = vil_hash.size();
         String[] names = new String[num];
         int i = 0;
@@ -145,13 +214,13 @@ public class Constants {
     }
 
     public static String code_for_village(ChoiceGroup widget) {
-        // if no district_code provided, used stored one (config)
+        // if no commune_code provided, used stored one (config)
         Configuration config = new Configuration();
-        String district_code = config.get("district_code");
-        return code_for_village(widget, district_code);
+        String commune_code = config.get("commune_code");
+        return code_for_village(widget, commune_code);
     }
 
-    public static String code_for_village(ChoiceGroup widget, String district_code) {
-        return codes_village(district_code)[widget.getSelectedIndex()];
+    public static String code_for_village(ChoiceGroup widget, String commune_code) {
+        return codes_village(commune_code)[widget.getSelectedIndex()];
     }
 }

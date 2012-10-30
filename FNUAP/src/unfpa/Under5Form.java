@@ -58,6 +58,10 @@ public class Under5Form extends Form implements CommandListener {
         reporting_date =  new DateField("Date de visite:", DateField.DATE, TimeZone.getTimeZone("GMT"));
         reporting_date.setDate(now);
 
+        String comm_ = config.get("commune_code");
+        System.out.println(comm_);
+        System.out.println("hhhh");
+        
         reporting_location = new ChoiceGroup("Code village(visite):", ChoiceGroup.POPUP, Constants.names_village(), null);
 
         name = new TextField("Nom de l'enfant", null, 20, TextField.ANY);
@@ -70,7 +74,7 @@ public class Under5Form extends Form implements CommandListener {
         location = new ChoiceGroup("Lieu de decès:", ChoiceGroup.POPUP, TypeLocation, null);
         dod =  new DateField("Date du décès:", DateField.DATE, TimeZone.getTimeZone("GMT"));
         dod.setDate(now);
-
+        System.out.println("hhhhhhh");
         death_location =  new ChoiceGroup("Code village (décès):", ChoiceGroup.POPUP, Constants.names_village(), null);
 
         append(reporting_date);
