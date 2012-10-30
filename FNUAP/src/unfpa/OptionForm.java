@@ -18,6 +18,7 @@ public class OptionForm extends Form implements CommandListener {
     private static final Command CMD_EXIT = new Command ("Retour", Command.BACK, 1);
     private static final Command CMD_SAVE = new Command ("Enreg.", Command.OK, 1);
     private static final Command CMD_HELP = new Command ("Aide", Command.HELP, 2);
+    private static final Command CMD_CONTINUE = new Command ("Continuer", Command.HELP, 2);
 
     private Configuration config;
     private TextField numberField;
@@ -25,6 +26,7 @@ public class OptionForm extends Form implements CommandListener {
     private TextField cscom_code;
     private ChoiceGroup district;
     private String[] districts;
+    private ChoiceGroup commune;
 
     private static final String[] profile = {"CREDOS", "FNUAP"};
     UNFPAMIDlet midlet;
@@ -47,6 +49,7 @@ public OptionForm(UNFPAMIDlet midlet) {
     numberField = new TextField ("Numéro du serveur:", phone_number, 8, TextField.PHONENUMBER);
     cscom_code = new TextField("Code CSCOM", config.get("cscom_code"), 20, TextField.ANY);
     district = new ChoiceGroup("District", ChoiceGroup.POPUP, Constants.names_district(), null);
+    commune = new ChoiceGroup("Commune", ChoiceGroup.POPUP, Constants.names_district(), null);
     profileField = new ChoiceGroup("Profile", ChoiceGroup.POPUP, profile, null);
 
     int sel = 0;
@@ -74,8 +77,8 @@ public OptionForm(UNFPAMIDlet midlet) {
     append(profileField);
     append(district);
 
+    addCommand(CMD_CONTINUE);
     addCommand(CMD_EXIT);
-    addCommand(CMD_SAVE);
     addCommand(CMD_HELP);
     this.setCommandListener (this);
   }
@@ -106,6 +109,12 @@ public OptionForm(UNFPAMIDlet midlet) {
         // exit command goes back to Main Menu
         if (c == CMD_EXIT) {
             this.midlet.display.setCurrent(this.midlet.mainMenu);
+        }
+
+        if (c == CMD_CONTINUE) {
+            append(commune);
+            removeCommand(CMD_CONTINUE);
+            addCommand(CMD_SAVE);
         }
 
         // save command stores new number in config or display errors.
