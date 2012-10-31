@@ -5,6 +5,7 @@ import javax.microedition.lcdui.*;
 import unfpa.Configuration.*;
 import unfpa.Constants.*;
 import unfpa.HelpForm.*;
+import unfpa.Entities.*;
 
 /**
  * J2ME Form allowing Server number, health center and hc_code editing.
@@ -37,7 +38,8 @@ public OptionForm(UNFPAMIDlet midlet) {
     this.midlet = midlet;
     
     config = new Configuration();
-    districts = Constants.codes_district();
+    // districts = Constants.codes_district();
+    districts = Entities.cercles_codes();
 
     // retrieve phone number from config
     // if not present, use constant
@@ -49,7 +51,7 @@ public OptionForm(UNFPAMIDlet midlet) {
 
     numberField = new TextField ("Numéro du serveur:", phone_number, 8, TextField.PHONENUMBER);
     cscom_codeField = new TextField("Code CSCOM", config.get("cscom_code"), 20, TextField.ANY);
-    districtField = new ChoiceGroup("District", ChoiceGroup.POPUP, Constants.names_district(), null);
+    districtField = new ChoiceGroup("Cercle", ChoiceGroup.POPUP, Entities.cercles_names(), null);
     profileField = new ChoiceGroup("Profile", ChoiceGroup.POPUP, profile, null);
 
     int sel = 0;
@@ -112,7 +114,7 @@ public OptionForm(UNFPAMIDlet midlet) {
         }
 
         if (c == CMD_CONTINUE) {
-            communeField = new ChoiceGroup("Commune", ChoiceGroup.POPUP, Constants.names_commune(districts[districtField.getSelectedIndex()]), null);
+            communeField = new ChoiceGroup("Commune", ChoiceGroup.POPUP, Entities.communes_names(districts[districtField.getSelectedIndex()]), null);
             
             append(communeField);
             removeCommand(CMD_CONTINUE);
@@ -133,7 +135,7 @@ public OptionForm(UNFPAMIDlet midlet) {
             }
 
             String district_code = districts[districtField.getSelectedIndex()];
-            String commune_code = Constants.code_for_commune(communeField, district_code);
+            String commune_code = Entities.communes_codes(district_code)[communeField.getSelectedIndex()];
 
             if (config.set("server_number", numberField.getString()) && 
                     config.set("cscom_code", cscom_codeField.getString()) &&
@@ -141,11 +143,11 @@ public OptionForm(UNFPAMIDlet midlet) {
                     config.set("commune_code", commune_code) &&
                     config.set("profile", profileField.getString(profileField.getSelectedIndex()))) {
 
-                // System.out.println("Villages du district:");
-                // String[] villages = Constants.names_village();
-                // for (int i=0;i<villages.length;i++) {
-                //     System.out.println(villages[i]);
-                // }
+                System.out.println("Villages de la commune:");
+                String[] villages = Entities.villages_names(commune_code);
+                for (int i=0;i<villages.length;i++) {
+                    System.out.println(villages[i]);
+                }
 
                 alert = new Alert ("Confirmation!", "Votre modification a été bien enregistré.", null, AlertType.CONFIRMATION);
                 this.midlet.startApp();
