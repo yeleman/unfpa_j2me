@@ -6,6 +6,7 @@ import java.util.TimeZone;
 import java.util.Date;
 import unfpa.Configuration.*;
 import unfpa.Constants.*;
+import unfpa.Entities.*;
 import unfpa.HelpForm.*;
 import unfpa.SharedChecks.*;
 
@@ -36,13 +37,13 @@ public class MaternalMortalityrForm extends Form implements CommandListener {
     private static final String[] choice = {"Non", "Oui"};
     //General Informatien
     private DateField reporting_date;
-    private ChoiceGroup reporting_location;
+    private ChoiceGroup reporting_locationField;
     // Maternal Mortality Form
     private TextField name;
     private DateField dob;
     private TextField age;
     private DateField dod;
-    private ChoiceGroup death_location;
+    private ChoiceGroup death_locationField;
     private TextField living_children;
     private TextField dead_children;
     private ChoiceGroup pregnantField;
@@ -50,49 +51,51 @@ public class MaternalMortalityrForm extends Form implements CommandListener {
     private ChoiceGroup pregnancy_related_deathField;
 
 
-public MaternalMortalityrForm(UNFPAMIDlet midlet) {
-    super("Mortalité Maternelle");
-    this.midlet = midlet;
+    public MaternalMortalityrForm(UNFPAMIDlet midlet) {
+        super("Mortalité Maternelle");
+        this.midlet = midlet;
 
-    config = new Configuration();
-    store = new SMSStore();
+        config = new Configuration();
+        store = new SMSStore();
 
-    reporting_date =  new DateField("Date de visite:", DateField.DATE, TimeZone.getTimeZone("GMT"));
-    reporting_date.setDate(new Date());
-    reporting_location = new ChoiceGroup("Code village(visite):", ChoiceGroup.POPUP, Constants.names_village(), null);
-    name =  new TextField("Nom de la défunte:", null, 20, TextField.ANY);
-    dob =  new DateField("Date de naissance:", DateField.DATE, TimeZone.getTimeZone("GMT"));
-    dob.setDate(new Date());
-    age =  new TextField("Age (DDN inconnue):", null, Constants.AGE_STR_MAX, TextField.ANY);
-    dod =  new DateField("Date du décès:", DateField.DATE, TimeZone.getTimeZone("GMT"));
-    dod.setDate(new Date());
-    death_location =  new ChoiceGroup("Code village (décès):", ChoiceGroup.POPUP, Constants.names_village(), null);
-    living_children =  new TextField("Nbre enfants (en vie):", null, 2, TextField.NUMERIC);
-    dead_children =  new TextField("Nbre enfants (décédés):", null, 2, TextField.NUMERIC);
-    pregnantField = new ChoiceGroup("Grossesse en cours:", ChoiceGroup.POPUP, choice, null);
-    pregnancy_weeks =  new TextField("Nb de semaine de grossesse:", null, 3, TextField.NUMERIC);
-    pregnancy_related_deathField = new ChoiceGroup("Décès lié à la grossesse:", ChoiceGroup.POPUP, choice, null);
+        String commune_code = config.get("commune_code");
 
-    // add fields to forms
-    append(reporting_date);
-    append(reporting_location);
-    append(name);
-    append(age);
-    append(dob);
-    append(dod);
-    append(death_location);
-    append(living_children);
-    append(dead_children);
-    append(pregnantField);
-    append(pregnancy_weeks);
-    append(pregnancy_related_deathField);
+        reporting_date =  new DateField("Date de visite:", DateField.DATE, TimeZone.getTimeZone("GMT"));
+        reporting_date.setDate(new Date());
+        reporting_locationField = new ChoiceGroup("Code village(visite):", ChoiceGroup.POPUP, Entities.villages_names(commune_code), null);
+        name =  new TextField("Nom de la défunte:", null, 20, TextField.ANY);
+        dob =  new DateField("Date de naissance:", DateField.DATE, TimeZone.getTimeZone("GMT"));
+        dob.setDate(new Date());
+        age =  new TextField("Age (DDN inconnue):", null, Constants.AGE_STR_MAX, TextField.ANY);
+        dod =  new DateField("Date du décès:", DateField.DATE, TimeZone.getTimeZone("GMT"));
+        dod.setDate(new Date());
+        death_locationField =  new ChoiceGroup("Code village (décès):", ChoiceGroup.POPUP, Entities.villages_names(commune_code), null);
+        living_children =  new TextField("Nbre enfants (en vie):", null, 2, TextField.NUMERIC);
+        dead_children =  new TextField("Nbre enfants (décédés):", null, 2, TextField.NUMERIC);
+        pregnantField = new ChoiceGroup("Grossesse en cours:", ChoiceGroup.POPUP, choice, null);
+        pregnancy_weeks =  new TextField("Nb de semaine de grossesse:", null, 3, TextField.NUMERIC);
+        pregnancy_related_deathField = new ChoiceGroup("Décès lié à la grossesse:", ChoiceGroup.POPUP, choice, null);
 
-    addCommand(CMD_EXIT);
-    addCommand(CMD_SEND);
-    addCommand(CMD_HELP);
+        // add fields to forms
+        append(reporting_date);
+        append(reporting_locationField);
+        append(name);
+        append(age);
+        append(dob);
+        append(dod);
+        append(death_locationField);
+        append(living_children);
+        append(dead_children);
+        append(pregnantField);
+        append(pregnancy_weeks);
+        append(pregnancy_related_deathField);
 
-    this.setCommandListener (this);
-}
+        addCommand(CMD_EXIT);
+        addCommand(CMD_SEND);
+        addCommand(CMD_HELP);
+
+        this.setCommandListener (this);
+    }
     /*
      * Whether all required fields are filled
      * @return <code>true</code> is all fields are filled
@@ -209,18 +212,19 @@ public MaternalMortalityrForm(UNFPAMIDlet midlet) {
             pregnancy_w = pregnancy_weeks.getString();
         }
 
-        // fnuap dpw reporting_location name dob dod death_location
+        // fnuap dpw reporting_locationField name dob dod death_locationField
         // living_children dead_children pregnant pregnancy_weeks
         // pregnancy_related_death
-        String prof = SharedChecks.profile();
-    
+        String prof = SharedChecks.profile();    
+        String commune_code = config.get("commune_code");
+
         return "fnuap dpw" + sep + prof
                            + sep + reporting_d
-                           + sep + Constants.code_for_village(reporting_location)
+                           + sep + Entities.villages_codes(commune_code)[reporting_locationField.getSelectedIndex()]
                            + sep + name.getString().replace(' ', '_')
                            + sep + fdob
                            + sep + dod_d
-                           + sep + Constants.code_for_village(death_location)
+                           + sep + Entities.villages_codes(commune_code)[death_locationField.getSelectedIndex()]
                            + sep + living_children.getString()
                            + sep + dead_children.getString()
                            + sep + pregnantField.getSelectedIndex()

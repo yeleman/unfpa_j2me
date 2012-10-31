@@ -5,6 +5,7 @@ import javax.microedition.lcdui.*;
 import java.util.TimeZone;
 import unfpa.Configuration.*;
 import unfpa.Constants.*;
+import unfpa.Entities.*;
 import unfpa.SharedChecks.*;
 import java.util.Date;
 
@@ -39,14 +40,15 @@ public class Under5Form extends Form implements CommandListener {
     private ChoiceGroup sex;
     private ChoiceGroup location;
     private DateField reporting_date;
-    private ChoiceGroup reporting_location;
-    private ChoiceGroup death_location;
+    private ChoiceGroup reporting_locationField;
+    private ChoiceGroup death_locationField;
     private TextField name;
     private DateField dob;
     private TextField age;
     private DateField dod;
     Date now = new Date();
     String sep = " ";
+
 
     public Under5Form(UNFPAMIDlet midlet) {
         super("Mortalité infantile");
@@ -55,14 +57,12 @@ public class Under5Form extends Form implements CommandListener {
         config = new Configuration();
         store = new SMSStore();
 
+        String commune_code = config.get("commune_code");
+        System.out.println(commune_code);
+
         reporting_date =  new DateField("Date de visite:", DateField.DATE, TimeZone.getTimeZone("GMT"));
         reporting_date.setDate(now);
-
-        String comm_ = config.get("commune_code");
-        System.out.println(comm_);
-        System.out.println("hhhh");
-        
-        reporting_location = new ChoiceGroup("Code village(visite):", ChoiceGroup.POPUP, Constants.names_village(), null);
+        reporting_locationField = new ChoiceGroup("Code village(visite):", ChoiceGroup.POPUP, Entities.villages_names(commune_code), null);
 
         name = new TextField("Nom de l'enfant", null, 20, TextField.ANY);
 
@@ -74,17 +74,17 @@ public class Under5Form extends Form implements CommandListener {
         location = new ChoiceGroup("Lieu de decès:", ChoiceGroup.POPUP, TypeLocation, null);
         dod =  new DateField("Date du décès:", DateField.DATE, TimeZone.getTimeZone("GMT"));
         dod.setDate(now);
-        System.out.println("hhhhhhh");
-        death_location =  new ChoiceGroup("Code village (décès):", ChoiceGroup.POPUP, Constants.names_village(), null);
+
+        death_locationField =  new ChoiceGroup("Code village (décès):", ChoiceGroup.POPUP, Entities.villages_names(commune_code), null);
 
         append(reporting_date);
-        append(reporting_location);
+        append(reporting_locationField);
         append(name);
         append(sex);
         append(age);
         append(dob);
         append(dod);
-        append(death_location);
+        append(death_locationField);
         append(location);
 
         addCommand(CMD_EXIT);
@@ -112,7 +112,7 @@ public class Under5Form extends Form implements CommandListener {
             return false;
         }
 
-        // if (SharedChecks.ValidateCode(reporting_location.getString()) == true) {
+        // if (SharedChecks.ValidateCode(reporting_locationField.getString()) == true) {
         //     ErrorMessage = "[Code village (visite)] ce code n'est pas valide";
         //     return false;
         // }
@@ -186,15 +186,16 @@ public class Under5Form extends Form implements CommandListener {
         else
             loc = "A";
 
+        String commune_code = config.get("commune_code");
         String prof = SharedChecks.profile();
-
+        
         return "fnuap du5" + sep + prof + sep + reporting_d
-                           + sep + Constants.code_for_village(reporting_location)
+                           + sep + Entities.villages_codes(commune_code)[reporting_locationField.getSelectedIndex()]
                            + sep + name.getString().replace(' ', '_')
                            + sep + sex.getString(sex.getSelectedIndex())
                            + sep + fdob
                            + sep + dod_d
-                           + sep + Constants.code_for_village(death_location)
+                           + sep + Entities.villages_codes(commune_code)[death_locationField.getSelectedIndex()]
                            + sep + loc;
 
     }

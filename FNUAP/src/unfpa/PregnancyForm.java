@@ -8,6 +8,7 @@ import unfpa.Configuration.*;
 import unfpa.Constants.*;
 import unfpa.HelpForm.*;
 import unfpa.SharedChecks.*;
+import unfpa.Entities.*;
 
 /**
  * J2ME Patient Registration Form
@@ -30,23 +31,23 @@ public class PregnancyForm extends Form implements CommandListener {
     private Configuration config;
     private SMSStore store;
 
-    String sep = " ";
-
     private String ErrorMessage = "";
     private static final String[] choix = {"NON", "OUI"};
     private static final String[] pregnancy_result = {"Né vivant", "Mort-né", "Avortement"};
 
-    //private TextField reporting_location;
+    //private TextField reporting_locationField;
     private TextField householder_name;
     private DateField reporting_date;
     private TextField mother_name;
-    private ChoiceGroup reporting_location;
+    private ChoiceGroup reporting_locationField;
     private TextField age;
     private ChoiceGroup end_pregnancyfield;
     private TextField pregnancy_age;
     private DateField expected_delivery_date;
     private ChoiceGroup pregnancy_resultfield;
     private DateField delivery_date;
+
+    String sep = " ";
 
 
     public PregnancyForm(UNFPAMIDlet midlet) {
@@ -56,10 +57,12 @@ public class PregnancyForm extends Form implements CommandListener {
         config = new Configuration();
         store = new SMSStore();
 
+        String commune_code = config.get("commune_code");
+
         householder_name = new TextField("Nom du chef de ménage:", null, 20, TextField.ANY);
         reporting_date = new DateField("Date de visite:", DateField.DATE, TimeZone.getTimeZone("GMT"));
         reporting_date.setDate(new Date());
-        reporting_location = new ChoiceGroup("Code village (visite):", ChoiceGroup.POPUP, Constants.names_village(), null);
+        reporting_locationField = new ChoiceGroup("Code village (visite):", ChoiceGroup.POPUP, Entities.villages_names(commune_code), null);
         mother_name = new TextField("Nom de la mère:", null, 20, TextField.ANY);
         age =  new TextField("Age:", null, 4, TextField.NUMERIC);
         pregnancy_age = new TextField("Age de la grossesse (en mois):",  null, 2, TextField.NUMERIC);
@@ -72,7 +75,7 @@ public class PregnancyForm extends Form implements CommandListener {
 
         // add fields to forms
         append(reporting_date);
-        append(reporting_location);
+        append(reporting_locationField);
         append(householder_name);
         append(mother_name);
         append(age);
@@ -160,8 +163,10 @@ public class PregnancyForm extends Form implements CommandListener {
         }
 
         String prof = SharedChecks.profile();
+        String commune_code = config.get("commune_code");
+
         return "fnuap gpw" + sep + prof
-                           + sep + Constants.code_for_village(reporting_location)
+                           + sep + Entities.villages_codes(commune_code)[reporting_locationField.getSelectedIndex()]
                            + sep + householder_name.getString().replace(' ', '_')
                            + sep + d_recording // Date
                            + sep + mother_name.getString().replace(' ', '_')

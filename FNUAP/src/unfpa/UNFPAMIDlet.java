@@ -60,13 +60,13 @@ public class UNFPAMIDlet extends MIDlet implements CommandListener {
 
        display.setCurrent(mainMenu);
 
-       String[] codes = Constants.codes_district();
+       // String[] codes = Constants.codes_district();
        // for (int i=0; i<codes.length; i++) {
        //  System.out.println(codes[i]);
        // }
         // System.out.println("-- stop -- ");
         
-        String[] names = Constants.names_district();
+        // String[] names = Constants.names_district();
        // for (int j=0; j<names.length; j++) {
        //  System.out.println(names[j]);
        // }       
