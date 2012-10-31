@@ -58,11 +58,14 @@ public class Under5Form extends Form implements CommandListener {
         store = new SMSStore();
 
         String commune_code = config.get("commune_code");
-        System.out.println(commune_code);
+        String old_ind_reporting = config.get("reporting_location");
+        String old_ind_death = config.get("death_location");
 
         reporting_date =  new DateField("Date de visite:", DateField.DATE, TimeZone.getTimeZone("GMT"));
         reporting_date.setDate(now);
+
         reporting_locationField = new ChoiceGroup("Code village(visite):", ChoiceGroup.POPUP, Entities.villages_names(commune_code), null);
+        reporting_locationField.setSelectedIndex(Integer.parseInt(old_ind_reporting), true);
 
         name = new TextField("Nom de l'enfant", null, 20, TextField.ANY);
 
@@ -76,6 +79,7 @@ public class Under5Form extends Form implements CommandListener {
         dod.setDate(now);
 
         death_locationField =  new ChoiceGroup("Code village (décès):", ChoiceGroup.POPUP, Entities.villages_names(commune_code), null);
+        death_locationField.setSelectedIndex(Integer.parseInt(old_ind_death), true);
 
         append(reporting_date);
         append(reporting_locationField);
@@ -186,9 +190,16 @@ public class Under5Form extends Form implements CommandListener {
         else
             loc = "A";
 
-        String commune_code = config.get("commune_code");
         String prof = SharedChecks.profile();
+        String commune_code = config.get("commune_code");
         
+        String reporting_location_index = String.valueOf(reporting_locationField.getSelectedIndex());
+        String death_location_index = String.valueOf(death_locationField.getSelectedIndex());
+        
+        // On sauvegarde l'index pour l'ulitiser par defaut après        
+        config.set("reporting_location", reporting_location_index);
+        config.set("death_location", death_location_index);
+
         return "fnuap du5" + sep + prof + sep + reporting_d
                            + sep + Entities.villages_codes(commune_code)[reporting_locationField.getSelectedIndex()]
                            + sep + name.getString().replace(' ', '_')
@@ -197,7 +208,7 @@ public class Under5Form extends Form implements CommandListener {
                            + sep + dod_d
                            + sep + Entities.villages_codes(commune_code)[death_locationField.getSelectedIndex()]
                            + sep + loc;
-
+        
     }
 
 

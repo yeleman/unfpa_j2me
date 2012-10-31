@@ -58,11 +58,16 @@ public class PregnancyForm extends Form implements CommandListener {
         store = new SMSStore();
 
         String commune_code = config.get("commune_code");
+        String old_ind_reporting = config.get("reporting_location");
 
         householder_name = new TextField("Nom du chef de ménage:", null, 20, TextField.ANY);
         reporting_date = new DateField("Date de visite:", DateField.DATE, TimeZone.getTimeZone("GMT"));
         reporting_date.setDate(new Date());
+
         reporting_locationField = new ChoiceGroup("Code village (visite):", ChoiceGroup.POPUP, Entities.villages_names(commune_code), null);
+        reporting_locationField.setSelectedIndex(Integer.parseInt(old_ind_reporting), true);
+
+
         mother_name = new TextField("Nom de la mère:", null, 20, TextField.ANY);
         age =  new TextField("Age:", null, 4, TextField.NUMERIC);
         pregnancy_age = new TextField("Age de la grossesse (en mois):",  null, 2, TextField.NUMERIC);
@@ -165,6 +170,11 @@ public class PregnancyForm extends Form implements CommandListener {
         String prof = SharedChecks.profile();
         String commune_code = config.get("commune_code");
 
+        String reporting_location_index = String.valueOf(reporting_locationField.getSelectedIndex());
+
+        // On sauvegarde l'index pour l'ulitiser par defaut après        
+        config.set("reporting_location", reporting_location_index);
+
         return "fnuap gpw" + sep + prof
                            + sep + Entities.villages_codes(commune_code)[reporting_locationField.getSelectedIndex()]
                            + sep + householder_name.getString().replace(' ', '_')
@@ -172,9 +182,9 @@ public class PregnancyForm extends Form implements CommandListener {
                            + sep + mother_name.getString().replace(' ', '_')
                            + sep + age.getString() + "a"
                            + sep + pregnancy_age.getString()
-                           + sep + expect_date_c // Si la grossesse n'est pas terminer d_pregnancy = - si non une date(20120427)
+                           + sep + expect_date_c // Si la grossesse n'est pas terminé d_pregnancy = - si non une date(20120427)
                            + sep + resul_pregnancy  // Si la grossesse n'est pas terminer resul_pregnancy = -1 si non l'index de l'element chosi de {"Né vivant", "Mort-né", "Avortement"}
-                           + sep + d_pregnancy; // Si la grossesse n'est pas terminer d_pregnancy = - si non une date(20120427)
+                           + sep + d_pregnancy; // Si la grossesse n'est pas terminé d_pregnancy = - si non une date(20120427)
         }
 
     public String toText() {

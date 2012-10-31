@@ -89,7 +89,7 @@ public class SMSStore {
             }
             recordstore.closeRecordStore();
         } catch (Exception ex) {
-            // System.out.println(ex);
+            System.out.println(ex);
             return all_sms;
         }
         return all_sms;

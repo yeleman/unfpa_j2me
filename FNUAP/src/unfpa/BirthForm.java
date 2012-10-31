@@ -58,6 +58,7 @@ public class BirthForm extends Form implements CommandListener {
         store = new SMSStore();
 
         String commune_code = config.get("commune_code");
+        String old_ind_reporting = config.get("reporting_location");
 
         //date
         reporting_date =  new DateField("Date de visite:", DateField.DATE, TimeZone.getTimeZone("GMT"));
@@ -70,6 +71,7 @@ public class BirthForm extends Form implements CommandListener {
         family_name = new TextField("Nom de famille:", null, 20, TextField.ANY);
         surname_child = new TextField("Prénom de l'enfant:", null, 20, TextField.ANY);
         reporting_locationField = new ChoiceGroup("Code village (visite):", ChoiceGroup.POPUP, Entities.villages_names(commune_code), null);
+        reporting_locationField.setSelectedIndex(Integer.parseInt(old_ind_reporting), true);
         //choice
         birth_location = new ChoiceGroup("Lieu de naissance:", ChoiceGroup.POPUP, birth_place, null);
         sex = new ChoiceGroup("Sexe:", ChoiceGroup.POPUP, sexList, null);
@@ -164,6 +166,12 @@ public class BirthForm extends Form implements CommandListener {
 
         String prof = SharedChecks.profile();
         String commune_code = config.get("commune_code");
+
+        
+        String reporting_location_index = String.valueOf(reporting_locationField.getSelectedIndex());
+        
+        // On sauvegarde l'index pour l'ulitiser par defaut après        
+        config.set("reporting_location", reporting_location_index);
 
         return "fnuap born" + sep + prof + sep + reporting_d
                             + sep + Entities.villages_codes(commune_code)[reporting_locationField.getSelectedIndex()]

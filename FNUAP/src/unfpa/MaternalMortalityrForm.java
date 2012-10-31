@@ -59,17 +59,25 @@ public class MaternalMortalityrForm extends Form implements CommandListener {
         store = new SMSStore();
 
         String commune_code = config.get("commune_code");
+        String old_ind_reporting = config.get("reporting_location");
+        String old_ind_death = config.get("death_location");
 
         reporting_date =  new DateField("Date de visite:", DateField.DATE, TimeZone.getTimeZone("GMT"));
         reporting_date.setDate(new Date());
+
         reporting_locationField = new ChoiceGroup("Code village(visite):", ChoiceGroup.POPUP, Entities.villages_names(commune_code), null);
+        reporting_locationField.setSelectedIndex(Integer.parseInt(old_ind_reporting), true);
+
         name =  new TextField("Nom de la défunte:", null, 20, TextField.ANY);
         dob =  new DateField("Date de naissance:", DateField.DATE, TimeZone.getTimeZone("GMT"));
         dob.setDate(new Date());
         age =  new TextField("Age (DDN inconnue):", null, Constants.AGE_STR_MAX, TextField.ANY);
         dod =  new DateField("Date du décès:", DateField.DATE, TimeZone.getTimeZone("GMT"));
         dod.setDate(new Date());
+
         death_locationField =  new ChoiceGroup("Code village (décès):", ChoiceGroup.POPUP, Entities.villages_names(commune_code), null);
+        death_locationField.setSelectedIndex(Integer.parseInt(old_ind_death), true);
+
         living_children =  new TextField("Nbre enfants (en vie):", null, 2, TextField.NUMERIC);
         dead_children =  new TextField("Nbre enfants (décédés):", null, 2, TextField.NUMERIC);
         pregnantField = new ChoiceGroup("Grossesse en cours:", ChoiceGroup.POPUP, choice, null);
@@ -217,6 +225,13 @@ public class MaternalMortalityrForm extends Form implements CommandListener {
         // pregnancy_related_death
         String prof = SharedChecks.profile();    
         String commune_code = config.get("commune_code");
+        
+        String reporting_location_index = String.valueOf(reporting_locationField.getSelectedIndex());
+        String death_location_index = String.valueOf(death_locationField.getSelectedIndex());
+        
+        // On sauvegarde l'index pour l'ulitiser par defaut après        
+        config.set("reporting_location", reporting_location_index);
+        config.set("death_location", death_location_index);
 
         return "fnuap dpw" + sep + prof
                            + sep + reporting_d

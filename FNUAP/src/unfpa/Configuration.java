@@ -17,6 +17,8 @@ public class Configuration {
     private int profile_index = 3;
     private int district_code_index = 4;
     private int commune_code_index = 5;
+    private int reporting_location_index = 6;
+    private int death_location_index = 7;
 
 
     private static final String database = "configuration";
@@ -39,7 +41,8 @@ public class Configuration {
             this.set("profile", "FNUAP", true);
             this.set("district_code", "kati", true);
             this.set("commune_code", "", true);
-
+            this.set("reporting_location", "0", true);
+            this.set("death_location", "0", true);
         }
     }
 
@@ -106,6 +109,10 @@ public class Configuration {
             index = district_code_index;
         } else if (variable.equals("commune_code")) {
             index = commune_code_index;
+        } else if (variable.equals("reporting_location")) {
+            index = reporting_location_index;
+        } else if (variable.equals("death_location")) {
+            index = death_location_index;
         } else {
             index = -1;
         }
