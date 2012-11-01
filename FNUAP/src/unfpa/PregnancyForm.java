@@ -67,9 +67,8 @@ public class PregnancyForm extends Form implements CommandListener {
         reporting_locationField = new ChoiceGroup("Code village (visite):", ChoiceGroup.POPUP, Entities.villages_names(commune_code), null);
         reporting_locationField.setSelectedIndex(Integer.parseInt(old_ind_reporting), true);
 
-
         mother_name = new TextField("Nom de la mère:", null, 20, TextField.ANY);
-        age =  new TextField("Age:", null, 4, TextField.NUMERIC);
+        age = new TextField("Age:", null, 4, TextField.NUMERIC);
         pregnancy_age = new TextField("Age de la grossesse (en mois):",  null, 2, TextField.NUMERIC);
         expected_delivery_date =  new DateField("Date probable d'accouchement:", DateField.DATE, TimeZone.getTimeZone("GMT"));
         expected_delivery_date.setDate(new Date());
@@ -111,17 +110,28 @@ public class PregnancyForm extends Form implements CommandListener {
         return true;
     }
 
-    /*
-     * Whether all filled data is correct
-     * @return <code>true</code> if all fields are OK
-     * <code>false</code> otherwise.
-     */
-
     public boolean isValid() {
         int agepregnancy =  Integer.parseInt(pregnancy_age.getString());
+        ErrorMessage = "La date indiquée est dans le futur.";
+
 
         if (SharedChecks.isDateValide(reporting_date.getDate()) != true) {
             ErrorMessage = "[Date de visite] " + ErrorMessage;
+            return false;
+        }
+
+        // if (SharedChecks.isDateValide(expected_delivery_date.getDate()) == true) {
+        //     ErrorMessage = "[Date probable d'accouchement] La date indiquée pas est dans le futur.";
+        //     return false;
+        // }
+
+        if (SharedChecks.isDateValide(delivery_date.getDate()) != true) {
+            ErrorMessage = "[Date de l'issue de la grossesse] " + ErrorMessage;
+            return false;
+        }
+
+        if (SharedChecks.compareDobDod(delivery_date.getDate(), reporting_date.getDate()) == true) {
+            ErrorMessage = "[Erreur] la date de visite ne peut pas être inferieure à la date de l'issue de la grossesse";
             return false;
         }
 
@@ -129,10 +139,11 @@ public class PregnancyForm extends Form implements CommandListener {
             ErrorMessage = "[Age de la grossesse (en mois)] le nombre de mois doit être supérieur à zéro.";
             return false;
         }
+
         if (agepregnancy > 12){
                 ErrorMessage = "[Age de la grossesse (en mois)] le nombre de mois doit être inférieur à 12.";
                 return false;
-            }
+        }
 
         return true;
     }

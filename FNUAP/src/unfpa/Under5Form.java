@@ -112,7 +112,7 @@ public class Under5Form extends Form implements CommandListener {
         ErrorMessage = "La date indiquée est dans le futur.";
 
         if (SharedChecks.isDateValide(reporting_date.getDate()) != true) {
-            ErrorMessage = "(Date repportage) " + ErrorMessage;
+            ErrorMessage = "[Date de visite] " + ErrorMessage;
             return false;
         }
 

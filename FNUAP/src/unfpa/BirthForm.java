@@ -107,9 +107,6 @@ public class BirthForm extends Form implements CommandListener {
         //TODO: Si c'est Autre qui est choisi comme lieu de naissance le change précision devient obligatoire.
         //      la date de naissance ne doit pas être superière à la date d'enregistrement.
         ErrorMessage = "La date indiquée est dans le futur.";
-        System.out.println("uuuuuuuuu");
-        System.out.println(reporting_date.getDate());
-        System.out.println(dob.getDate());
 
         if (SharedChecks.isDateValide(reporting_date.getDate()) != true) {
             ErrorMessage = "[Date de visite] " + ErrorMessage;
