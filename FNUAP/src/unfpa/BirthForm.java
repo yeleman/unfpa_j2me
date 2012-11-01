@@ -107,6 +107,9 @@ public class BirthForm extends Form implements CommandListener {
         //TODO: Si c'est Autre qui est choisi comme lieu de naissance le change précision devient obligatoire.
         //      la date de naissance ne doit pas être superière à la date d'enregistrement.
         ErrorMessage = "La date indiquée est dans le futur.";
+        System.out.println("uuuuuuuuu");
+        System.out.println(reporting_date.getDate());
+        System.out.println(dob.getDate());
 
         if (SharedChecks.isDateValide(reporting_date.getDate()) != true) {
             ErrorMessage = "[Date de visite] " + ErrorMessage;
@@ -166,7 +169,6 @@ public class BirthForm extends Form implements CommandListener {
 
         String prof = SharedChecks.profile();
         String commune_code = config.get("commune_code");
-
         
         String reporting_location_index = String.valueOf(reporting_locationField.getSelectedIndex());
         
@@ -232,8 +234,6 @@ public class BirthForm extends Form implements CommandListener {
                                    null, AlertType.CONFIRMATION);
                 this.midlet.display.setCurrent (alert, this.midlet.mainMenu);
             } else {
-                // TODO: ajouter sauvegarde dans BDD.
-
                if (store.add(this.toText(), this.toSMSFormat())) {
                     alert = new Alert ("Échec d'envoi SMS", "Impossible d'envoyer" +
                                        " la demande par SMS. Le rapport a été enregistré dans le téléphone.", null,

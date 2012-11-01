@@ -8,7 +8,7 @@ import unfpa.Configuration.*;
 import java.util.Date;
 
 /**
- * @author ALou
+ * @author Fad
  */
 public class SharedChecks {
     private static final String month_list[] = {"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};
@@ -39,6 +39,7 @@ public class SharedChecks {
     }
 
     public static boolean isDateValide(Date date_obj) {
+        // check sur les dates. En fin d'eliminer ceux qui sont au future
         int array[] = formatDateString(date_obj);
         int day = array[0];
         int month = array[1];
@@ -49,21 +50,29 @@ public class SharedChecks {
         int now_day = now_array[0];
         int now_month = now_array[1];
         int now_year = now_array[2];
-
-        if (now_year < year){
-            return false;
+        
+        if (year < now_year) {
+            return true;
         }
-        else {
-            if (now_month < month){
-                return false;
+        else if (year == now_year) {
+            if (month < now_month){
+                return true;
             }
-            else {
-                if (now_day < day){
+            else if (month == now_month){
+                if (day <= now_day){
+                    return true;
+                }
+                else {
                     return false;
                 }
             }
+            else{
+                return false;
+            }
         }
-        return true;
+        else{
+            return false;
+        }
     }
 
     private static int[] previous_date( int day, int month, int year) {
