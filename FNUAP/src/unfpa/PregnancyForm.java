@@ -8,6 +8,7 @@ import unfpa.Configuration.*;
 import unfpa.Constants.*;
 import unfpa.HelpForm.*;
 import unfpa.SharedChecks.*;
+import unfpa.Entities.*;
 
 /**
  * J2ME Patient Registration Form
@@ -30,23 +31,23 @@ public class PregnancyForm extends Form implements CommandListener {
     private Configuration config;
     private SMSStore store;
 
-    String sep = " ";
-
     private String ErrorMessage = "";
     private static final String[] choix = {"NON", "OUI"};
     private static final String[] pregnancy_result = {"Né vivant", "Mort-né", "Avortement"};
 
-    //private TextField reporting_location;
+    //private TextField reporting_locationField;
     private TextField householder_name;
     private DateField reporting_date;
     private TextField mother_name;
-    private ChoiceGroup reporting_location;
+    private ChoiceGroup reporting_locationField;
     private TextField age;
     private ChoiceGroup end_pregnancyfield;
     private TextField pregnancy_age;
     private DateField expected_delivery_date;
     private ChoiceGroup pregnancy_resultfield;
     private DateField delivery_date;
+
+    String sep = " ";
 
 
     public PregnancyForm(UNFPAMIDlet midlet) {
@@ -56,12 +57,18 @@ public class PregnancyForm extends Form implements CommandListener {
         config = new Configuration();
         store = new SMSStore();
 
+        String commune_code = config.get("commune_code");
+        String old_ind_reporting = config.get("reporting_location");
+
         householder_name = new TextField("Nom du chef de ménage:", null, 20, TextField.ANY);
         reporting_date = new DateField("Date de visite:", DateField.DATE, TimeZone.getTimeZone("GMT"));
         reporting_date.setDate(new Date());
-        reporting_location = new ChoiceGroup("Code village (visite):", ChoiceGroup.POPUP, Constants.names_village(), null);
+
+        reporting_locationField = new ChoiceGroup("Code village (visite):", ChoiceGroup.POPUP, Entities.villages_names(commune_code), null);
+        reporting_locationField.setSelectedIndex(Integer.parseInt(old_ind_reporting), true);
+
         mother_name = new TextField("Nom de la mère:", null, 20, TextField.ANY);
-        age =  new TextField("Age:", null, 4, TextField.NUMERIC);
+        age = new TextField("Age:", null, 4, TextField.NUMERIC);
         pregnancy_age = new TextField("Age de la grossesse (en mois):",  null, 2, TextField.NUMERIC);
         expected_delivery_date =  new DateField("Date probable d'accouchement:", DateField.DATE, TimeZone.getTimeZone("GMT"));
         expected_delivery_date.setDate(new Date());
@@ -72,7 +79,7 @@ public class PregnancyForm extends Form implements CommandListener {
 
         // add fields to forms
         append(reporting_date);
-        append(reporting_location);
+        append(reporting_locationField);
         append(householder_name);
         append(mother_name);
         append(age);
@@ -103,17 +110,28 @@ public class PregnancyForm extends Form implements CommandListener {
         return true;
     }
 
-    /*
-     * Whether all filled data is correct
-     * @return <code>true</code> if all fields are OK
-     * <code>false</code> otherwise.
-     */
-
     public boolean isValid() {
         int agepregnancy =  Integer.parseInt(pregnancy_age.getString());
+        ErrorMessage = "La date indiquée est dans le futur.";
+
 
         if (SharedChecks.isDateValide(reporting_date.getDate()) != true) {
             ErrorMessage = "[Date de visite] " + ErrorMessage;
+            return false;
+        }
+
+        // if (SharedChecks.isDateValide(expected_delivery_date.getDate()) == true) {
+        //     ErrorMessage = "[Date probable d'accouchement] La date indiquée pas est dans le futur.";
+        //     return false;
+        // }
+
+        if (SharedChecks.isDateValide(delivery_date.getDate()) != true) {
+            ErrorMessage = "[Date de l'issue de la grossesse] " + ErrorMessage;
+            return false;
+        }
+
+        if (SharedChecks.compareDobDod(delivery_date.getDate(), reporting_date.getDate()) == true) {
+            ErrorMessage = "[Erreur] la date de visite ne peut pas être inferieure à la date de l'issue de la grossesse";
             return false;
         }
 
@@ -121,10 +139,11 @@ public class PregnancyForm extends Form implements CommandListener {
             ErrorMessage = "[Age de la grossesse (en mois)] le nombre de mois doit être supérieur à zéro.";
             return false;
         }
+
         if (agepregnancy > 12){
                 ErrorMessage = "[Age de la grossesse (en mois)] le nombre de mois doit être inférieur à 12.";
                 return false;
-            }
+        }
 
         return true;
     }
@@ -160,16 +179,23 @@ public class PregnancyForm extends Form implements CommandListener {
         }
 
         String prof = SharedChecks.profile();
+        String commune_code = config.get("commune_code");
+
+        String reporting_location_index = String.valueOf(reporting_locationField.getSelectedIndex());
+
+        // On sauvegarde l'index pour l'ulitiser par defaut après        
+        config.set("reporting_location", reporting_location_index);
+
         return "fnuap gpw" + sep + prof
-                           + sep + Constants.code_for_village(reporting_location)
+                           + sep + Entities.villages_codes(commune_code)[reporting_locationField.getSelectedIndex()]
                            + sep + householder_name.getString().replace(' ', '_')
                            + sep + d_recording // Date
                            + sep + mother_name.getString().replace(' ', '_')
                            + sep + age.getString() + "a"
                            + sep + pregnancy_age.getString()
-                           + sep + expect_date_c // Si la grossesse n'est pas terminer d_pregnancy = - si non une date(20120427)
+                           + sep + expect_date_c // Si la grossesse n'est pas terminé d_pregnancy = - si non une date(20120427)
                            + sep + resul_pregnancy  // Si la grossesse n'est pas terminer resul_pregnancy = -1 si non l'index de l'element chosi de {"Né vivant", "Mort-né", "Avortement"}
-                           + sep + d_pregnancy; // Si la grossesse n'est pas terminer d_pregnancy = - si non une date(20120427)
+                           + sep + d_pregnancy; // Si la grossesse n'est pas terminé d_pregnancy = - si non une date(20120427)
         }
 
     public String toText() {

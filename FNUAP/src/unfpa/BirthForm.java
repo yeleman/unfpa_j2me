@@ -5,6 +5,7 @@ import javax.microedition.lcdui.*;
 import java.util.TimeZone;
 import unfpa.Configuration.*;
 import unfpa.Constants.*;
+import unfpa.Entities.*;
 import unfpa.SharedChecks.*;
 import java.util.Date;
 
@@ -37,7 +38,7 @@ public class BirthForm extends Form implements CommandListener {
     private TextField surname_mother;
     private TextField family_name;
     private TextField surname_child;
-    private ChoiceGroup reporting_location;
+    private ChoiceGroup reporting_locationField;
     private static final String[] sexList= {"F", "M"};
     private ChoiceGroup sex;
     private static final String[] YesNon = {"OUI", "NON"};
@@ -45,15 +46,19 @@ public class BirthForm extends Form implements CommandListener {
     private ChoiceGroup born_alive;
     private ChoiceGroup birth_location;
     private DateField dob;
+    
     Date now = new Date();
     String sep = " ";
-
+    
     public BirthForm(UNFPAMIDlet midlet) {
         super("Données de naissance");
         this.midlet = midlet;
 
         config = new Configuration();
         store = new SMSStore();
+
+        String commune_code = config.get("commune_code");
+        String old_ind_reporting = config.get("reporting_location");
 
         //date
         reporting_date =  new DateField("Date de visite:", DateField.DATE, TimeZone.getTimeZone("GMT"));
@@ -65,14 +70,15 @@ public class BirthForm extends Form implements CommandListener {
         surname_mother = new TextField("Prénom de la mère:", null, 20, TextField.ANY);
         family_name = new TextField("Nom de famille:", null, 20, TextField.ANY);
         surname_child = new TextField("Prénom de l'enfant:", null, 20, TextField.ANY);
-        reporting_location = new ChoiceGroup("Code village (visite):", ChoiceGroup.POPUP, Constants.names_village(), null);
+        reporting_locationField = new ChoiceGroup("Code village (visite):", ChoiceGroup.POPUP, Entities.villages_names(commune_code), null);
+        reporting_locationField.setSelectedIndex(Integer.parseInt(old_ind_reporting), true);
         //choice
         birth_location = new ChoiceGroup("Lieu de naissance:", ChoiceGroup.POPUP, birth_place, null);
         sex = new ChoiceGroup("Sexe:", ChoiceGroup.POPUP, sexList, null);
         born_alive = new ChoiceGroup("Né vivant:", ChoiceGroup.POPUP, YesNon, null);
 
         append(reporting_date);
-        append(reporting_location);
+        append(reporting_locationField);
         append(family_name);
         append(surname_mother);
         append(surname_child);
@@ -159,8 +165,15 @@ public class BirthForm extends Form implements CommandListener {
             child = surname_child.getString();
 
         String prof = SharedChecks.profile();
+        String commune_code = config.get("commune_code");
+        
+        String reporting_location_index = String.valueOf(reporting_locationField.getSelectedIndex());
+        
+        // On sauvegarde l'index pour l'ulitiser par defaut après        
+        config.set("reporting_location", reporting_location_index);
+
         return "fnuap born" + sep + prof + sep + reporting_d
-                            + sep + Constants.code_for_village(reporting_location)
+                            + sep + Entities.villages_codes(commune_code)[reporting_locationField.getSelectedIndex()]
                             + sep + family_name.getString().replace(' ', '_')
                             + sep + mother.replace(' ', '_')
                             + sep + child.replace(' ', '_')
@@ -218,8 +231,6 @@ public class BirthForm extends Form implements CommandListener {
                                    null, AlertType.CONFIRMATION);
                 this.midlet.display.setCurrent (alert, this.midlet.mainMenu);
             } else {
-                // TODO: ajouter sauvegarde dans BDD.
-
                if (store.add(this.toText(), this.toSMSFormat())) {
                     alert = new Alert ("Échec d'envoi SMS", "Impossible d'envoyer" +
                                        " la demande par SMS. Le rapport a été enregistré dans le téléphone.", null,

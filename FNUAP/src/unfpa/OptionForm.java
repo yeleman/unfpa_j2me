@@ -143,11 +143,11 @@ public OptionForm(UNFPAMIDlet midlet) {
                     config.set("commune_code", commune_code) &&
                     config.set("profile", profileField.getString(profileField.getSelectedIndex()))) {
 
-                System.out.println("Villages de la commune:");
-                String[] villages = Entities.villages_names(commune_code);
-                for (int i=0;i<villages.length;i++) {
-                    System.out.println(villages[i]);
-                }
+                // System.out.println("Villages de la commune:");
+                // String[] villages = Entities.villages_names(commune_code);
+                // for (int i=0;i<villages.length;i++) {
+                //     System.out.println(villages[i]);
+                // }
 
                 alert = new Alert ("Confirmation!", "Votre modification a été bien enregistré.", null, AlertType.CONFIRMATION);
                 this.midlet.startApp();
