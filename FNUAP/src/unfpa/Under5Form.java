@@ -150,7 +150,19 @@ public class Under5Form extends Form implements CommandListener {
                 return false;
             }
             try {
-                Integer.valueOf(age.getString().substring(0, age_length - 1));
+                int age_int = Integer.valueOf(age.getString().substring(0, age_length - 1)).intValue();
+                if (age.getString().endsWith("a")){
+                    if(!(age_int < 6)){
+                        ErrorMessage = "[Age (DDN inconnue)] L'enfant doit avoir moins de 5 ans";
+                        return false;
+                    }
+                }
+                if (age.getString().endsWith("m")){
+                    if(!(age_int < 60)){
+                        ErrorMessage = "[Age (DDN inconnue)] L'enfant doit avoir moins de 59 mois";
+                        return false;
+                    }
+                }
             }
             catch (NumberFormatException err ){
                 ErrorMessage = "[Age (DDN inconnue)] On doit saisir un nombre suivi d'un 'a' pour l'année ou d'un 'm' pour le mois";

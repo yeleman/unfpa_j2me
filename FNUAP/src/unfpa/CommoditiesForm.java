@@ -2,7 +2,6 @@
 package unfpa;
 
 import javax.microedition.lcdui.*;
-import java.util.TimeZone;
 import java.util.Date;
 import unfpa.Configuration.*;
 import unfpa.Constants.*;
@@ -205,6 +204,7 @@ public CommoditiesForm(UNFPAMIDlet midlet) {
     append(nb_metronidazole);
     append(oxytocine);
     append(nb_oxytocine);
+    append("--fin--");
 
     addCommand(CMD_EXIT);
     addCommand(CMD_SEND);

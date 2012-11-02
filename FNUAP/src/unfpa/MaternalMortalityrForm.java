@@ -71,7 +71,7 @@ public class MaternalMortalityrForm extends Form implements CommandListener {
         name =  new TextField("Nom de la défunte:", null, 20, TextField.ANY);
         dob =  new DateField("Date de naissance:", DateField.DATE, TimeZone.getTimeZone("GMT"));
         dob.setDate(new Date());
-        age =  new TextField("Age (DDN inconnue):", null, Constants.AGE_STR_MAX, TextField.ANY);
+        age =  new TextField("Age (DDN inconnue):", null, Constants.AGE_STR_MAX, TextField.NUMERIC);
         dod =  new DateField("Date du décès:", DateField.DATE, TimeZone.getTimeZone("GMT"));
         dod.setDate(new Date());
 
@@ -135,14 +135,14 @@ public class MaternalMortalityrForm extends Form implements CommandListener {
             return false;
         }
 
-        if (age.getString().length()!= 0){
-            String age_nbr = String.valueOf(age.getString().charAt(age.getString().length() - 1));
+        // if (age.getString().length()!= 0){
+        //     String age_nbr = String.valueOf(age.getString().charAt(age.getString().length() - 1));
 
-            if (!age_nbr.equals("a") && !age_nbr.equals("m")){
-                ErrorMessage = "[Age (DDN inconnue)] le nombre d'âge doit être suivi d'un 'a' pour l'année ou d'un 'm' pour le mois";
-                return false;
-            }
-        }
+        //     if (!age_nbr.equals("a") && !age_nbr.equals("m")){
+        //         ErrorMessage = "[Age (DDN inconnue)] le nombre d'âge doit être suivi d'un 'a' pour l'année ou d'un 'm' pour le mois";
+        //         return false;
+        //     }
+        // }
 
         if (age.getString().length() == 0 && SharedChecks.compareDobDod(dob.getDate(),
             reporting_date.getDate()) == true) {
@@ -204,7 +204,7 @@ public class MaternalMortalityrForm extends Form implements CommandListener {
                              + SharedChecks.addzero(dod_array[0]);
 
         if (age.getString().length() != 0)
-            fdob = age.getString();
+            fdob = age.getString() + "a";
         else
             fdob = dob_d;
 
