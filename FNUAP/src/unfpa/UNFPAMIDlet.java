@@ -46,7 +46,6 @@ public class UNFPAMIDlet extends MIDlet implements CommandListener {
                                    "Envoi form. (" + store.count() + ")"};
 
         if(config.get("commune_code").equals("")){
-            System.out.println("eeee");
             OptionForm f = new OptionForm(this);
             display.setCurrent(f);
         } else{

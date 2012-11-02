@@ -29,6 +29,7 @@ public class OptionForm extends Form implements CommandListener {
     private TextField cscom_codeField;
     private ChoiceGroup districtField;
     private ChoiceGroup communeField;
+    private String ErrorMessage = "";
 
     private static final String[] profile = {"CREDOS", "FNUAP"};
     UNFPAMIDlet midlet;
@@ -102,6 +103,14 @@ public OptionForm(UNFPAMIDlet midlet) {
         return true;
     }
 
+    public boolean isValid() {
+        if (numberField.getString().length() < 8) {
+            ErrorMessage = "[Numéro du serveur] n'est pas un numéro n'est pas valide";
+            return false;
+        }
+        return true;
+    }
+
     public void commandAction(Command c, Displayable d) {
         // Help command displays Help Form
          if (c == CMD_HELP) {
@@ -134,6 +143,15 @@ public OptionForm(UNFPAMIDlet midlet) {
                 this.midlet.display.setCurrent (alert, this);
                 return;
             }
+
+            if (!this.isValid()) {
+                alert = new Alert("Données incorrectes!", this.ErrorMessage,
+                                  null, AlertType.ERROR);
+                alert.setTimeout(Alert.FOREVER);
+                this.midlet.display.setCurrent (alert, this);
+                return;
+            }
+
 
             String district_code = districts[districtField.getSelectedIndex()];
             String commune_code = Entities.communes_codes(district_code)[communeField.getSelectedIndex()];
