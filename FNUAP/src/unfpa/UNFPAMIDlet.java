@@ -127,8 +127,13 @@ public class UNFPAMIDlet extends MIDlet implements CommandListener {
 
                 // products
                 case 2:
-                    CommoditiesForm stock_form = new CommoditiesForm(this);
-                    display.setCurrent (stock_form);
+                    if(config.get("cscom_code").equals(Constants.CSCOM_CODE)) {
+                        OptionForm option_form = new OptionForm(this);
+                        display.setCurrent (option_form);
+                    } else {
+                        CommoditiesForm stock_form = new CommoditiesForm(this);
+                        display.setCurrent (stock_form);
+                    }
                     break;
 
 

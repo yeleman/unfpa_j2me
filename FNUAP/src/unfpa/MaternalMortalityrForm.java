@@ -40,7 +40,6 @@ public class MaternalMortalityrForm extends Form implements CommandListener {
     private ChoiceGroup reporting_locationField;
     // Maternal Mortality Form
     private TextField name;
-    private DateField dob;
     private TextField age;
     private DateField dod;
     private ChoiceGroup death_locationField;
@@ -69,8 +68,6 @@ public class MaternalMortalityrForm extends Form implements CommandListener {
         reporting_locationField.setSelectedIndex(Integer.parseInt(old_ind_reporting), true);
 
         name =  new TextField("Nom de la défunte:", null, 20, TextField.ANY);
-        dob =  new DateField("Date de naissance:", DateField.DATE, TimeZone.getTimeZone("GMT"));
-        dob.setDate(new Date());
         age =  new TextField("Age (DDN inconnue):", null, Constants.AGE_STR_MAX, TextField.NUMERIC);
         dod =  new DateField("Date du décès:", DateField.DATE, TimeZone.getTimeZone("GMT"));
         dod.setDate(new Date());
@@ -89,7 +86,6 @@ public class MaternalMortalityrForm extends Form implements CommandListener {
         append(reporting_locationField);
         append(name);
         append(age);
-        append(dob);
         append(dod);
         append(death_locationField);
         append(living_children);
@@ -112,10 +108,11 @@ public class MaternalMortalityrForm extends Form implements CommandListener {
 
     public boolean isComplete() {
         // all fields are required to be filled.
-        // TODO: verifier AGE/DDN
+        
        if (name.getString().length() == 0
            || living_children.getString().length() == 0
-           || dead_children.getString().length() == 0) {
+           || dead_children.getString().length() == 0
+           || age.getString().length() == 0) {
            return false;
         }
         return true;
@@ -135,28 +132,9 @@ public class MaternalMortalityrForm extends Form implements CommandListener {
             return false;
         }
 
-        // if (age.getString().length()!= 0){
-        //     String age_nbr = String.valueOf(age.getString().charAt(age.getString().length() - 1));
-
-        //     if (!age_nbr.equals("a") && !age_nbr.equals("m")){
-        //         ErrorMessage = "[Age (DDN inconnue)] le nombre d'âge doit être suivi d'un 'a' pour l'année ou d'un 'm' pour le mois";
-        //         return false;
-        //     }
-        // }
-
-        if (age.getString().length() == 0 && SharedChecks.compareDobDod(dob.getDate(),
-            reporting_date.getDate()) == true) {
-            ErrorMessage = "[Erreur] la date de visite ne peut pas être inferieure à la date de naissance";
-            return false;
-        }
 
         if (SharedChecks.isDateValide(dod.getDate())!= true){
             ErrorMessage = "(Date du décès) " + ErrorMessage;
-            return false;
-        }
-
-        if (age.getString().length() == 0 && SharedChecks.compareDobDod(dob.getDate(), dod.getDate()) == true) {
-            ErrorMessage = "[Erreur] la date du décès ne peut pas être inferieure à la date de naissance";
             return false;
         }
 
@@ -176,6 +154,13 @@ public class MaternalMortalityrForm extends Form implements CommandListener {
             ErrorMessage = "[Grossesse en cours] la femme doit être enceinte s'il y a une durée de grossesse.";
             return false;
         }
+        int age_int = Integer.valueOf(age.getString()).intValue();
+        
+        if(!(age_int >= 12)){
+             ErrorMessage = "[Age (DDN inconnue)] La femme doit avoir au moins 12 ans";
+             return false;
+           }
+
 
         return true;
     }
@@ -186,27 +171,15 @@ public class MaternalMortalityrForm extends Form implements CommandListener {
 
     public String toSMSFormat() {
 
-        String fdob;
-
         int reporting_date_array[] = SharedChecks.formatDateString(reporting_date.getDate());
         String reporting_d = String.valueOf(reporting_date_array[2])
                              + SharedChecks.addzero(reporting_date_array[1])
                              + SharedChecks.addzero(reporting_date_array[0]);
 
-        int dob_array[] = SharedChecks.formatDateString(dob.getDate());
-        String dob_d = String.valueOf(dob_array[2])
-                             + SharedChecks.addzero(dob_array[1])
-                             + SharedChecks.addzero(dob_array[0]);
-
         int dod_array[] = SharedChecks.formatDateString(dod.getDate());
         String dod_d = String.valueOf(dod_array[2])
                              + SharedChecks.addzero(dod_array[1])
                              + SharedChecks.addzero(dod_array[0]);
-
-        if (age.getString().length() != 0)
-            fdob = age.getString() + "a";
-        else
-            fdob = dob_d;
 
         int pregnancy_related;
         if ((pregnancy_related_deathField.getString(pregnancy_related_deathField.getSelectedIndex()).equals("N/A"))){
@@ -237,7 +210,7 @@ public class MaternalMortalityrForm extends Form implements CommandListener {
                            + sep + reporting_d
                            + sep + Entities.villages_codes(commune_code)[reporting_locationField.getSelectedIndex()]
                            + sep + name.getString().replace(' ', '_')
-                           + sep + fdob
+                           + sep + age.getString() + "a"
                            + sep + dod_d
                            + sep + Entities.villages_codes(commune_code)[death_locationField.getSelectedIndex()]
                            + sep + living_children.getString()
