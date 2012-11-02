@@ -44,21 +44,29 @@ public class UNFPAMIDlet extends MIDlet implements CommandListener {
         String[] mainMenu_unfpa = {"Mort. infantile", "Mort. maternelle",
                                    "Dispo. Produits",
                                    "Envoi form. (" + store.count() + ")"};
-        if(profile.equals("CREDOS")){
-            mainMenu = new List("Formulaires CREDOS", Choice.IMPLICIT, mainMenu_credos, null);
-        }
-        if(profile.equals("FNUAP")){
-            mainMenu = new List("Formulaires FNUAP", Choice.IMPLICIT, mainMenu_unfpa, null);
-        }
 
-        // setup menu
-        mainMenu.setCommandListener (this);
-        mainMenu.addCommand (CMD_EXIT);
-        mainMenu.addCommand (CMD_HELP);
-        mainMenu.addCommand (CMD_VERSION);
-        mainMenu.addCommand (CMD_SRVNUM);
+        if(config.get("commune_code").equals("")){
+            System.out.println("eeee");
+            OptionForm f = new OptionForm(this);
+            display.setCurrent(f);
+        } else{
+            if(profile.equals("CREDOS")){
+                mainMenu = new List("Formulaires CREDOS", Choice.IMPLICIT, mainMenu_credos, null);
+            }
+            if(profile.equals("FNUAP")){
+                mainMenu = new List("Formulaires FNUAP", Choice.IMPLICIT, mainMenu_unfpa, null);
+            }
 
-       display.setCurrent(mainMenu);    
+            // setup menu
+            mainMenu.setCommandListener (this);
+            mainMenu.addCommand (CMD_EXIT);
+            mainMenu.addCommand (CMD_HELP);
+            mainMenu.addCommand (CMD_VERSION);
+            mainMenu.addCommand (CMD_SRVNUM);
+
+           display.setCurrent(mainMenu);    
+                
+        }
 
     }
 
