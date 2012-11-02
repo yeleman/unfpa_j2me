@@ -76,7 +76,8 @@ public OptionForm(UNFPAMIDlet midlet) {
 
     append(numberField);
     append(cscom_codeField);
-    append(profileField);
+    // Pour cacher le champs Profile
+    //append(profileField);
     append(districtField);
 
     addCommand(CMD_CONTINUE);

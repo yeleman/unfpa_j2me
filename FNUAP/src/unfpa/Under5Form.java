@@ -116,11 +116,6 @@ public class Under5Form extends Form implements CommandListener {
             return false;
         }
 
-        // if (SharedChecks.ValidateCode(reporting_locationField.getString()) == true) {
-        //     ErrorMessage = "[Code village (visite)] ce code n'est pas valide";
-        //     return false;
-        // }
-
         if (SharedChecks.Under5(dob.getDate()) == false) {
             ErrorMessage = "[Date de naissance] l'âge de l'enfant doit être inferieur à 5ans.";
             return false;
@@ -146,12 +141,20 @@ public class Under5Form extends Form implements CommandListener {
             return false;
         }
 
-        if (age.getString().length() != 0){
-            String age_nbr = String.valueOf(age.getString().charAt(age.getString().length() - 1));
+        int age_length = age.getString().length();
 
-            if (!age_nbr.equals("a") && !age_nbr.equals("m")){
+        if (age_length != 0){
+
+            if (!age.getString().endsWith("a") && !age.getString().endsWith("m")){
                 ErrorMessage = "[Age (DDN inconnue)] le nombre d'âge doit être suivi d'un 'a' pour l'année ou d'un 'm' pour le mois";
                 return false;
+            }
+            try {
+                Integer.valueOf(age.getString().substring(0, age_length - 1));
+            }
+            catch (NumberFormatException err ){
+                ErrorMessage = "[Age (DDN inconnue)] On doit saisir un nombre suivi d'un 'a' pour l'année ou d'un 'm' pour le mois";
+            return false;
             }
         }
 
@@ -211,12 +214,10 @@ public class Under5Form extends Form implements CommandListener {
         
     }
 
-
     public String toText() {
         int reporting_date_array[] = SharedChecks.formatDateString(reporting_date.getDate());
         return "E-" + reporting_date_array[0] + "] " + name.getString();
     }
-
 
     public void commandAction(Command c, Displayable d) {
         // help command displays Help Form.
