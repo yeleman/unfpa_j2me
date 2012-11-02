@@ -4826,275 +4826,275 @@ public class StaticCodes {
 
 		// Ségou
 		Hashtable csego_ht = new Hashtable();
-		csego_ht.put("m142", m142_ht);
-		csego_ht.put("m047", m047_ht);
-		csego_ht.put("m105", m105_ht);
-		csego_ht.put("m186", m186_ht);
-		csego_ht.put("m026", m026_ht);
-		csego_ht.put("m172", m172_ht);
-		csego_ht.put("m157", m157_ht);
-		csego_ht.put("m148", m148_ht);
-		csego_ht.put("m167", m167_ht);
-		csego_ht.put("m130", m130_ht);
-		csego_ht.put("m159", m159_ht);
-		csego_ht.put("m106", m106_ht);
-		csego_ht.put("m054", m054_ht);
-		csego_ht.put("m210", m210_ht);
-		csego_ht.put("m046", m046_ht);
-		csego_ht.put("m132", m132_ht);
-		csego_ht.put("m011", m011_ht);
-		csego_ht.put("m021", m021_ht);
-		csego_ht.put("m066", m066_ht);
-		csego_ht.put("m146", m146_ht);
-		csego_ht.put("m037", m037_ht);
-		csego_ht.put("m064", m064_ht);
-		csego_ht.put("m041", m041_ht);
-		csego_ht.put("m207", m207_ht);
-		csego_ht.put("m065", m065_ht);
-		csego_ht.put("m162", m162_ht);
-		csego_ht.put("m002", m002_ht);
-		csego_ht.put("m090", m090_ht);
-		csego_ht.put("m082", m082_ht);
+		csego_ht.put("m142", m142_ht); // Pelengana
+		csego_ht.put("m047", m047_ht); // Diouna
+		csego_ht.put("m105", m105_ht); // Markala
+		csego_ht.put("m186", m186_ht); // Togou
+		csego_ht.put("m026", m026_ht); // Cinzana
+		csego_ht.put("m172", m172_ht); // Souba
+		csego_ht.put("m157", m157_ht); // Sansanding
+		csego_ht.put("m148", m148_ht); // Sama Foulala
+		csego_ht.put("m167", m167_ht); // Soignebougou
+		csego_ht.put("m130", m130_ht); // N'Koumandougou
+		csego_ht.put("m159", m159_ht); // Sebougou
+		csego_ht.put("m106", m106_ht); // Massala
+		csego_ht.put("m054", m054_ht); // Dougabougou
+		csego_ht.put("m210", m210_ht); // Doura
+		csego_ht.put("m046", m046_ht); // Dioro
+		csego_ht.put("m132", m132_ht); // Nonongo
+		csego_ht.put("m011", m011_ht); // Bellen
+		csego_ht.put("m021", m021_ht); // Boussin
+		csego_ht.put("m066", m066_ht); // Fatine
+		csego_ht.put("m146", m146_ht); // Sakoiba
+		csego_ht.put("m037", m037_ht); // Diedougou 1
+		csego_ht.put("m064", m064_ht); // Farako 2
+		csego_ht.put("m041", m041_ht); // Diganibougou
+		csego_ht.put("m207", m207_ht); // Segou
+		csego_ht.put("m065", m065_ht); // Farakou Massa
+		csego_ht.put("m162", m162_ht); // Sibila
+		csego_ht.put("m002", m002_ht); // Baguindadougou
+		csego_ht.put("m090", m090_ht); // Konodimini
+		csego_ht.put("m082", m082_ht); // Katiena
 
 		// San
 		Hashtable csan_ht = new Hashtable();
-		csan_ht.put("m174", m174_ht);
-		csan_ht.put("m161", m161_ht);
-		csan_ht.put("m170", m170_ht);
-		csan_ht.put("m177", m177_ht);
-		csan_ht.put("m175", m175_ht);
-		csan_ht.put("m113", m113_ht);
-		csan_ht.put("m025", m025_ht);
-		csan_ht.put("m192", m192_ht);
-		csan_ht.put("m122", m122_ht);
-		csan_ht.put("m032", m032_ht);
-		csan_ht.put("m178", m178_ht);
-		csan_ht.put("m048", m048_ht);
-		csan_ht.put("m135", m135_ht);
-		csan_ht.put("m008", m008_ht);
-		csan_ht.put("m081", m081_ht);
-		csan_ht.put("m193", m193_ht);
-		csan_ht.put("m039", m039_ht);
-		csan_ht.put("m078", m078_ht);
-		csan_ht.put("m083", m083_ht);
-		csan_ht.put("m067", m067_ht);
-		csan_ht.put("m080", m080_ht);
-		csan_ht.put("m127", m127_ht);
-		csan_ht.put("m029", m029_ht);
-		csan_ht.put("m141", m141_ht);
-		csan_ht.put("m125", m125_ht);
+		csan_ht.put("m174", m174_ht); // Sourountouna
+		csan_ht.put("m161", m161_ht); // Siadougou
+		csan_ht.put("m170", m170_ht); // Somo L
+		csan_ht.put("m177", m177_ht); // Tene
+		csan_ht.put("m175", m175_ht); // Sy
+		csan_ht.put("m113", m113_ht); // Moribila
+		csan_ht.put("m025", m025_ht); // San
+		csan_ht.put("m192", m192_ht); // Tourakolomba
+		csan_ht.put("m122", m122_ht); // N'Goa
+		csan_ht.put("m032", m032_ht); // Diakourouna
+		csan_ht.put("m178", m178_ht); // Teneni
+		csan_ht.put("m048", m048_ht); // Djeguena
+		csan_ht.put("m135", m135_ht); // N'Torosso
+		csan_ht.put("m008", m008_ht); // Baramandougou
+		csan_ht.put("m081", m081_ht); // Kassorola
+		csan_ht.put("m193", m193_ht); // Waki
+		csan_ht.put("m039", m039_ht); // Dieli
+		csan_ht.put("m078", m078_ht); // Kaniegue
+		csan_ht.put("m083", m083_ht); // Kava
+		csan_ht.put("m067", m067_ht); // Fion
+		csan_ht.put("m080", m080_ht); // Karaba
+		csan_ht.put("m127", m127_ht); // Niasso
+		csan_ht.put("m029", m029_ht); // Dah
+		csan_ht.put("m141", m141_ht); // Ouolon
+		csan_ht.put("m125", m125_ht); // Niamana 1
 
 		// Barouéli
 		Hashtable cbara_ht = new Hashtable();
-		cbara_ht.put("m069", m069_ht);
-		cbara_ht.put("m176", m176_ht);
-		cbara_ht.put("m089", m089_ht);
-		cbara_ht.put("m075", m075_ht);
-		cbara_ht.put("m152", m152_ht);
-		cbara_ht.put("m179", m179_ht);
-		cbara_ht.put("m121", m121_ht);
-		cbara_ht.put("m171", m171_ht);
-		cbara_ht.put("m009", m009_ht);
-		cbara_ht.put("m016", m016_ht);
-		cbara_ht.put("m120", m120_ht);
-		cbara_ht.put("m150", m150_ht);
-		cbara_ht.put("m055", m055_ht);
+		cbara_ht.put("m069", m069_ht); // Gouendo
+		cbara_ht.put("m176", m176_ht); // Tamani
+		cbara_ht.put("m089", m089_ht); // Konobougou
+		cbara_ht.put("m075", m075_ht); // Kalake
+		cbara_ht.put("m152", m152_ht); // Sanando
+		cbara_ht.put("m179", m179_ht); // Tesserla
+		cbara_ht.put("m121", m121_ht); // N'Gassola
+		cbara_ht.put("m171", m171_ht); // Somo Ll
+		cbara_ht.put("m009", m009_ht); // Baraoueli
+		cbara_ht.put("m016", m016_ht); // Boidie
+		cbara_ht.put("m120", m120_ht); // N'Gara
+		cbara_ht.put("m150", m150_ht); // Samine
+		cbara_ht.put("m055", m055_ht); // Dougoufie
 
 		// Bla
 		Hashtable cbla_ht = new Hashtable();
-		cbla_ht.put("m085", m085_ht);
-		cbla_ht.put("m010", m010_ht);
-		cbla_ht.put("m062", m062_ht);
-		cbla_ht.put("m149", m149_ht);
-		cbla_ht.put("m124", m124_ht);
-		cbla_ht.put("m056", m056_ht);
-		cbla_ht.put("m035", m035_ht);
-		cbla_ht.put("m182", m182_ht);
-		cbla_ht.put("m015", m015_ht);
-		cbla_ht.put("m060", m060_ht);
-		cbla_ht.put("m091", m091_ht);
-		cbla_ht.put("m194", m194_ht);
-		cbla_ht.put("m191", m191_ht);
-		cbla_ht.put("m084", m084_ht);
-		cbla_ht.put("m040", m040_ht);
-		cbla_ht.put("m095", m095_ht);
-		cbla_ht.put("m169", m169_ht);
+		cbla_ht.put("m085", m085_ht); // Kemeni
+		cbla_ht.put("m010", m010_ht); // Beguene
+		cbla_ht.put("m062", m062_ht); // Fani
+		cbla_ht.put("m149", m149_ht); // Samabogo
+		cbla_ht.put("m124", m124_ht); // Niala
+		cbla_ht.put("m056", m056_ht); // Dougouolo
+		cbla_ht.put("m035", m035_ht); // Diaramana
+		cbla_ht.put("m182", m182_ht); // Tiemena
+		cbla_ht.put("m015", m015_ht); // Bla
+		cbla_ht.put("m060", m060_ht); // Falo
+		cbla_ht.put("m091", m091_ht); // Korodougou
+		cbla_ht.put("m194", m194_ht); // Yangasso
+		cbla_ht.put("m191", m191_ht); // Touna
+		cbla_ht.put("m084", m084_ht); // Kazangasso
+		cbla_ht.put("m040", m040_ht); // Diena 2
+		cbla_ht.put("m095", m095_ht); // Koulandougou
+		cbla_ht.put("m169", m169_ht); // Somasso
 
 		// Tominian
 		Hashtable ctomi_ht = new Hashtable();
-		ctomi_ht.put("m093", m093_ht);
-		ctomi_ht.put("m184", m184_ht);
-		ctomi_ht.put("m097", m097_ht);
-		ctomi_ht.put("m187", m187_ht);
-		ctomi_ht.put("m100", m100_ht);
-		ctomi_ht.put("m102", m102_ht);
-		ctomi_ht.put("m138", m138_ht);
-		ctomi_ht.put("m013", m013_ht);
-		ctomi_ht.put("m045", m045_ht);
-		ctomi_ht.put("m061", m061_ht);
-		ctomi_ht.put("m195", m195_ht);
-		ctomi_ht.put("m155", m155_ht);
+		ctomi_ht.put("m093", m093_ht); // Koula 1
+		ctomi_ht.put("m184", m184_ht); // Timissa
+		ctomi_ht.put("m097", m097_ht); // Lanfiala
+		ctomi_ht.put("m187", m187_ht); // Tominian
+		ctomi_ht.put("m100", m100_ht); // Mafoune
+		ctomi_ht.put("m102", m102_ht); // Mandiakuy
+		ctomi_ht.put("m138", m138_ht); // Ouan
+		ctomi_ht.put("m013", m013_ht); // Benena
+		ctomi_ht.put("m045", m045_ht); // Diora
+		ctomi_ht.put("m061", m061_ht); // Fangasso
+		ctomi_ht.put("m195", m195_ht); // Yasso
+		ctomi_ht.put("m155", m155_ht); // Sanekuy
 
 		// Macina
 		Hashtable cmaci_ht = new Hashtable();
-		cmaci_ht.put("m151", m151_ht);
-		cmaci_ht.put("m108", m108_ht);
-		cmaci_ht.put("m212", m212_ht);
-		cmaci_ht.put("m088", m088_ht);
-		cmaci_ht.put("m086", m086_ht);
-		cmaci_ht.put("m068", m068_ht);
-		cmaci_ht.put("m173", m173_ht);
-		cmaci_ht.put("m188", m188_ht);
-		cmaci_ht.put("m098", m098_ht);
-		cmaci_ht.put("m111", m111_ht);
-		cmaci_ht.put("m147", m147_ht);
-		cmaci_ht.put("m213", m213_ht);
-		cmaci_ht.put("m017", m017_ht);
-		cmaci_ht.put("m211", m211_ht);
+		cmaci_ht.put("m151", m151_ht); // Sana
+		cmaci_ht.put("m108", m108_ht); // Matomo
+		cmaci_ht.put("m212", m212_ht); // Kolongotomo
+		cmaci_ht.put("m088", m088_ht); // Kolongo
+		cmaci_ht.put("m086", m086_ht); // Kokry
+		cmaci_ht.put("m068", m068_ht); // Folomana
+		cmaci_ht.put("m173", m173_ht); // Souleye
+		cmaci_ht.put("m188", m188_ht); // Tongue
+		cmaci_ht.put("m098", m098_ht); // Macina
+		cmaci_ht.put("m111", m111_ht); // Monimpebougou
+		cmaci_ht.put("m147", m147_ht); // Saloba
+		cmaci_ht.put("m213", m213_ht); // Monimpe
+		cmaci_ht.put("m017", m017_ht); // Boky Were
+		cmaci_ht.put("m211", m211_ht); // Saye
 
 		// Niono
 		Hashtable cnion_ht = new Hashtable();
-		cnion_ht.put("m143", m143_ht);
-		cnion_ht.put("m104", m104_ht);
-		cnion_ht.put("m073", m073_ht);
-		cnion_ht.put("m051", m051_ht);
-		cnion_ht.put("m197", m197_ht);
-		cnion_ht.put("m030", m030_ht);
-		cnion_ht.put("m117", m117_ht);
-		cnion_ht.put("m168", m168_ht);
-		cnion_ht.put("m165", m165_ht);
-		cnion_ht.put("m128", m128_ht);
-		cnion_ht.put("m020", m020_ht);
-		cnion_ht.put("m189", m189_ht);
+		cnion_ht.put("m143", m143_ht); // Pogo
+		cnion_ht.put("m104", m104_ht); // Mariko
+		cnion_ht.put("m073", m073_ht); // Kala Siguida
+		cnion_ht.put("m051", m051_ht); // Dogofry
+		cnion_ht.put("m197", m197_ht); // Yeredon
+		cnion_ht.put("m030", m030_ht); // Diabaly
+		cnion_ht.put("m117", m117_ht); // Nampalari
+		cnion_ht.put("m168", m168_ht); // Sokolo
+		cnion_ht.put("m165", m165_ht); // Siribala
+		cnion_ht.put("m128", m128_ht); // Niono
+		cnion_ht.put("m020", m020_ht); // Boundy
+		cnion_ht.put("m189", m189_ht); // Toridaga-Ko
 
 		// Nara
 		Hashtable cnara_ht = new Hashtable();
-		cnara_ht.put("m050", m050_ht);
-		cnara_ht.put("m137", m137_ht);
-		cnara_ht.put("m001", m001_ht);
-		cnara_ht.put("m059", m059_ht);
-		cnara_ht.put("m092", m092_ht);
-		cnara_ht.put("m042", m042_ht);
-		cnara_ht.put("m070", m070_ht);
-		cnara_ht.put("m118", m118_ht);
-		cnara_ht.put("m126", m126_ht);
-		cnara_ht.put("m072", m072_ht);
-		cnara_ht.put("m028", m028_ht);
+		cnara_ht.put("m050", m050_ht); // Dogofry
+		cnara_ht.put("m137", m137_ht); // Ouagadou
+		cnara_ht.put("m001", m001_ht); // Allahina
+		cnara_ht.put("m059", m059_ht); // Fallou
+		cnara_ht.put("m092", m092_ht); // Koronga
+		cnara_ht.put("m042", m042_ht); // Dilly
+		cnara_ht.put("m070", m070_ht); // Gueneibe
+		cnara_ht.put("m118", m118_ht); // Nara
+		cnara_ht.put("m126", m126_ht); // Niamana 2
+		cnara_ht.put("m072", m072_ht); // Guire
+		cnara_ht.put("m028", m028_ht); // Dabo
 
 		// Kati
 		Hashtable ckati_ht = new Hashtable();
-		ckati_ht.put("m181", m181_ht);
-		ckati_ht.put("m196", m196_ht);
-		ckati_ht.put("m053", m053_ht);
-		ckati_ht.put("m038", m038_ht);
-		ckati_ht.put("m063", m063_ht);
-		ckati_ht.put("m003", m003_ht);
-		ckati_ht.put("m119", m119_ht);
-		ckati_ht.put("m208", m208_ht);
-		ckati_ht.put("m031", m031_ht);
-		ckati_ht.put("m154", m154_ht);
-		ckati_ht.put("m019", m019_ht);
-		ckati_ht.put("m101", m101_ht);
-		ckati_ht.put("m112", m112_ht);
-		ckati_ht.put("m007", m007_ht);
-		ckati_ht.put("m005", m005_ht);
-		ckati_ht.put("m096", m096_ht);
-		ckati_ht.put("m076", m076_ht);
-		ckati_ht.put("m114", m114_ht);
-		ckati_ht.put("m074", m074_ht);
-		ckati_ht.put("m022", m022_ht);
-		ckati_ht.put("m052", m052_ht);
-		ckati_ht.put("m044", m044_ht);
-		ckati_ht.put("m077", m077_ht);
-		ckati_ht.put("m018", m018_ht);
-		ckati_ht.put("m153", m153_ht);
-		ckati_ht.put("m034", m034_ht);
-		ckati_ht.put("m144", m144_ht);
-		ckati_ht.put("m027", m027_ht);
-		ckati_ht.put("m049", m049_ht);
-		ckati_ht.put("m163", m163_ht);
-		ckati_ht.put("m115", m115_ht);
-		ckati_ht.put("m116", m116_ht);
-		ckati_ht.put("m123", m123_ht);
-		ckati_ht.put("m033", m033_ht);
-		ckati_ht.put("m180", m180_ht);
-		ckati_ht.put("m139", m139_ht);
-		ckati_ht.put("m129", m129_ht);
-		ckati_ht.put("m156", m156_ht);
-		ckati_ht.put("m166", m166_ht);
+		ckati_ht.put("m181", m181_ht); // Tiele
+		ckati_ht.put("m196", m196_ht); // Yelekebougou
+		ckati_ht.put("m053", m053_ht); // Doubabougou
+		ckati_ht.put("m038", m038_ht); // Diedougou 3
+		ckati_ht.put("m063", m063_ht); // Faraba 1
+		ckati_ht.put("m003", m003_ht); // Baguineda Camp
+		ckati_ht.put("m119", m119_ht); // N'Gabacoro
+		ckati_ht.put("m208", m208_ht); // Baguineda
+		ckati_ht.put("m031", m031_ht); // Diago
+		ckati_ht.put("m154", m154_ht); // Sanankoroba
+		ckati_ht.put("m019", m019_ht); // Bougoula 1
+		ckati_ht.put("m101", m101_ht); // Mande
+		ckati_ht.put("m112", m112_ht); // Moribabougou
+		ckati_ht.put("m007", m007_ht); // Bancoumana
+		ckati_ht.put("m005", m005_ht); // Bamako
+		ckati_ht.put("m096", m096_ht); // Kourouba
+		ckati_ht.put("m076", m076_ht); // Kalifabougou
+		ckati_ht.put("m114", m114_ht); // Mountougoula
+		ckati_ht.put("m074", m074_ht); // Kalabancoro
+		ckati_ht.put("m022", m022_ht); // Kati
+		ckati_ht.put("m052", m052_ht); // Dombila
+		ckati_ht.put("m044", m044_ht); // Dio Gare
+		ckati_ht.put("m077", m077_ht); // Kambila
+		ckati_ht.put("m018", m018_ht); // Bossofla
+		ckati_ht.put("m153", m153_ht); // Sanankoro Djitoumou
+		ckati_ht.put("m034", m034_ht); // Dialakorodji
+		ckati_ht.put("m144", m144_ht); // Safo
+		ckati_ht.put("m027", m027_ht); // Daban
+		ckati_ht.put("m049", m049_ht); // Dogodouman
+		ckati_ht.put("m163", m163_ht); // Siby
+		ckati_ht.put("m115", m115_ht); // N'Gouraba
+		ckati_ht.put("m116", m116_ht); // N'Tjiba
+		ckati_ht.put("m123", m123_ht); // Niagadina
+		ckati_ht.put("m033", m033_ht); // Dialakoroba
+		ckati_ht.put("m180", m180_ht); // Tiakadougou Dialakoro
+		ckati_ht.put("m139", m139_ht); // Ouelessebougou
+		ckati_ht.put("m129", m129_ht); // Nioumamakana
+		ckati_ht.put("m156", m156_ht); // Sangarebougou
+		ckati_ht.put("m166", m166_ht); // Sobra
 
 		// Kangaba
 		Hashtable ckang_ht = new Hashtable();
-		ckang_ht.put("m110", m110_ht);
-		ckang_ht.put("m014", m014_ht);
-		ckang_ht.put("m160", m160_ht);
-		ckang_ht.put("m079", m079_ht);
-		ckang_ht.put("m134", m134_ht);
-		ckang_ht.put("m004", m004_ht);
-		ckang_ht.put("m023", m023_ht);
-		ckang_ht.put("m103", m103_ht);
+		ckang_ht.put("m110", m110_ht); // Minidian
+		ckang_ht.put("m014", m014_ht); // Benkadi 1
+		ckang_ht.put("m160", m160_ht); // Selefougou
+		ckang_ht.put("m079", m079_ht); // Kaniogo
+		ckang_ht.put("m134", m134_ht); // Nouga
+		ckang_ht.put("m004", m004_ht); // Balan Bakama
+		ckang_ht.put("m023", m023_ht); // Narena
+		ckang_ht.put("m103", m103_ht); // Maramandougou
 
 		// Banamba
 		Hashtable cbana_ht = new Hashtable();
-		cbana_ht.put("m199", m199_ht);
-		cbana_ht.put("m006", m006_ht);
-		cbana_ht.put("m099", m099_ht);
-		cbana_ht.put("m205", m205_ht);
-		cbana_ht.put("m058", m058_ht);
-		cbana_ht.put("m200", m200_ht);
+		cbana_ht.put("m199", m199_ht); // Toukoroba
+		cbana_ht.put("m006", m006_ht); // Banamba
+		cbana_ht.put("m099", m099_ht); // Madina Sacko
+		cbana_ht.put("m205", m205_ht); // Boron
+		cbana_ht.put("m058", m058_ht); // Duguwolowula
+		cbana_ht.put("m200", m200_ht); // Sebete
 
 		// Kolokani
 		Hashtable ckolo_ht = new Hashtable();
-		ckolo_ht.put("m140", m140_ht);
-		ckolo_ht.put("m071", m071_ht);
-		ckolo_ht.put("m036", m036_ht);
-		ckolo_ht.put("m087", m087_ht);
-		ckolo_ht.put("m107", m107_ht);
-		ckolo_ht.put("m158", m158_ht);
-		ckolo_ht.put("m131", m131_ht);
-		ckolo_ht.put("m012", m012_ht);
-		ckolo_ht.put("m145", m145_ht);
-		ckolo_ht.put("m185", m185_ht);
-		ckolo_ht.put("m133", m133_ht);
+		ckolo_ht.put("m140", m140_ht); // Ouolodo
+		ckolo_ht.put("m071", m071_ht); // Gui Hoyo
+		ckolo_ht.put("m036", m036_ht); // Didieni
+		ckolo_ht.put("m087", m087_ht); // Kolokani
+		ckolo_ht.put("m107", m107_ht); // Massantola
+		ckolo_ht.put("m158", m158_ht); // Sebecoro
+		ckolo_ht.put("m131", m131_ht); // Nonkon
+		ckolo_ht.put("m012", m012_ht); // Ben Kadi
+		ckolo_ht.put("m145", m145_ht); // Sagabala
+		ckolo_ht.put("m185", m185_ht); // Tioribougou
+		ckolo_ht.put("m133", m133_ht); // Nossombougou
 
 		// Koulikoro
 		Hashtable ckoul_ht = new Hashtable();
-		ckoul_ht.put("m094", m094_ht);
-		ckoul_ht.put("m190", m190_ht);
-		ckoul_ht.put("m183", m183_ht);
-		ckoul_ht.put("m043", m043_ht);
-		ckoul_ht.put("m209", m209_ht);
-		ckoul_ht.put("m024", m024_ht);
-		ckoul_ht.put("m109", m109_ht);
-		ckoul_ht.put("m136", m136_ht);
-		ckoul_ht.put("m164", m164_ht);
-		ckoul_ht.put("m057", m057_ht);
+		ckoul_ht.put("m094", m094_ht); // Koula 2
+		ckoul_ht.put("m190", m190_ht); // Tougouni
+		ckoul_ht.put("m183", m183_ht); // Tienfala
+		ckoul_ht.put("m043", m043_ht); // Dinandougou 1
+		ckoul_ht.put("m209", m209_ht); // Kenekou
+		ckoul_ht.put("m024", m024_ht); // Koulikoro
+		ckoul_ht.put("m109", m109_ht); // Meguetan
+		ckoul_ht.put("m136", m136_ht); // Nyamina
+		ckoul_ht.put("m164", m164_ht); // Sirakorola
+		ckoul_ht.put("m057", m057_ht); // Doumba
 
 		// Dioila
 		Hashtable cdioi_ht = new Hashtable();
-		cdioi_ht.put("m204", m204_ht);
-		cdioi_ht.put("m198", m198_ht);
-		cdioi_ht.put("m203", m203_ht);
-		cdioi_ht.put("m202", m202_ht);
-		cdioi_ht.put("m206", m206_ht);
-		cdioi_ht.put("m201", m201_ht);
+		cdioi_ht.put("m204", m204_ht); // Banco
+		cdioi_ht.put("m198", m198_ht); // Massigui
+		cdioi_ht.put("m203", m203_ht); // Beleko
+		cdioi_ht.put("m202", m202_ht); // Fana
+		cdioi_ht.put("m206", m206_ht); // Mena
+		cdioi_ht.put("m201", m201_ht); // Dioila
 
         // MAIN HASH TABLE
         // contains a list of cercle_code/cercle_ht for each cercle.
-		cercles.put("csego", csego_ht);
-		cercles.put("csan", csan_ht);
-		cercles.put("cbara", cbara_ht);
-		cercles.put("cbla", cbla_ht);
-		cercles.put("ctomi", ctomi_ht);
-		cercles.put("cmaci", cmaci_ht);
-		cercles.put("cnion", cnion_ht);
-		cercles.put("cnara", cnara_ht);
-		cercles.put("ckati", ckati_ht);
-		cercles.put("ckang", ckang_ht);
-		cercles.put("cbana", cbana_ht);
-		cercles.put("ckolo", ckolo_ht);
-		cercles.put("ckoul", ckoul_ht);
-		cercles.put("cdioi", cdioi_ht);
+		cercles.put("csego", csego_ht); // Ségou
+		cercles.put("csan", csan_ht); // San
+		cercles.put("cbara", cbara_ht); // Barouéli
+		cercles.put("cbla", cbla_ht); // Bla
+		cercles.put("ctomi", ctomi_ht); // Tominian
+		cercles.put("cmaci", cmaci_ht); // Macina
+		cercles.put("cnion", cnion_ht); // Niono
+		cercles.put("cnara", cnara_ht); // Nara
+		cercles.put("ckati", ckati_ht); // Kati
+		cercles.put("ckang", ckang_ht); // Kangaba
+		cercles.put("cbana", cbana_ht); // Banamba
+		cercles.put("ckolo", ckolo_ht); // Kolokani
+		cercles.put("ckoul", ckoul_ht); // Koulikoro
+		cercles.put("cdioi", cdioi_ht); // Dioila
 
         // NAMES HASH TABLE
         // contains names of code/name for all communes and cercles
