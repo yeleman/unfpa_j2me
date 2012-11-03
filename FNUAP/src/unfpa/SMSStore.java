@@ -72,17 +72,21 @@ public class SMSStore {
             recordEnumeration = recordstore.enumerateRecords(null, null, false);
             int num_recors = recordEnumeration.numRecords();
             all_sms = new StoredSMS[num_recors];
+            String stored_value = "";
+            int index = -2;
             int i = 0;
             if (num_recors > 0) {
                 while( recordEnumeration.hasNextElement() ) {
-                    int index = recordEnumeration.nextRecordId();
-                    if (!this.isValidRecord(index)) {
-                        continue;
-                    }
-                    // we need to get record-- since get() adds ++.
-                    StoredSMS record = this.get(index - 1);
+
+                    // record is internally a byte array
+                    byte[] byteInputData = new byte[1024];
+                    index = recordEnumeration.nextRecordId();
+
+                    StoredSMS record = this.get(index);
+                    record.storage_index = index;
                     all_sms[i] = record;
                     i++;
+
                 }
             } else {
                 System.out.println("no records");
@@ -136,7 +140,6 @@ public class SMSStore {
         if (index < 0) {
             return false;
         }
-        index++;
 
         try {
             // open record store
@@ -182,8 +185,7 @@ public class SMSStore {
         if (index < 0) {
             return blank_sms;
         }
-        index++;
-
+        
         try
         {
         // open record store

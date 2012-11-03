@@ -31,7 +31,6 @@ public class SendSavedReports extends List implements CommandListener {
 
         for (int i=0; i<all_sms.length; i++) {
             append(all_sms[i].name, null);
-            // append(store.get(i).name, null);
         }
 
         setCommandListener (this);
@@ -67,7 +66,7 @@ public class SendSavedReports extends List implements CommandListener {
                         alert = new Alert ("Demande envoyée !", "Vous allez recevoir" +
                                            " une confirmation du serveur.",
                                            null, AlertType.CONFIRMATION);
-                        store.delete(i);
+                        store.delete(this.all_sms[i].storage_index);
                     }else{
                         alert = new Alert ("Échec d'envoi SMS", "Impossible d'envoyer" +
                                            " la demande par SMS. Le rapport a été enregistré dans le téléphone.", null,
@@ -87,7 +86,7 @@ public class SendSavedReports extends List implements CommandListener {
                 String number = config.get("server_number");
 
                 if (sms.send(number, this.all_sms[index].sms)) {
-                    store.delete(index);
+                    store.delete(this.all_sms[index].storage_index);
                     alert = new Alert ("Demande envoyée !", "Vous allez recevoir" +
                                        " une confirmation du serveur.",
                                        null, AlertType.CONFIRMATION);
@@ -106,7 +105,7 @@ public class SendSavedReports extends List implements CommandListener {
                 int index = ((List) s).getSelectedIndex ();
                 Alert alert;
                 
-                if (this.store.delete(index)) {
+                if (this.store.delete(this.all_sms[index].storage_index)) {
                     alert = new Alert ("Suppression SMS", "Sms sélectionné a été supprimé.", null, AlertType.CONFIRMATION);
                 } else
                     alert = new Alert ("Suppression SMS", "Échec de suppression.", null, AlertType.WARNING);
