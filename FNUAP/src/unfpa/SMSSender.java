@@ -23,7 +23,8 @@ public class SMSSender {
         MessageConnection smsconn = null;
 
         try {
-            System.out.println("address: " + address);
+            System.out.println("SMS Address: " + address);
+            System.out.println("SMS Text: " + message);
             /** Open the message connection. */
             smsconn = (MessageConnection) Connector.open (address);
 

@@ -1,4 +1,4 @@
- 
+
 package unfpa;
 
 import javax.microedition.lcdui.*;
@@ -88,6 +88,12 @@ public class CommoditiesForm extends Form implements CommandListener {
     private TextField nb_metronidazole;
     private ChoiceGroup oxytocine;
     private TextField nb_oxytocine;
+    // ajout 04/11/2012
+    private ChoiceGroup ceftriaxone_500;
+    private TextField nb_ceftriaxone_500;
+    private ChoiceGroup ceftriaxone_1000;
+    private TextField nb_ceftriaxone_1000;
+    private TextField comment;
 
 
 public CommoditiesForm(UNFPAMIDlet midlet) {
@@ -146,10 +152,18 @@ public CommoditiesForm(UNFPAMIDlet midlet) {
     nb_iron_folate = new TextField("Quantité dispo. (comprimés)", null, 6, TextField.NUMERIC);
     magnesium_sulfate = new ChoiceGroup("Sulfate de magnésium", ChoiceGroup.POPUP, choice, null);
     nb_magnesium_sulfate = new TextField("Quantité dispo. (flacons)", null, 6, TextField.NUMERIC);
-    metronidazole = new ChoiceGroup("Sétronidazole", ChoiceGroup.POPUP, choice, null);
+    metronidazole = new ChoiceGroup("Métronidazole", ChoiceGroup.POPUP, choice, null);
     nb_metronidazole = new TextField("Quantité dispo. (flacons)", null, 6, TextField.NUMERIC);
     oxytocine = new ChoiceGroup("Ocytocine", ChoiceGroup.POPUP, choice, null);
     nb_oxytocine = new TextField("Quantité dispo. (flacons)", null, 6, TextField.NUMERIC);
+
+    // ajout 04/11/2012
+    ceftriaxone_500 = new ChoiceGroup("Ceftriaxone 500mg", ChoiceGroup.POPUP, choice, null);
+    nb_ceftriaxone_500 = new TextField("Quantité dispo. (injectable)", null, 6, TextField.NUMERIC);
+    ceftriaxone_1000 = new ChoiceGroup("Ceftriaxone 1g", ChoiceGroup.POPUP, choice, null);
+    nb_ceftriaxone_1000 = new TextField("Quantité dispo. (injectable)", null, 6, TextField.NUMERIC);
+
+    comment = new TextField("Commentaires/problèmes", null, 50, TextField.ANY);
 
     append(reporting_year);
     append(reporting_month);
@@ -204,7 +218,16 @@ public CommoditiesForm(UNFPAMIDlet midlet) {
     append(nb_metronidazole);
     append(oxytocine);
     append(nb_oxytocine);
-    append("--fin--");
+
+    // ajout 04/11/2012
+    append(ceftriaxone_500);
+    append(nb_ceftriaxone_500);
+    append(ceftriaxone_1000);
+    append(nb_ceftriaxone_1000);
+
+    append(comment);
+
+    append("Fin du questionnaire.");
 
     addCommand(CMD_EXIT);
     addCommand(CMD_SEND);
@@ -231,11 +254,11 @@ public CommoditiesForm(UNFPAMIDlet midlet) {
      */
 
     public boolean isValid() {
-        
-        
+
+
         int year = Integer.parseInt(reporting_year.getString(reporting_year.getSelectedIndex()));
         int month = reporting_month.getSelectedIndex();
-        
+
         Date now = new Date();
         int array[] = SharedChecks.formatDateString(now);
         int now_month = array[1];
@@ -245,12 +268,12 @@ public CommoditiesForm(UNFPAMIDlet midlet) {
              return false;
         }
         if (now_year < year){
-            ErrorMessage = "Le l'année est dans le future.";
+            ErrorMessage = "L'année est dans le futur.";
             return false;
         }
         else {
             if(now_month < month){
-                ErrorMessage = "Le mois est dans le future.";
+                ErrorMessage = "Le mois est dans le futur.";
                 return false;
             }
         }
@@ -264,7 +287,10 @@ public CommoditiesForm(UNFPAMIDlet midlet) {
     public String toSMSFormat() {
         String sep = " ";
         String cscom_code = config.get("cscom_code");
-        
+        String comment_fmted = comment.getString().replace(' ', '_');
+        if (comment_fmted.length() == 0)
+            comment_fmted = "-";
+
         return "fnuap mps" + sep + reporting_year.getString(reporting_year.getSelectedIndex())
                            + sep + SharedChecks.addzero(reporting_month.getSelectedIndex())
                            + sep + cscom_code
@@ -293,7 +319,10 @@ public CommoditiesForm(UNFPAMIDlet midlet) {
                            + sep + test_value(iron_folate.getSelectedIndex(), nb_iron_folate.getString())
                            + sep + test_value(magnesium_sulfate.getSelectedIndex(), nb_magnesium_sulfate.getString())
                            + sep + test_value(metronidazole.getSelectedIndex(), nb_metronidazole.getString())
-                           + sep + test_value(oxytocine.getSelectedIndex(), nb_oxytocine.getString());
+                           + sep + test_value(oxytocine.getSelectedIndex(), nb_oxytocine.getString())
+                           + sep + test_value(ceftriaxone_500.getSelectedIndex(), nb_ceftriaxone_500.getString())
+                           + sep + test_value(ceftriaxone_1000.getSelectedIndex(), nb_ceftriaxone_1000.getString())
+                           + sep + comment_fmted;
     }
 
     public String test_value(int c, String s) {
@@ -310,7 +339,7 @@ public CommoditiesForm(UNFPAMIDlet midlet) {
         return  "P] " + reporting_month.getString(reporting_month.getSelectedIndex())
                 + "-" + reporting_year.getString(reporting_year.getSelectedIndex());
     }
-    
+
     public void commandAction(Command c, Displayable d) {
         // help command displays Help Form.
         if (c == CMD_HELP) {
@@ -352,7 +381,7 @@ public CommoditiesForm(UNFPAMIDlet midlet) {
             // sends the sms and reply feedback
             SMSSender sms = new SMSSender();
             String number = config.get("server_number");
-            
+
            if (sms.send(number, this.toSMSFormat())) {
                 alert = new Alert ("Demande envoyée !", "Vous allez recevoir" +
                                    " une confirmation du serveur.",

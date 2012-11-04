@@ -4,6 +4,7 @@ package unfpa;
 import javax.microedition.lcdui.*;
 import java.util.TimeZone;
 import java.util.Date;
+import java.util.Hashtable;
 import unfpa.Configuration.*;
 import unfpa.Constants.*;
 import unfpa.Entities.*;
@@ -35,6 +36,7 @@ public class MaternalMortalityrForm extends Form implements CommandListener {
 
     private String ErrorMessage = "";
     private static final String[] choice = {"Non", "Oui"};
+    private static final Hashtable death_causes = new Hashtable();
     //General Informatien
     private DateField reporting_date;
     private ChoiceGroup reporting_locationField;
@@ -48,11 +50,22 @@ public class MaternalMortalityrForm extends Form implements CommandListener {
     private ChoiceGroup pregnantField;
     private TextField pregnancy_weeks;
     private ChoiceGroup pregnancy_related_deathField;
+    private ChoiceGroup cause_of_deathField;
 
 
     public MaternalMortalityrForm(UNFPAMIDlet midlet) {
         super("Mortalité Maternelle");
         this.midlet = midlet;
+
+        death_causes.put("Saignements", "b"); // bleeding
+        death_causes.put("Fièvre", "f"); // fever
+        death_causes.put("HTA", "h"); // HTN High Blood Pressure
+        death_causes.put("Diarrhée", "d"); // diarrhea
+        death_causes.put("Crises", "c"); // crisis
+        death_causes.put("Avortement spontané", "m"); // miscarriage
+        death_causes.put("Avortement provoqué", "a"); // abortion
+        death_causes.put("Autre", "o"); // other
+
 
         config = new Configuration();
         store = new SMSStore();
@@ -80,6 +93,8 @@ public class MaternalMortalityrForm extends Form implements CommandListener {
         pregnantField = new ChoiceGroup("Grossesse en cours:", ChoiceGroup.POPUP, choice, null);
         pregnancy_weeks =  new TextField("Nb de semaine de grossesse:", null, 3, TextField.NUMERIC);
         pregnancy_related_deathField = new ChoiceGroup("Décès lié à la grossesse:", ChoiceGroup.POPUP, choice, null);
+        cause_of_deathField = new ChoiceGroup("Cause du décès:", ChoiceGroup.POPUP, SharedChecks.getKeys(death_causes), null);
+        cause_of_deathField.setSelectedIndex(0, true); // /!\ index of "Autre" in sorted list
 
         // add fields to forms
         append(reporting_date);
@@ -93,6 +108,8 @@ public class MaternalMortalityrForm extends Form implements CommandListener {
         append(pregnantField);
         append(pregnancy_weeks);
         append(pregnancy_related_deathField);
+        append(cause_of_deathField);
+        append("Fin du questionnaire.");
 
         addCommand(CMD_EXIT);
         addCommand(CMD_SEND);
@@ -100,6 +117,7 @@ public class MaternalMortalityrForm extends Form implements CommandListener {
 
         this.setCommandListener (this);
     }
+
     /*
      * Whether all required fields are filled
      * @return <code>true</code> is all fields are filled
@@ -108,7 +126,7 @@ public class MaternalMortalityrForm extends Form implements CommandListener {
 
     public boolean isComplete() {
         // all fields are required to be filled.
-        
+
        if (name.getString().length() == 0
            || living_children.getString().length() == 0
            || dead_children.getString().length() == 0
@@ -155,7 +173,7 @@ public class MaternalMortalityrForm extends Form implements CommandListener {
             return false;
         }
         int age_int = Integer.valueOf(age.getString()).intValue();
-        
+
         if(!(age_int >= 12)){
              ErrorMessage = "[Age (DDN inconnue)] La femme doit avoir au moins 12 ans";
              return false;
@@ -193,16 +211,18 @@ public class MaternalMortalityrForm extends Form implements CommandListener {
             pregnancy_w = pregnancy_weeks.getString();
         }
 
+        String cause_of_death = (String)death_causes.get(cause_of_deathField.getString(cause_of_deathField.getSelectedIndex()));
+
         // fnuap dpw reporting_locationField name dob dod death_locationField
         // living_children dead_children pregnant pregnancy_weeks
         // pregnancy_related_death
-        String prof = SharedChecks.profile();    
+        String prof = SharedChecks.profile();
         String commune_code = config.get("commune_code");
-        
+
         String reporting_location_index = String.valueOf(reporting_locationField.getSelectedIndex());
         String death_location_index = String.valueOf(death_locationField.getSelectedIndex());
-        
-        // On sauvegarde l'index pour l'ulitiser par defaut après        
+
+        // On sauvegarde l'index pour l'ulitiser par defaut après
         config.set("reporting_location", reporting_location_index);
         config.set("death_location", death_location_index);
 
@@ -217,7 +237,8 @@ public class MaternalMortalityrForm extends Form implements CommandListener {
                            + sep + dead_children.getString()
                            + sep + pregnantField.getSelectedIndex()
                            + sep + pregnancy_w
-                           + sep + pregnancy_related;
+                           + sep + pregnancy_related
+                           + sep + cause_of_death;
     }
 
     public String toText() {

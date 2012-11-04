@@ -4,8 +4,12 @@
  */
 
 package unfpa;
-import unfpa.Configuration.*;
+
 import java.util.Date;
+import java.util.Hashtable;
+import java.util.Enumeration;
+
+import unfpa.Configuration.*;
 
 /**
  * @author Fad
@@ -50,7 +54,7 @@ public class SharedChecks {
         int now_day = now_array[0];
         int now_month = now_array[1];
         int now_year = now_array[2];
-        
+
         if (year < now_year) {
             return true;
         }
@@ -197,5 +201,43 @@ public class SharedChecks {
             prof = "c";
         return prof;
     }
+
+    public static String[] getKeys(Hashtable ht) {
+        int num_keys = ht.size();
+        String[] keys = new String[num_keys];
+        int i = 0;
+
+        for (Enumeration e = ht.keys() ; e.hasMoreElements() ;) {
+            keys[i] = (String)e.nextElement();
+            i++;
+        }
+        try {
+            bubbleSort(keys);
+        } catch (Exception err) {
+            System.out.println("Failed to sort keys.");
+        }
+        return keys;
+    }
+
+    static void bubbleSort(String[] p_array) throws Exception {
+        boolean anyCellSorted;
+        int length = p_array.length;
+        String tmp;
+        for (int i = length; --i >= 0;) {
+            anyCellSorted = false;
+            for (int j = 0; j < i; j++) {
+                if (p_array[j].compareTo(p_array[j + 1]) > 0) {
+                    tmp = p_array[j];
+                    p_array[j] = p_array[j + 1];
+                    p_array[j + 1] = tmp;
+                    anyCellSorted = true;
+                }
+
+            }
+            if (anyCellSorted == false) {
+                return;
+            }
+        }
+}
 
 }

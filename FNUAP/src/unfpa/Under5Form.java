@@ -3,6 +3,7 @@ package unfpa;
 
 import javax.microedition.lcdui.*;
 import java.util.TimeZone;
+import java.util.Hashtable;
 import unfpa.Configuration.*;
 import unfpa.Constants.*;
 import unfpa.Entities.*;
@@ -36,6 +37,7 @@ public class Under5Form extends Form implements CommandListener {
     //register
     private static final String[] sexList= {"F", "M"};
     private static final String[] TypeLocation = {"Domicile", "Centre", "Autre"};
+    private static final Hashtable death_causes = new Hashtable();
 
     private ChoiceGroup sex;
     private ChoiceGroup location;
@@ -46,6 +48,8 @@ public class Under5Form extends Form implements CommandListener {
     private DateField dob;
     private TextField age;
     private DateField dod;
+    private ChoiceGroup cause_of_deathField;
+
     Date now = new Date();
     String sep = " ";
 
@@ -53,6 +57,18 @@ public class Under5Form extends Form implements CommandListener {
     public Under5Form(UNFPAMIDlet midlet) {
         super("Mortalité infantile");
         this.midlet = midlet;
+
+        death_causes.put("Fièvre", "f"); // fever
+        death_causes.put("Diarrhée", "d"); // diarrhea
+        death_causes.put("Difficultées respiratoires", "b"); // dyspnea
+        death_causes.put("Anémie", "a"); // anemia
+        death_causes.put("Éruptions cutanées", "r"); // rash
+        death_causes.put("Toux", "c"); // cough
+        death_causes.put("Vomissements", "v"); // vomiting
+        death_causes.put("Raideur de la nuque", "n"); // nuchal rigidity
+        death_causes.put("Œil rouge", "e"); // red eye
+        death_causes.put("Refus de s'alimenter", "t"); // eat refusal
+        death_causes.put("Autre", "o"); // other
 
         config = new Configuration();
         store = new SMSStore();
@@ -81,6 +97,9 @@ public class Under5Form extends Form implements CommandListener {
         death_locationField =  new ChoiceGroup("Code village (décès):", ChoiceGroup.POPUP, Entities.villages_names(commune_code), null);
         death_locationField.setSelectedIndex(Integer.parseInt(old_ind_death), true);
 
+        cause_of_deathField = new ChoiceGroup("Cause du décès:", ChoiceGroup.POPUP, SharedChecks.getKeys(death_causes), null);
+        cause_of_deathField.setSelectedIndex(1, true); // /!\ index of "Autre" in sorted list
+
         append(reporting_date);
         append(reporting_locationField);
         append(name);
@@ -90,6 +109,8 @@ public class Under5Form extends Form implements CommandListener {
         append(dod);
         append(death_locationField);
         append(location);
+        append(cause_of_deathField);
+        append("Fin du questionnaire.");
 
         addCommand(CMD_EXIT);
         addCommand(CMD_SAVE);
@@ -207,11 +228,13 @@ public class Under5Form extends Form implements CommandListener {
 
         String prof = SharedChecks.profile();
         String commune_code = config.get("commune_code");
-        
+
         String reporting_location_index = String.valueOf(reporting_locationField.getSelectedIndex());
         String death_location_index = String.valueOf(death_locationField.getSelectedIndex());
-        
-        // On sauvegarde l'index pour l'ulitiser par defaut après        
+
+        String cause_of_death = (String)death_causes.get(cause_of_deathField.getString(cause_of_deathField.getSelectedIndex()));
+
+        // On sauvegarde l'index pour l'ulitiser par defaut après
         config.set("reporting_location", reporting_location_index);
         config.set("death_location", death_location_index);
 
@@ -222,8 +245,9 @@ public class Under5Form extends Form implements CommandListener {
                            + sep + fdob
                            + sep + dod_d
                            + sep + Entities.villages_codes(commune_code)[death_locationField.getSelectedIndex()]
-                           + sep + loc;
-        
+                           + sep + loc
+                           + sep + cause_of_death;
+
     }
 
     public String toText() {
