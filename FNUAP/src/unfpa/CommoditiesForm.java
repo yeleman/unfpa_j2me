@@ -32,9 +32,9 @@ public class CommoditiesForm extends Form implements CommandListener {
     private SMSStore store;
 
     private String ErrorMessage = "";
-    private static final String[] choice = {"Non", "Oui"};
+    private static final String[] choice = {Constants.NON, Constants.OUI};
     private static final String[] year_list = {"2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020"};
-    private static final String[] yesnoavail = {"Non", "Oui (dispo.)", "Oui (non dispo.)"};
+    private static final String[] yesnoavail = {Constants.NON, "Oui (dispo.)", "Oui (non dispo.)"};
     private static final String month_list[] = {"----", "(01)Jan","(02)Feb","(03)Mar","(04)Apr","(05)May","(06)Jun","(07)Jul","(08)Aug","(09)Sep","(10)Oct","(11)Nov","(12)Dec"};
 
     //General Informatien

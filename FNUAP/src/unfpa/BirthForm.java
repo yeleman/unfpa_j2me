@@ -41,7 +41,7 @@ public class BirthForm extends Form implements CommandListener {
     private ChoiceGroup reporting_locationField;
     private static final String[] sexList= {"F", "M"};
     private ChoiceGroup sex;
-    private static final String[] YesNon = {"OUI", "NON"};
+    private static final String[] YesNon = {Constants.NON, Constants.OUI};
     private static final String[] birth_place = {"Domicile", "Centre", "Autre"};
     private ChoiceGroup born_alive;
     private ChoiceGroup birth_location;
@@ -149,7 +149,7 @@ public class BirthForm extends Form implements CommandListener {
         else
             loc = "A";
 
-        if (born_alive.getString(born_alive.getSelectedIndex()).equals("OUI"))
+        if (born_alive.getString(born_alive.getSelectedIndex()).equals(Constants.OUI))
             born = 1;
         else
             born = 0;

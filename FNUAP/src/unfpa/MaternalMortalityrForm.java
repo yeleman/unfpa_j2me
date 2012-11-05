@@ -35,7 +35,7 @@ public class MaternalMortalityrForm extends Form implements CommandListener {
     String sep = " ";
 
     private String ErrorMessage = "";
-    private static final String[] choice = {"Non", "Oui"};
+    private static final String[] choice = {Constants.NON, Constants.OUI};
     private static final Hashtable death_causes = new Hashtable();
     //General Informatien
     private DateField reporting_date;
@@ -81,7 +81,7 @@ public class MaternalMortalityrForm extends Form implements CommandListener {
         reporting_locationField.setSelectedIndex(Integer.parseInt(old_ind_reporting), true);
 
         name =  new TextField("Nom de la défunte:", null, 20, TextField.ANY);
-        age =  new TextField("Age:", null, Constants.AGE_STR_MAX, TextField.NUMERIC);
+        age =  new TextField("Age:", null, Constants.AGE_PW_MAX, TextField.NUMERIC);
         dod =  new DateField("Date du décès:", DateField.DATE, TimeZone.getTimeZone("GMT"));
         dod.setDate(new Date());
 
@@ -91,7 +91,7 @@ public class MaternalMortalityrForm extends Form implements CommandListener {
         living_children =  new TextField("Nbre enfants (en vie):", null, 2, TextField.NUMERIC);
         dead_children =  new TextField("Nbre enfants (décédés):", null, 2, TextField.NUMERIC);
         pregnantField = new ChoiceGroup("Grossesse en cours:", ChoiceGroup.POPUP, choice, null);
-        pregnancy_weeks =  new TextField("Nb de semaine de grossesse:", null, 3, TextField.NUMERIC);
+        pregnancy_weeks =  new TextField("Nb de semaine de grossesse:", null, Constants.WEEK_P_MAX, TextField.NUMERIC);
         pregnancy_related_deathField = new ChoiceGroup("Décès lié à la grossesse:", ChoiceGroup.POPUP, choice, null);
         cause_of_deathField = new ChoiceGroup("Cause du décès:", ChoiceGroup.POPUP, SharedChecks.getKeys(death_causes), null);
         cause_of_deathField.setSelectedIndex(0, true); // /!\ index of "Autre" in sorted list
@@ -161,13 +161,13 @@ public class MaternalMortalityrForm extends Form implements CommandListener {
             return false;
         }
 
-        if (pregnantField.getString(pregnantField.getSelectedIndex()).equals("Oui") &&
+        if (pregnantField.getString(pregnantField.getSelectedIndex()).equals(Constants.OUI) &&
             pregnancy_weeks.getString().length() == 0) {
             ErrorMessage = "[Nb de semaine de grossesse] la durée de la grossesse est obligatoire si la femme est enceinte.";
             return false;
         }
 
-        if (pregnantField.getString(pregnantField.getSelectedIndex()).equals("Non") &&
+        if (pregnantField.getString(pregnantField.getSelectedIndex()).equals(Constants.NON) &&
             pregnancy_weeks.getString().length() != 0) {
             ErrorMessage = "[Grossesse en cours] la femme doit être enceinte s'il y a une durée de grossesse.";
             return false;
@@ -207,7 +207,9 @@ public class MaternalMortalityrForm extends Form implements CommandListener {
         }
 
         String pregnancy_w = "-";
-        if (pregnantField.getString(pregnantField.getSelectedIndex()).equals("OUI")){
+        System.out.println(pregnantField.getString(pregnantField.getSelectedIndex()));
+
+        if (pregnantField.getString(pregnantField.getSelectedIndex()).equals(Constants.OUI)){
             pregnancy_w = pregnancy_weeks.getString();
         }
 

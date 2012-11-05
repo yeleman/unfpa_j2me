@@ -32,7 +32,7 @@ public class PregnancyForm extends Form implements CommandListener {
     private SMSStore store;
 
     private String ErrorMessage = "";
-    private static final String[] choix = {"NON", "OUI"};
+    private static final String[] choix = {Constants.NON, Constants.OUI};
     private static final String[] pregnancy_result = {"Né vivant", "Mort-né", "Avortement"};
 
     //private TextField reporting_locationField;
@@ -169,7 +169,7 @@ public class PregnancyForm extends Form implements CommandListener {
                             + SharedChecks.addzero(expected_date_c_array[1])
                             + SharedChecks.addzero(expected_date_c_array[0]);
 
-        if (end_pregnancyfield.getString(end_pregnancyfield.getSelectedIndex()).equals("OUI")) {
+        if (end_pregnancyfield.getString(end_pregnancyfield.getSelectedIndex()).equals(Constants.OUI)) {
             resul_pregnancy = pregnancy_resultfield.getSelectedIndex() + 1;
 
             int delivery_date_array[] = SharedChecks.formatDateString(delivery_date.getDate());

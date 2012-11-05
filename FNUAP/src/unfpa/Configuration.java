@@ -35,8 +35,7 @@ public class Configuration {
         }
         if (recordEnumeration.numRecords() < 4) {
             // the following has to be in order of indexes.
-            this.set("server_number", "00000000", true);
-            this.set("server_number", Constants.server_number, false);
+            this.set("server_number", Constants.server_number, true);
             this.set("cscom_code", Constants.CSCOM_CODE, true);
             this.set("profile", "FNUAP", true);
             this.set("district_code", "kati", true);
