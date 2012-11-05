@@ -50,7 +50,7 @@ public class HelpForm extends Form implements CommandListener {
             text = "Si vous connaissez la date de naissance, indiquez la, sinon indiquez l'age dans les formats suivants 5a(5ans) ou 5m(5mois).\n" +
                    "En cas de problème, contactez l'ANTIM.";
         } else if (section.equalsIgnoreCase("maternal")) {
-            text = "Indiquez l'age de la défunte nombre d'ans.\n" +
+            text = "Indiquez l'age de la défunte en nombre d'année.\n" +
                    "En cas de problème, contactez l'ANTIM.";
         } else if (section.equalsIgnoreCase("saved_reports")) {
             text = "Vous pouvez envoyer tous les SMS à la fois ou le faire un à un.\n" +
