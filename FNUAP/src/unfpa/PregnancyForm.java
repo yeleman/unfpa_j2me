@@ -194,7 +194,7 @@ public class PregnancyForm extends Form implements CommandListener {
                            + sep + age.getString() + "a"
                            + sep + pregnancy_age.getString()
                            + sep + expect_date_c // Si la grossesse n'est pas terminé d_pregnancy = - si non une date(20120427)
-                           + sep + resul_pregnancy  // Si la grossesse n'est pas terminer resul_pregnancy = -1 si non l'index de l'element chosi de {"Né vivant", "Mort-né", "Avortement"}
+                           + sep + resul_pregnancy // Si la grossesse n'est pas terminer resul_pregnancy = -1 si non l'index de l'element chosi de {"Né vivant", "Mort-né", "Avortement"}
                            + sep + d_pregnancy; // Si la grossesse n'est pas terminé d_pregnancy = - si non une date(20120427)
         }
 

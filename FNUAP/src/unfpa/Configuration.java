@@ -20,7 +20,6 @@ public class Configuration {
     private int reporting_location_index = 6;
     private int death_location_index = 7;
 
-
     private static final String database = "configuration";
     private RecordStore recordstore = null;
 

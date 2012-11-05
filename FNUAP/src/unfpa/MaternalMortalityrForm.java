@@ -81,7 +81,7 @@ public class MaternalMortalityrForm extends Form implements CommandListener {
         reporting_locationField.setSelectedIndex(Integer.parseInt(old_ind_reporting), true);
 
         name =  new TextField("Nom de la défunte:", null, 20, TextField.ANY);
-        age =  new TextField("Age:", null, Constants.AGE_PW_MAX, TextField.NUMERIC);
+        age =  new TextField("Age (ans):", null, Constants.AGE_PW_MAX, TextField.NUMERIC);
         dod =  new DateField("Date du décès:", DateField.DATE, TimeZone.getTimeZone("GMT"));
         dod.setDate(new Date());
 
