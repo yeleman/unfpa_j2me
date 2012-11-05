@@ -59,7 +59,7 @@ public class MaternalMortalityrForm extends Form implements CommandListener {
 
         death_causes.put("Saignements", "b"); // bleeding
         death_causes.put("Fièvre", "f"); // fever
-        death_causes.put("HTA", "h"); // HTN High Blood Pressure
+        death_causes.put("Hyper Tension Artérielle", "h"); // HTN High Blood Pressure
         death_causes.put("Diarrhée", "d"); // diarrhea
         death_causes.put("Crises", "c"); // crisis
         death_causes.put("Avortement spontané", "m"); // miscarriage
@@ -77,11 +77,11 @@ public class MaternalMortalityrForm extends Form implements CommandListener {
         reporting_date =  new DateField("Date de visite:", DateField.DATE, TimeZone.getTimeZone("GMT"));
         reporting_date.setDate(new Date());
 
-        reporting_locationField = new ChoiceGroup("Code village(visite):", ChoiceGroup.POPUP, Entities.villages_names(commune_code), null);
+        reporting_locationField = new ChoiceGroup("Code village (visite):", ChoiceGroup.POPUP, Entities.villages_names(commune_code), null);
         reporting_locationField.setSelectedIndex(Integer.parseInt(old_ind_reporting), true);
 
         name =  new TextField("Nom de la défunte:", null, 20, TextField.ANY);
-        age =  new TextField("Age (DDN inconnue):", null, Constants.AGE_STR_MAX, TextField.NUMERIC);
+        age =  new TextField("Age:", null, Constants.AGE_STR_MAX, TextField.NUMERIC);
         dod =  new DateField("Date du décès:", DateField.DATE, TimeZone.getTimeZone("GMT"));
         dod.setDate(new Date());
 
@@ -175,7 +175,7 @@ public class MaternalMortalityrForm extends Form implements CommandListener {
         int age_int = Integer.valueOf(age.getString()).intValue();
 
         if(!(age_int >= 12)){
-             ErrorMessage = "[Age (DDN inconnue)] La femme doit avoir au moins 12 ans";
+             ErrorMessage = "[Age] La femme doit avoir au moins 12 ans";
              return false;
            }
 

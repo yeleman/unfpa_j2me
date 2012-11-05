@@ -59,7 +59,7 @@ public class SendSavedReports extends List implements CommandListener {
 
                 SMSSender sms = new SMSSender();
                 String number = config.get("server_number");
-                
+
                 for (int i=0; i<all_sms.length; i++) {
                     if (sms.send(number, this.all_sms[i].sms)) {
                     //if (1==0){
@@ -80,7 +80,7 @@ public class SendSavedReports extends List implements CommandListener {
             if (c == CMD_SEND) {
                 int index = ((List) s).getSelectedIndex ();
                 Alert alert;
-                
+
                 // sends the sms and reply feedback
                 SMSSender sms = new SMSSender();
                 String number = config.get("server_number");
@@ -104,17 +104,17 @@ public class SendSavedReports extends List implements CommandListener {
 
                 int index = ((List) s).getSelectedIndex ();
                 Alert alert;
-                
+
                 if (this.store.delete(this.all_sms[index].storage_index)) {
-                    alert = new Alert ("Suppression SMS", "Sms sélectionné a été supprimé.", null, AlertType.CONFIRMATION);
+                    alert = new Alert ("Suppression SMS", "Le SMS sélectionné a été supprimé.", null, AlertType.CONFIRMATION);
                 } else
                     alert = new Alert ("Suppression SMS", "Échec de suppression.", null, AlertType.WARNING);
-           
+
                 this.midlet.startApp();
-                this.midlet.display.setCurrent (alert, this.midlet.mainMenu);              
+                this.midlet.display.setCurrent (alert, this.midlet.mainMenu);
            }
-            
-           if (c == CMD_EXIT) 
+
+           if (c == CMD_EXIT)
                 this.midlet.startApp();
         }
     }

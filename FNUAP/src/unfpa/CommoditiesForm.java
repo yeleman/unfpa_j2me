@@ -167,10 +167,10 @@ public CommoditiesForm(UNFPAMIDlet midlet) {
 
     append(reporting_year);
     append(reporting_month);
-    append("¤ Service proposé");
+    append("¤ Services proposés");
     append(family_planning);
     append(delivery_services);
-    append("¤ Methode de contraception proposé");
+    append("¤ Methodes de contraception proposées");
     append(male_condom);
     append(nb_male_condom);
     append(female_condom);
@@ -185,7 +185,7 @@ public CommoditiesForm(UNFPAMIDlet midlet) {
     append(nb_implants);
     append(female_sterilization);
     append(male_sterilization);
-    append("¤ Disponibilité de medicament materno");
+    append("¤ Disponibilité de medicament maternels");
     append(amoxicillin_ij);
     append(nb_amoxicillin_ij);
     append(amoxicillin_cap_gel);

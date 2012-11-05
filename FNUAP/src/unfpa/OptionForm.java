@@ -37,7 +37,7 @@ public class OptionForm extends Form implements CommandListener {
 public OptionForm(UNFPAMIDlet midlet) {
     super("Paramètres de transmission");
     this.midlet = midlet;
-    
+
     config = new Configuration();
     // districts = Constants.codes_district();
     districts = Entities.cercles_codes();
@@ -125,7 +125,7 @@ public OptionForm(UNFPAMIDlet midlet) {
 
         if (c == CMD_CONTINUE) {
             communeField = new ChoiceGroup("Commune", ChoiceGroup.POPUP, Entities.communes_names(districts[districtField.getSelectedIndex()]), null);
-            
+
             append(communeField);
             removeCommand(CMD_CONTINUE);
             addCommand(CMD_SAVE);
@@ -156,7 +156,7 @@ public OptionForm(UNFPAMIDlet midlet) {
             String district_code = districts[districtField.getSelectedIndex()];
             String commune_code = Entities.communes_codes(district_code)[communeField.getSelectedIndex()];
 
-            if (config.set("server_number", numberField.getString()) && 
+            if (config.set("server_number", numberField.getString()) &&
                     config.set("cscom_code", cscom_codeField.getString()) &&
                     config.set("district_code", district_code) &&
                     config.set("commune_code", commune_code) &&
@@ -168,7 +168,7 @@ public OptionForm(UNFPAMIDlet midlet) {
                 //     System.out.println(villages[i]);
                 // }
 
-                alert = new Alert ("Confirmation!", "Votre modification a été bien enregistré.", null, AlertType.CONFIRMATION);
+                alert = new Alert ("Confirmation!", "Votre modification a bien été enregistrée.", null, AlertType.CONFIRMATION);
                 this.midlet.startApp();
                 this.midlet.display.setCurrent (alert, this.midlet.mainMenu);
             } else {

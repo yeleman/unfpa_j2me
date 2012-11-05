@@ -80,7 +80,7 @@ public class Under5Form extends Form implements CommandListener {
         reporting_date =  new DateField("Date de visite:", DateField.DATE, TimeZone.getTimeZone("GMT"));
         reporting_date.setDate(now);
 
-        reporting_locationField = new ChoiceGroup("Code village(visite):", ChoiceGroup.POPUP, Entities.villages_names(commune_code), null);
+        reporting_locationField = new ChoiceGroup("Code village (visite):", ChoiceGroup.POPUP, Entities.villages_names(commune_code), null);
         reporting_locationField.setSelectedIndex(Integer.parseInt(old_ind_reporting), true);
 
         name = new TextField("Nom de l'enfant", null, 20, TextField.ANY);
@@ -167,7 +167,7 @@ public class Under5Form extends Form implements CommandListener {
         if (age_length != 0){
 
             if (!age.getString().endsWith("a") && !age.getString().endsWith("m")){
-                ErrorMessage = "[Age (DDN inconnue)] le nombre d'âge doit être suivi d'un 'a' pour l'année ou d'un 'm' pour le mois";
+                ErrorMessage = "[Age (DDN inconnue)] le nombre de l'âge doit être suivi d'un 'a' pour 'ans' ou d'un 'm' pour 'mois'";
                 return false;
             }
             try {
@@ -186,7 +186,7 @@ public class Under5Form extends Form implements CommandListener {
                 }
             }
             catch (NumberFormatException err ){
-                ErrorMessage = "[Age (DDN inconnue)] On doit saisir un nombre suivi d'un 'a' pour l'année ou d'un 'm' pour le mois";
+                ErrorMessage = "[Age (DDN inconnue)] Il faut saisir un nombre suivi de 'a' pour 'ans' ou 'm' pour 'mois. Ex: 3a ou 36m";
             return false;
             }
         }
