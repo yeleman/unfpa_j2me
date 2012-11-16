@@ -4,6 +4,7 @@ import javax.microedition.midlet.*;
 import javax.microedition.lcdui.*;
 import unfpa.OptionForm.*;
 import unfpa.Under5Form.*;
+import unfpa.EpidemiologyForm.*;
 import unfpa.MaternalMortalityrForm.*;
 import unfpa.CommoditiesForm.*;
 import unfpa.SMSStore.*;
@@ -45,17 +46,21 @@ public class UNFPAMIDlet extends MIDlet implements CommandListener {
                                    "Dispo. Produits",
                                    "Envoi form. (" + store.count() + ")"};
 
+        String[] mainMenu_epid = {"Situation hebdo."};
+
         if(config.get("commune_code").equals("")){
             OptionForm f = new OptionForm(this);
             display.setCurrent(f);
         } else{
-            if(profile.equals("CREDOS")){
+            if(profile.equals(Constants.CREDOS)){
                 mainMenu = new List("Formulaires CREDOS", Choice.IMPLICIT, mainMenu_credos, null);
             }
-            if(profile.equals("FNUAP")){
+            if(profile.equals(Constants.FNUAP)){
                 mainMenu = new List("Formulaires FNUAP", Choice.IMPLICIT, mainMenu_unfpa, null);
             }
-
+            if(profile.equals(Constants.EPID)){
+                mainMenu = new List("Formulaires Epidémiologique", Choice.IMPLICIT, mainMenu_epid, null);
+            }
             // setup menu
             mainMenu.setCommandListener (this);
             mainMenu.addCommand (CMD_EXIT);
@@ -80,7 +85,7 @@ public class UNFPAMIDlet extends MIDlet implements CommandListener {
         // if it originates from the MainMenu list
         if (s.equals (mainMenu)) {
             // and is a select command
-            if (c == List.SELECT_COMMAND && this.profile.equals("CREDOS")) {
+            if (c == List.SELECT_COMMAND && this.profile.equals(Constants.CREDOS)) {
 
                 switch (((List) s).getSelectedIndex ()) {
 
@@ -109,7 +114,7 @@ public class UNFPAMIDlet extends MIDlet implements CommandListener {
                     break;
                 }
             }
-            if (c == List.SELECT_COMMAND && this.profile.equals("FNUAP")) {
+            if (c == List.SELECT_COMMAND && this.profile.equals(Constants.FNUAP)) {
 
                 switch (((List) s).getSelectedIndex ()) {
 
@@ -141,6 +146,17 @@ public class UNFPAMIDlet extends MIDlet implements CommandListener {
                 case 3:
                     SendSavedReports saved_reports = new SendSavedReports(this);
                     display.setCurrent (saved_reports);
+                    break;
+                }
+            }
+            if (c == List.SELECT_COMMAND && this.profile.equals(Constants.EPID)) {
+
+                switch (((List) s).getSelectedIndex ()) {
+
+                // Form epidémiologique
+                case 0:
+                    EpidemiologyForm epid = new EpidemiologyForm(this);
+                    display.setCurrent (epid);
                     break;
                 }
             }

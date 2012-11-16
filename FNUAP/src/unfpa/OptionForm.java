@@ -31,7 +31,7 @@ public class OptionForm extends Form implements CommandListener {
     private ChoiceGroup communeField;
     private String ErrorMessage = "";
 
-    private static final String[] profile = {"CREDOS", "FNUAP"};
+    private static final String[] profile = {Constants.CREDOS, Constants.FNUAP, Constants.EPID};
     UNFPAMIDlet midlet;
 
 public OptionForm(UNFPAMIDlet midlet) {
@@ -78,7 +78,7 @@ public OptionForm(UNFPAMIDlet midlet) {
     append(numberField);
     append(cscom_codeField);
     // Pour cacher le champs Profile
-    //append(profileField);
+    append(profileField);
     append(districtField);
 
     addCommand(CMD_CONTINUE);

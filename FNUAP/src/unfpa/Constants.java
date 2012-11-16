@@ -17,5 +17,8 @@ public class Constants {
     public static final String CSCOM_CODE = "aucun";
     public static final String OUI = "Oui";
     public static final String NON = "Non";
+    public static final String FNUAP = "FNUAP";
+    public static final String CREDOS = "CREDOS";
+    public static final String EPID = "EPIDEMIOLOGIE";
 
 }
