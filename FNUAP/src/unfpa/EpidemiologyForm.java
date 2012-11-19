@@ -19,7 +19,7 @@ import java.util.Hashtable;
 
 
 public class EpidemiologyForm extends Form implements CommandListener {
-    
+
     private static final int MAX_SIZE = 5;
     private static final Command CMD_EXIT = new Command ("Retour",
                                                             Command.BACK, 1);
@@ -33,19 +33,19 @@ public class EpidemiologyForm extends Form implements CommandListener {
     private String ErrorMessage = "";
 
     private static final String[] year_list = {"2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020"};
-    
+
     private ChoiceGroup yearfield;
     private TextField week_numberfield;
     private Configuration config;
     private SMSStore store;
-    
+
     Date now = new Date();
     String sep = " ";
 
     private Hashtable cap_fields;
     private Hashtable indiv_fields;
     private Hashtable maladie_list;
-    
+
     public EpidemiologyForm(UNFPAMIDlet midlet) {
         super("Données Epidémiologique");
         this.midlet = midlet;
@@ -54,7 +54,7 @@ public class EpidemiologyForm extends Form implements CommandListener {
         store = new SMSStore();
 
         yearfield = new ChoiceGroup("Année:", ChoiceGroup.POPUP, year_list, null);
-        week_numberfield = new TextField("Semaine:", null, 2, TextField.NUMERIC);
+        week_numberfield = new TextField("Sémaine:", null, 2, TextField.NUMERIC);
 
         append(yearfield);
         append(week_numberfield);
@@ -65,19 +65,19 @@ public class EpidemiologyForm extends Form implements CommandListener {
         maladie_list.put("col", "Choléra");
         maladie_list.put("dia", "Diarrhéé");
         maladie_list.put("roug", "Rougeole");
-        maladie_list.put("fiev", "Fiévre jaune");
+        maladie_list.put("fiev", "Fièvre jaune");
         maladie_list.put("tnn", "TNN");
         maladie_list.put("mado", "Autres MADO");
 
         cap_fields = new Hashtable();
 
         for(Enumeration maladie = maladie_list.keys(); maladie.hasMoreElements();) {
-            
+
             indiv_fields = new Hashtable();
-            
+
             String code = (String)maladie.nextElement();
             String namefield = (String)maladie_list.get(code);
-            
+
             TextField cas = new TextField("Cas:", null, MAX_SIZE, TextField.NUMERIC);
             TextField deces = new TextField("Décès:", null, MAX_SIZE, TextField.NUMERIC);
             append(namefield);
@@ -110,7 +110,7 @@ public class EpidemiologyForm extends Form implements CommandListener {
                 return false;
            }
            if (week_numberfield.getString().length() == 0){
-                ErrorMessage = "le champs semaine ne peut pas être vide";
+                ErrorMessage = "[Sémaine:] ne peut pas être vide";
                 return false;
            }
         }
@@ -128,12 +128,12 @@ public class EpidemiologyForm extends Form implements CommandListener {
 
         if (week_number > 52){
 
-            ErrorMessage = "Il n'y a que 52 de semaine dans l'année.";
+            ErrorMessage = "Il n'y a que 52 sémaines dans l'année.";
             return false;
         }
 
         if (week_number == 0){
-            ErrorMessage = "Il n'y a pas de semaine zéro";
+            ErrorMessage = "Il n'y a pas de sémaine zéro";
             return false;
         }
 
@@ -185,7 +185,7 @@ public class EpidemiologyForm extends Form implements CommandListener {
     public void commandAction(Command c, Displayable d) {
         // help command displays Help Form.
         if (c == CMD_HELP) {
-            HelpForm h = new HelpForm(this.midlet, this, "born");
+            HelpForm h = new HelpForm(this.midlet, this, "epid");
             this.midlet.display.setCurrent(h);
         }
 
