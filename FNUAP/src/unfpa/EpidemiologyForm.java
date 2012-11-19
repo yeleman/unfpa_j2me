@@ -61,8 +61,13 @@ public class EpidemiologyForm extends Form implements CommandListener {
 
         maladie_list = new Hashtable();
         maladie_list.put("pfa", "PFA");
-        maladie_list.put("Gippe_a", "Grippe A");
-        maladie_list.put("colera", "Cholera");
+        maladie_list.put("Gip", "Grippe A H1N1");
+        maladie_list.put("col", "Choléra");
+        maladie_list.put("dia", "Diarrhéé");
+        maladie_list.put("roug", "Rougeole");
+        maladie_list.put("fiev", "Fiévre jaune");
+        maladie_list.put("tnn", "TNN");
+        maladie_list.put("mado", "Autres MADO");
 
         cap_fields = new Hashtable();
 
@@ -100,10 +105,14 @@ public class EpidemiologyForm extends Form implements CommandListener {
 
             TextField casfield = (TextField)indiv_fields.get("cas");
             TextField decesfield = (TextField)indiv_fields.get("deces");
-            // if (decesfield.length() == 0 || casfield.get("deces").length() == 0){
-            //     ErrorMessage = '[' + namefield + ']' + " le cas et le décès ne peut pas être vide";
-            //     return false;
-//            }
+            if (casfield.getString().length() == 0 || decesfield.getString().length() == 0){
+                ErrorMessage = '[' + namefield + ']' + " le cas et le décès ne peut pas être vide";
+                return false;
+           }
+           if (week_numberfield.getString().length() == 0){
+                ErrorMessage = "le champs semaine ne peut pas être vide";
+                return false;
+           }
         }
         return true;
     }
@@ -141,10 +150,10 @@ public class EpidemiologyForm extends Form implements CommandListener {
 
             TextField casfield = (TextField)indiv_fields.get("cas");
             TextField decesfield = (TextField)indiv_fields.get("deces");
-            // if (Integer.parseInt(casfield.getString()) < Integer.parseInt(decesfield.getString())){
-            //     ErrorMessage = '[' + namefield + ']' + "Le nombre de cas ne peut pas être inférieure au nombre de décès";
-            //     return false;
-            // }
+            if (Integer.parseInt(casfield.getString()) < Integer.parseInt(decesfield.getString())){
+                ErrorMessage = '[' + namefield + ']' + "Le nombre de cas ne peut pas être inférieur au nombre de décès";
+                 return false;
+             }
         }
         return true;
     }
@@ -190,8 +199,7 @@ public class EpidemiologyForm extends Form implements CommandListener {
             Alert alert;
 
             if (!this.isComplete()) {
-                alert = new Alert("Données manquantes", "Tous les champs " +
-                                  "requis doivent être remplis!", null,
+                alert = new Alert("Données manquantes", this.ErrorMessage, null,
                                    AlertType.ERROR);
                 alert.setTimeout(Alert.FOREVER);
                 this.midlet.display.setCurrent (alert, this);
