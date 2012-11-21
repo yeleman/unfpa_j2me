@@ -195,10 +195,12 @@ public class SharedChecks {
         Configuration config = new Configuration();
         String prof = config.get("profile");
 
-        if (prof.equals("FNUAP"))
+        if (prof.equals( Constants.FNUAP))
             prof = "f";
-        else
+        if (prof.equals(Constants.CREDOS))
             prof = "c";
+        if (prof.equals(Constants.EPID))
+            prof = "e";
         return prof;
     }
 

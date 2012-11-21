@@ -34,10 +34,17 @@ public class EpidemiologyForm extends Form implements CommandListener {
 
     private static final String[] year_list = {"2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020"};
 
+    private static final String[] order_maladies = {
+        Constants.acute_flaccid_paralysis,  Constants.influenza_a_h1n1, Constants.cholera, 
+        Constants.red_diarrhea, Constants.measles, Constants.yellow_fever, 
+        Constants.neonatal_tetanus, Constants.meningitis,
+        Constants.rabies, Constants.acute_measles_diarrhea, Constants.other_notifiable_disease
+    };
     private ChoiceGroup yearfield;
     private TextField week_numberfield;
     private Configuration config;
     private SMSStore store;
+    private ChoiceGroup reporting_locationField;
 
     Date now = new Date();
     String sep = " ";
@@ -53,29 +60,41 @@ public class EpidemiologyForm extends Form implements CommandListener {
         config = new Configuration();
         store = new SMSStore();
 
+        String commune_code = config.get("commune_code");
+        String old_ind_reporting = config.get("reporting_location");
+
         yearfield = new ChoiceGroup("Année:", ChoiceGroup.POPUP, year_list, null);
         week_numberfield = new TextField("Sémaine:", null, 2, TextField.NUMERIC);
 
+        reporting_locationField = new ChoiceGroup("Village (visite):", ChoiceGroup.POPUP, Entities.villages_names(commune_code), null);
+        reporting_locationField.setSelectedIndex(Integer.parseInt(old_ind_reporting), true);
+        
         append(yearfield);
         append(week_numberfield);
+        append(reporting_locationField);
 
         maladie_list = new Hashtable();
-        maladie_list.put("pfa", "PFA");
-        maladie_list.put("Gip", "Grippe A H1N1");
-        maladie_list.put("col", "Choléra");
-        maladie_list.put("dia", "Diarrhéé");
-        maladie_list.put("roug", "Rougeole");
-        maladie_list.put("fiev", "Fièvre jaune");
-        maladie_list.put("tnn", "TNN");
-        maladie_list.put("mado", "Autres MADO");
+        maladie_list.put(Constants.acute_flaccid_paralysis, "PFA:");
+        maladie_list.put(Constants.influenza_a_h1n1, "Grippe A H1N1:");
+        maladie_list.put(Constants.cholera, "Choléra:");
+        maladie_list.put(Constants.red_diarrhea, "Diarrhéé rouge:");
+        maladie_list.put(Constants.measles, "Rougeole:");
+        maladie_list.put(Constants.yellow_fever, "Fievere jaune:");
+        maladie_list.put(Constants.neonatal_tetanus, "TNN:");
+        maladie_list.put(Constants.meningitis, "Meningite");
+        maladie_list.put(Constants.rabies, "Rage:");
+        maladie_list.put(Constants.acute_measles_diarrhea, "Diarrhée severe rougeole:");
+        maladie_list.put(Constants.other_notifiable_disease, "Autres MADOS:");
+
+        
+
 
         cap_fields = new Hashtable();
-
-        for(Enumeration maladie = maladie_list.keys(); maladie.hasMoreElements();) {
-
+        System.out.println(maladie_list);
+        for(int i=0;i<order_maladies.length;i++) {
+            String code = order_maladies[i];
             indiv_fields = new Hashtable();
-
-            String code = (String)maladie.nextElement();
+//            String code = (String)maladie.nextElement();
             String namefield = (String)maladie_list.get(code);
 
             TextField cas = new TextField("Cas:", null, MAX_SIZE, TextField.NUMERIC);
@@ -97,8 +116,8 @@ public class EpidemiologyForm extends Form implements CommandListener {
     }
 
     public boolean isComplete() {
-        for(Enumeration maladie = cap_fields.keys(); maladie.hasMoreElements();) {
-            String code = (String)maladie.nextElement();
+        for(int i=0;i<order_maladies.length;i++) {
+            String code = order_maladies[i];
 
             indiv_fields = (Hashtable)cap_fields.get(code);
             String namefield = (String)maladie_list.get(code);
@@ -142,8 +161,8 @@ public class EpidemiologyForm extends Form implements CommandListener {
             return false;
         }
 
-        for(Enumeration maladie = cap_fields.keys(); maladie.hasMoreElements();) {
-            String code = (String)maladie.nextElement();
+        for(int i=0;i<order_maladies.length;i++) {
+            String code = order_maladies[i];
 
             indiv_fields = (Hashtable)cap_fields.get(code);
             String namefield = (String)maladie_list.get(code);
@@ -162,19 +181,28 @@ public class EpidemiologyForm extends Form implements CommandListener {
         String msg = "";
         String sep = " ";
 
-        for(Enumeration maladie = cap_fields.keys(); maladie.hasMoreElements();) {
-            String code = (String)maladie.nextElement();
-
+        for(int i=0;i<order_maladies.length;i++) {
+            String code = order_maladies[i];
             indiv_fields = (Hashtable)cap_fields.get(code);
 
             TextField casfield = (TextField)indiv_fields.get("cas");
             TextField decesfield = (TextField)indiv_fields.get("deces");
-            msg += code + sep + casfield.getString() + sep + decesfield.getString() + sep;
+            msg += sep + casfield.getString() + sep + decesfield.getString();
         }
 
-        return "fnuap epid" + sep + yearfield.getString(yearfield.getSelectedIndex())
-                           + sep + week_numberfield.getString()
-                           + sep + msg;
+        String prof = SharedChecks.profile();
+        String commune_code = config.get("commune_code");
+        
+        String reporting_location_index = String.valueOf(reporting_locationField.getSelectedIndex());
+        
+        // On sauvegarde l'index pour l'ulitiser par defaut après        
+        config.set("reporting_location", reporting_location_index);
+
+        return "fnuap epid" + sep + prof
+                            + sep + yearfield.getString(yearfield.getSelectedIndex())
+                            + sep + week_numberfield.getString()
+                            + sep + Entities.villages_codes(commune_code)[reporting_locationField.getSelectedIndex()]
+                            + msg;
    }
 
     public String toText() {
