@@ -77,9 +77,6 @@ public class EpidemiologyForm extends Form implements CommandListener {
         maladie_list.put(Constants.acute_measles_diarrhea, "Diarrhée severe rougeole:");
         maladie_list.put(Constants.other_notifiable_disease, "Autres MADOS:");
 
-        
-
-
         cap_fields = new Hashtable();
         for(int i=0;i<order_maladies.length;i++) {
             String code = order_maladies[i];
