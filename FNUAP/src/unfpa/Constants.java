@@ -7,7 +7,7 @@ package unfpa;
 
 public class Constants {
 
-    public static final String version = "1.5";
+    public static final String version = "1.6b";
 
     public static final String server_number = "72295500";
     public static final int LOC_CODE_MAX = 4;
@@ -17,9 +17,10 @@ public class Constants {
     public static final String CSCOM_CODE = "";
     public static final String OUI = "Oui";
     public static final String NON = "Non";
-    public static final String FNUAP = "FNUAP";
+    // Profile
+    public static final String DTC = "DTC";
     public static final String CREDOS = "CREDOS";
-    public static final String EPID = "EPIDEMIOLOGIE";
+    public static final String ASC = "ASC";
 
     public static final String acute_flaccid_paralysis = "afp";
     public static final String influenza_a_h1n1 = "iah";

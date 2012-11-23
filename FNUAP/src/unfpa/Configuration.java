@@ -36,7 +36,7 @@ public class Configuration {
             // the following has to be in order of indexes.
             this.set("server_number", Constants.server_number, true);
             this.set("cscom_code", Constants.CSCOM_CODE, true);
-            this.set("profile", "FNUAP", true);
+            this.set("profile", Constants.DTC, true);
             this.set("district_code", "kati", true);
             this.set("commune_code", "", true);
             this.set("reporting_location", "0", true);

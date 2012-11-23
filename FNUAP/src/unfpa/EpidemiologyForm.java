@@ -72,7 +72,7 @@ public class EpidemiologyForm extends Form implements CommandListener {
         maladie_list.put(Constants.measles, "Rougeole:");
         maladie_list.put(Constants.yellow_fever, "Fievere jaune:");
         maladie_list.put(Constants.neonatal_tetanus, "TNN:");
-        maladie_list.put(Constants.meningitis, "Meningite");
+        maladie_list.put(Constants.meningitis, "Meningite:");
         maladie_list.put(Constants.rabies, "Rage:");
         maladie_list.put(Constants.acute_measles_diarrhea, "Diarrhée severe rougeole:");
         maladie_list.put(Constants.other_notifiable_disease, "Autres MADOS:");

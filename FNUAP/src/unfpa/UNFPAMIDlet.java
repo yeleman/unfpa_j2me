@@ -42,25 +42,25 @@ public class UNFPAMIDlet extends MIDlet implements CommandListener {
         String[] mainMenu_credos = {"Mort. infantile", "Naissance", "Grossesse",
                                     "Envoi form. (" + store.count() + ")"};
 
-        String[] mainMenu_unfpa = {"Mort. infantile", "Mort. maternelle",
-                                   "Dispo. Produits",
-                                   "Envoi form. (" + store.count() + ")"};
+        String[] mainMenu_asc = {"Mort. infantile", "Mort. maternelle",
+                                 "Envoi form. (" + store.count() + ")"};
 
-        String[] mainMenu_epid = {"Situation hebdo.",
-                                  "Envoi form. (" + store.count() + ")"};
+        String[] mainMenu_dtc = {"Situation hebdo.",
+                                 "Dispo. Produits",
+                                 "Envoi form. (" + store.count() + ")"};
 
         if(config.get("commune_code").equals("")){
             OptionForm f = new OptionForm(this);
             display.setCurrent(f);
         } else{
             if(profile.equals(Constants.CREDOS)){
-                mainMenu = new List("Formulaires CREDOS", Choice.IMPLICIT, mainMenu_credos, null);
+               mainMenu = new List("Formulaires CREDOS", Choice.IMPLICIT, mainMenu_credos, null);
             }
-            if(profile.equals(Constants.FNUAP)){
-                mainMenu = new List("Formulaires FNUAP", Choice.IMPLICIT, mainMenu_unfpa, null);
+            if(profile.equals(Constants.ASC)){
+               mainMenu = new List("Formulaires ASC", Choice.IMPLICIT, mainMenu_asc, null);
             }
-            if(profile.equals(Constants.EPID)){
-                mainMenu = new List("Formulaires Epidémiologique", Choice.IMPLICIT, mainMenu_epid, null);
+            if(profile.equals(Constants.DTC)){
+               mainMenu = new List("Formulaires DTC", Choice.IMPLICIT, mainMenu_dtc, null);
             }
             // setup menu
             mainMenu.setCommandListener (this);
@@ -115,7 +115,7 @@ public class UNFPAMIDlet extends MIDlet implements CommandListener {
                     break;
                 }
             }
-            if (c == List.SELECT_COMMAND && this.profile.equals(Constants.FNUAP)) {
+            if (c == List.SELECT_COMMAND && this.profile.equals(Constants.ASC)) {
 
                 switch (((List) s).getSelectedIndex ()) {
 
@@ -131,26 +131,14 @@ public class UNFPAMIDlet extends MIDlet implements CommandListener {
                      display.setCurrent (matmor_form);
                     break;
 
-                // products
-                case 2:
-                    if(config.get("cscom_code").equals(Constants.CSCOM_CODE)) {
-                        OptionForm option_form = new OptionForm(this);
-                        display.setCurrent (option_form);
-                    } else {
-                        CommoditiesForm stock_form = new CommoditiesForm(this);
-                        display.setCurrent (stock_form);
-                    }
-                    break;
-
-
                 // submit stored messages
-                case 3:
+                case 2:
                     SendSavedReports saved_reports = new SendSavedReports(this);
                     display.setCurrent (saved_reports);
                     break;
                 }
             }
-            if (c == List.SELECT_COMMAND && this.profile.equals(Constants.EPID)) {
+            if (c == List.SELECT_COMMAND && this.profile.equals(Constants.DTC)) {
 
                 switch (((List) s).getSelectedIndex ()) {
 
@@ -159,12 +147,25 @@ public class UNFPAMIDlet extends MIDlet implements CommandListener {
                     EpidemiologyForm epid = new EpidemiologyForm(this);
                     display.setCurrent (epid);
                     break;
+
+                // products
+                case 1:
+                    if(config.get("cscom_code").equals(Constants.CSCOM_CODE)) {
+                        OptionForm option_form = new OptionForm(this);
+                        display.setCurrent (option_form);
+                    } else {
+                        CommoditiesForm stock_form = new CommoditiesForm(this);
+                        display.setCurrent (stock_form);
+                    }
+                    break;
                 
                 // submit stored messages
-                case 1:
+                case 2:
                     SendSavedReports saved_reports = new SendSavedReports(this);
                     display.setCurrent (saved_reports);
                     break;
+
+
                 }
             }
         }
