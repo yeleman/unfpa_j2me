@@ -72,6 +72,9 @@ public class HelpForm extends Form implements CommandListener {
                    "Si la structure fournit des produits selectionnez oui et dans le champ dans bas indiquez la quantité.\n" +
                    "La période concernée est le mois precedant.\n "  +
                    "En cas de problème, contactez l'ANTIM.";
+        } else if (section.equalsIgnoreCase("epid")) {
+            text = "Renseignez uniquement les cas d'épidémie et de décès pour chaque maladie suivie.\n"
+                   "En cas de problème, contactez l'ANTIM.";
         } else {
             text = "Aucune aide disponible pour cet élément.";
         }
