@@ -3,7 +3,6 @@ package unfpa;
 
 import javax.microedition.lcdui.*;
 import unfpa.Configuration.*;
-import java.util.Enumeration;
 import unfpa.Constants.*;
 import unfpa.Entities.*;
 import unfpa.SharedChecks.*;
@@ -44,7 +43,6 @@ public class EpidemiologyForm extends Form implements CommandListener {
     private TextField week_numberfield;
     private Configuration config;
     private SMSStore store;
-    private ChoiceGroup reporting_locationField;
 
     Date now = new Date();
     String sep = " ";
@@ -60,18 +58,11 @@ public class EpidemiologyForm extends Form implements CommandListener {
         config = new Configuration();
         store = new SMSStore();
 
-        String commune_code = config.get("commune_code");
-        String old_ind_reporting = config.get("reporting_location");
-
         yearfield = new ChoiceGroup("Année:", ChoiceGroup.POPUP, year_list, null);
         week_numberfield = new TextField("Sémaine:", null, 2, TextField.NUMERIC);
-
-        reporting_locationField = new ChoiceGroup("Village (visite):", ChoiceGroup.POPUP, Entities.villages_names(commune_code), null);
-        reporting_locationField.setSelectedIndex(Integer.parseInt(old_ind_reporting), true);
         
         append(yearfield);
         append(week_numberfield);
-        append(reporting_locationField);
 
         maladie_list = new Hashtable();
         maladie_list.put(Constants.acute_flaccid_paralysis, "PFA:");
@@ -86,15 +77,10 @@ public class EpidemiologyForm extends Form implements CommandListener {
         maladie_list.put(Constants.acute_measles_diarrhea, "Diarrhée severe rougeole:");
         maladie_list.put(Constants.other_notifiable_disease, "Autres MADOS:");
 
-        
-
-
         cap_fields = new Hashtable();
-        System.out.println(maladie_list);
         for(int i=0;i<order_maladies.length;i++) {
             String code = order_maladies[i];
             indiv_fields = new Hashtable();
-//            String code = (String)maladie.nextElement();
             String namefield = (String)maladie_list.get(code);
 
             TextField cas = new TextField("Cas:", null, MAX_SIZE, TextField.NUMERIC);
@@ -191,23 +177,17 @@ public class EpidemiologyForm extends Form implements CommandListener {
         }
 
         String prof = SharedChecks.profile();
-        String commune_code = config.get("commune_code");
-        
-        String reporting_location_index = String.valueOf(reporting_locationField.getSelectedIndex());
-        
-        // On sauvegarde l'index pour l'ulitiser par defaut après        
-        config.set("reporting_location", reporting_location_index);
+        String cscom_code = config.get("cscom_code");
 
         return "fnuap epid" + sep + prof
                             + sep + yearfield.getString(yearfield.getSelectedIndex())
                             + sep + week_numberfield.getString()
-                            + sep + Entities.villages_codes(commune_code)[reporting_locationField.getSelectedIndex()]
+                            + sep + cscom_code
                             + msg;
    }
 
     public String toText() {
-
-        return "E-" ;
+        return "E-" + week_numberfield.getString() + yearfield.getString(yearfield.getSelectedIndex());
     }
 
     public void commandAction(Command c, Displayable d) {

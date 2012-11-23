@@ -46,7 +46,8 @@ public class UNFPAMIDlet extends MIDlet implements CommandListener {
                                    "Dispo. Produits",
                                    "Envoi form. (" + store.count() + ")"};
 
-        String[] mainMenu_epid = {"Situation hebdo."};
+        String[] mainMenu_epid = {"Situation hebdo.",
+                                  "Envoi form. (" + store.count() + ")"};
 
         if(config.get("commune_code").equals("")){
             OptionForm f = new OptionForm(this);
@@ -157,6 +158,12 @@ public class UNFPAMIDlet extends MIDlet implements CommandListener {
                 case 0:
                     EpidemiologyForm epid = new EpidemiologyForm(this);
                     display.setCurrent (epid);
+                    break;
+                
+                // submit stored messages
+                case 1:
+                    SendSavedReports saved_reports = new SendSavedReports(this);
+                    display.setCurrent (saved_reports);
                     break;
                 }
             }
