@@ -34,8 +34,8 @@ public class EpidemiologyForm extends Form implements CommandListener {
     private static final String[] year_list = {"2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020"};
 
     private static final String[] order_maladies = {
-        Constants.acute_flaccid_paralysis,  Constants.influenza_a_h1n1, Constants.cholera, 
-        Constants.red_diarrhea, Constants.measles, Constants.yellow_fever, 
+        Constants.acute_flaccid_paralysis,  Constants.influenza_a_h1n1, Constants.cholera,
+        Constants.red_diarrhea, Constants.measles, Constants.yellow_fever,
         Constants.neonatal_tetanus, Constants.meningitis,
         Constants.rabies, Constants.acute_measles_diarrhea, Constants.other_notifiable_disease
     };
@@ -60,7 +60,7 @@ public class EpidemiologyForm extends Form implements CommandListener {
 
         yearfield = new ChoiceGroup("Année:", ChoiceGroup.POPUP, year_list, null);
         week_numberfield = new TextField("Sémaine:", null, 2, TextField.NUMERIC);
-        
+
         append(yearfield);
         append(week_numberfield);
 

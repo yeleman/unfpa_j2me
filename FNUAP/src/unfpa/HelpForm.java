@@ -73,7 +73,7 @@ public class HelpForm extends Form implements CommandListener {
                    "La période concernée est le mois precedant.\n "  +
                    "En cas de problème, contactez l'ANTIM.";
         } else if (section.equalsIgnoreCase("epid")) {
-            text = "Renseignez uniquement les cas d'épidémie et de décès pour chaque maladie suivie.\n"
+            text = "Renseignez uniquement les cas d'épidémie et de décès pour chaque maladie suivie.\n" +
                    "En cas de problème, contactez l'ANTIM.";
         } else {
             text = "Aucune aide disponible pour cet élément.";

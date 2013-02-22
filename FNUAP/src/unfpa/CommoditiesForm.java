@@ -94,7 +94,12 @@ public class CommoditiesForm extends Form implements CommandListener {
     private ChoiceGroup ceftriaxone_1000;
     private TextField nb_ceftriaxone_1000;
     private TextField comment;
-
+    // Mild
+    private TextField initial_mild;
+    private TextField received_mild;
+    private TextField distributed_mild;
+    private TextField remaining_mild;
+    private TextField difference_mild;
 
 public CommoditiesForm(UNFPAMIDlet midlet) {
     super("Dispo. Produits");
@@ -164,6 +169,12 @@ public CommoditiesForm(UNFPAMIDlet midlet) {
     nb_ceftriaxone_1000 = new TextField("Quantité dispo. (injectable)", null, 6, TextField.NUMERIC);
 
     comment = new TextField("Commentaires/problèmes", null, 50, TextField.ANY);
+    //
+    initial_mild = new TextField("Initial", null, 6, TextField.NUMERIC);
+    received_mild = new TextField("Reçues", null, 6, TextField.NUMERIC);
+    distributed_mild = new TextField("Distribuées", null, 6, TextField.NUMERIC);
+    remaining_mild = new TextField("Restantes", null, 6, TextField.NUMERIC);
+    difference_mild = new TextField("Différence", null, 6, TextField.NUMERIC);
 
     append(reporting_year);
     append(reporting_month);
@@ -226,6 +237,12 @@ public CommoditiesForm(UNFPAMIDlet midlet) {
     append(nb_ceftriaxone_1000);
 
     append(comment);
+    append("¤ Moustiquaire imprégnée");
+    append(initial_mild);
+    append(received_mild);
+    append(distributed_mild);
+    append(remaining_mild);
+    append(difference_mild);
 
     append("Fin du questionnaire.");
 
@@ -244,6 +261,15 @@ public CommoditiesForm(UNFPAMIDlet midlet) {
 
     public boolean isComplete() {
         // all fields are required to be filled.
+       if (initial_mild.getString().length() == 0
+           || received_mild.getString().length() == 0
+           || distributed_mild.getString().length() == 0
+           || remaining_mild.getString().length() == 0
+           || difference_mild.getString().length() == 0) {
+                ErrorMessage = "[Moustiquaire imprégnée] Tous les champs " +
+                                  "requis doivent être remplis!";
+                return false;
+        }
         return true;
     }
 
@@ -276,6 +302,14 @@ public CommoditiesForm(UNFPAMIDlet midlet) {
                 ErrorMessage = "Le mois est dans le futur.";
                 return false;
             }
+        }
+        if (Integer.parseInt(initial_mild.getString()) +
+            Integer.parseInt(received_mild.getString()) -
+            Integer.parseInt(distributed_mild.getString()) -
+            Integer.parseInt(remaining_mild.getString()) !=
+            Integer.parseInt(difference_mild.getString())){
+                ErrorMessage = "différence doit être égale à initial + reçue - distribuée - restante.";
+                return false;
         }
         return true;
     }
@@ -322,7 +356,12 @@ public CommoditiesForm(UNFPAMIDlet midlet) {
                            + sep + test_value(oxytocine.getSelectedIndex(), nb_oxytocine.getString())
                            + sep + test_value(ceftriaxone_500.getSelectedIndex(), nb_ceftriaxone_500.getString())
                            + sep + test_value(ceftriaxone_1000.getSelectedIndex(), nb_ceftriaxone_1000.getString())
-                           + sep + comment_fmted;
+                           + sep + comment_fmted
+                           + sep + initial_mild.getString()
+                           + sep + received_mild.getString()
+                           + sep + distributed_mild.getString()
+                           + sep + remaining_mild.getString()
+                           + sep + difference_mild.getString();
     }
 
     public String test_value(int c, String s) {
@@ -360,9 +399,8 @@ public CommoditiesForm(UNFPAMIDlet midlet) {
             // check whether all fields have been completed
                 // if not, we alert and don't do anything else.
             if (!this.isComplete()) {
-                alert = new Alert("Données manquantes", "Tous les champs " +
-                                  "requis doivent être remplis!", null,
-                                  AlertType.ERROR);
+                alert = new Alert("Données manquantes", this.ErrorMessage, null,
+                                   AlertType.ERROR);
 
                 alert.setTimeout(Alert.FOREVER);
                 this.midlet.display.setCurrent (alert, this);
